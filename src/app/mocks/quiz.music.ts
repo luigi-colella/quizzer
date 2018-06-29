@@ -3,7 +3,7 @@ import { QuizPersonality } from '../interfaces/quizPersonality';
 export const quizMusic : QuizPersonality = {
 
     settings: {
-        titles: 'Quale musica ti piace',
+        title: 'Quale musica ti piace',
         intro: 'Scopri il tuo genere preferito facendo il nsotro quiz!'
     },
 

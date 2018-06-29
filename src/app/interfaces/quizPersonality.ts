@@ -1,26 +1,28 @@
 
-interface Answer {
+export interface Answer {
     answer: string,
     profileId: number
 }
 
-interface Question {
+export interface Question {
     text: string
     answers: Answer[]
 }
 
-interface Profile {
+export interface Profile {
     id: number,
     name: string,
     description: string,
 }
 
+export interface Settings {
+    title: string,
+    intro?: string
+}
+
 export interface QuizPersonality {
 
-    settings: {
-        titles: string,
-        intro?: string
-    }
+    settings: Settings
    
     profiles: Profile[]
 
