@@ -1,6 +1,6 @@
-#Quizzer
+# Quizzer
 
-##Indice dei contenuti
+## Indice dei contenuti
 1. [Presentazione](#presentazione)
 2. [Stack utilizzato](#stack-utilizzato)
 3. [Installazione ed utilizzo](#installazione-ed-utilizzo)
@@ -13,7 +13,7 @@ Quizzer è una web app per creare, salvare e condividere quiz.
 [![Angular](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/angular.png "Angular")](https://angular.io/)
 [![Typescript](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/typescript.png "Typescript")](https://www.typescriptlang.org/)
 [![Jasmine](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/jasmine.png "Jasmine")](https://jasmine.github.io/)
-[![Karma](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/karman.png "Karma")](http://karma-runner.github.io)
+[![Karma](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/karma.png "Karma")](http://karma-runner.github.io)
 [![Yarn](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/yarn.png "Yarn")](https://yarnpkg.com)
 
 ## Installazione ed utilizzo
@@ -39,7 +39,7 @@ Compila per la distribuzione
 npm run dist
 ```
 
-##Come contribuire
+## Come contribuire
 Ci sono vari modi per farlo:
 * Contribuire allo sviluppo del codice sorgente.
 * Ricercare bug o errori all'interno del codice o nella logica dell'app.
