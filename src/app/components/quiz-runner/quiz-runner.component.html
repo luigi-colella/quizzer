@@ -5,11 +5,51 @@
         <h1>{{curQuiz.settings.title}}</h1>
     </div>
 
-    <p>
-        sjksjfs
-    </p>
-    <p>
-        shjfksjh
-    </p>
+    <ng-container [ngSwitch]='quizState'>
+
+        <!-- Intro Quiz -->
+        <div *ngSwitchCase='"ready"'>
+            <p>
+                {{curQuiz.settings.intro}}
+            </p>
+        </div>
+
+        <!-- Quiz Question Box -->
+        <div *ngSwitchCase='"started"'>
+            <p>
+                Domanda {{curQuestion.number}} / {{curQuiz.questions.length}}
+            </p>
+            <p>{{curQuestion.text}}</p>
+            <ul>
+                <li *ngFor='let obj of curQuestion.answers'>
+                    <label>
+                        <input type='radio' [name]='curQuiz.title' (click)='selectAnswer(obj.answer)'>
+                        {{obj.answer}}
+                    </label>
+                </li>
+            </ul>
+        </div>
+    
+        <!-- Quiz result -->
+        <div *ngSwitchCase='"finished"' id='resultQuiz'>
+            <h4>
+                {{quizResult.name}}
+            </h4>
+            <p>
+                {{quizResult.description}}
+            </p>
+        </div>
+
+    </ng-container>
+
+    <div>
+        <ng-container [ngSwitch]='quizState'>
+
+            <button *ngSwitchCase='"ready"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'>Inizia il test</button>
+            <button *ngSwitchCase='"started"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'>Ok</button>
+            <button *ngSwitchCase='"finished"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'>Ricomincia</button>
+
+        </ng-container>
+    </div>
 
 </div>

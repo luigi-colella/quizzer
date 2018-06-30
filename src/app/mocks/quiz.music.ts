@@ -4,7 +4,7 @@ export const quizMusic : QuizPersonality = {
 
     settings: {
         title: 'Quale musica ti piace',
-        intro: 'Scopri il tuo genere preferito facendo il nsotro quiz!'
+        intro: 'Scopri il tuo genere preferito facendo il nostro quiz!'
     },
 
     profiles: [
