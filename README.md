@@ -1,27 +1,46 @@
-# Quizzer
+#Quizzer
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
+##Indice dei contenuti
+1. [Presentazione](#presentazione)
+2. [Stack utilizzato](#stack-utilizzato)
+3. [Installazione ed utilizzo](#installazione-ed-utilizzo)
+4. [Come contribuire](#come-contribuire)
 
-## Development server
+## Presentazione
+Quizzer è una web app per creare, salvare e condividere quiz.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Stack utilizzato
+[![Angular](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/angular.png "Angular")](https://angular.io/)
+[![Typescript](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/typescript.png "Typescript")](https://www.typescriptlang.org/)
+[![Jasmine](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/jasmine.png "Jasmine")](https://jasmine.github.io/)
+[![Karma](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/karman.png "Karma")](http://karma-runner.github.io)
+[![Yarn](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/yarn.png "Yarn")](https://yarnpkg.com)
 
-## Code scaffolding
+## Installazione ed utilizzo
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Clona questo repository e installa le dipendenze
+```
+git clone https://github.com/lgcolella/Quizzer.git
+cd Quizzer
+npm install
+```
+oppure
+```
+git clone https://github.com/lgcolella/Quizzer.git
+cd Quizzer
+yarn install
+```
+Avvia l'ambiente di sviluppo e di test (in live reloading)
+```
+npm run dev
+```
+Compila per la distribuzione
+```
+npm run dist
+```
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+##Come contribuire
+Ci sono vari modi per farlo:
+* Contribuire allo sviluppo del codice sorgente.
+* Ricercare bug o errori all'interno del codice o nella logica dell'app.
+* Provare la web app e fornire un feddback / suggerimento per quanto riguarda la grafica, le funzionalità o la tua esperienza come utente.
