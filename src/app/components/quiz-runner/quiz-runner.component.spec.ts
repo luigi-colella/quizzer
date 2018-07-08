@@ -53,7 +53,7 @@ describe('QuizRunner Component', () => {
     })
 
     const displayRightIntro = () => {
-        let expectedIntro = compIstance.curQuiz.settings.intro;
+        let expectedIntro = compIstance.curQuiz.settings.description;
         let intro = compHTML.querySelectorAll('p')[0].textContent;
         expect(
             normalize(intro)
@@ -111,8 +111,8 @@ describe('QuizRunner Component', () => {
 
     it('Display right result message', () => {
         answerToAllQuestions();
-        let expectedResultTitle = compIstance.quizResult.name;
-        let expectedResultDescription = compIstance.quizResult.description;
+        let expectedResultTitle = compIstance.curQuizResult.title;
+        let expectedResultDescription = compIstance.curQuizResult.description;
         expect(
             normalize(compHTML.querySelectorAll('h4')[0].textContent)
         ).toEqual(

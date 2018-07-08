@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { QuizPersonality } from '../../interfaces/quizPersonality';
+import { Quiz, UserAnswers, Answer } from '../../interfaces/quiz';
 import { QuizHandler } from '../../services/quiz-handler.service';
 
 import { quizMusic as mockQuiz } from '../../mocks/quiz.music';
@@ -13,11 +13,12 @@ import { quizMusic as mockQuiz } from '../../mocks/quiz.music';
 export class QuizRunnerComponent implements OnInit {
 
     //private current_quiz;
-    curQuiz : QuizPersonality;
+    curQuiz : Quiz;
+    curQuestionIndex : number;
+    curQuizResult: Answer;
+    givenUserAnswers: UserAnswers;
     quizState : 'ready' | 'started' | 'finished';
-    curQuestion;
     submitButtonIsDisabled : boolean = false;
-    quizResult: object;
 
     constructor(private handler : QuizHandler){}
 
@@ -26,52 +27,49 @@ export class QuizRunnerComponent implements OnInit {
     }
 
     loadQuiz() : void {
-        this.handler.load(mockQuiz);
-        this.curQuiz = this.handler.getQuizObject();
-        this.quizState = 'ready';
+        this.curQuiz = this.handler.load(mockQuiz).getQuizObject();
+        this.resetQuiz();
+        console.log(this.curQuiz);
     }
 
     onSubmit() : void {
+
         switch(this.quizState){
             case 'ready':
                 this.quizState = 'started';
-                this.goNextQuestion();
+                this.curQuestionIndex = 0;
+                this.submitButtonIsDisabled = true;
             break;
 
             case 'started':
-                this.goNextQuestion();
+
+                if(this.curQuestionIndex + 1 === this.curQuiz.questions.length){
+                    this.curQuizResult = this.handler.getResult(this.givenUserAnswers);
+                    this.quizState = 'finished';
+                } else {
+                    this.curQuestionIndex += 1;
+                    this.submitButtonIsDisabled = true;
+                }
+
             break;
 
             case 'finished':
                 this.resetQuiz();
             break;
-        }
-    }
 
-    goNextQuestion() : void {
-        this.curQuestion = this.handler.getNextQuestion();
-        if(this.curQuestion) {
-            this.submitButtonIsDisabled = true;
-        } else {
-            this.setResult();
         }
 
     }
 
     selectAnswer(answer : string) : void {
-        this.handler.giveAnswer(answer);
         this.submitButtonIsDisabled = false;
-    }
-
-    setResult() : void {
-        this.quizResult = this.handler.getResult();
-        this.curQuestion = undefined;
-        this.quizState = 'finished';
+        this.givenUserAnswers[this.curQuestionIndex] = answer;
     }
 
     resetQuiz() : void {
         this.quizState = 'ready';
-        this.handler.resetQuiz();
+        this.curQuestionIndex = 0;
+        this.givenUserAnswers = [];
     }
 
 };

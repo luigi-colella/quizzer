@@ -1,79 +1,60 @@
 import { Injectable } from '@angular/core';
-import { QuizPersonality, Answer, Profile, Question, Settings } from '../interfaces/quizPersonality';
-
+import { Quiz, Answer, UserAnswers } from '../interfaces/quiz';
+import { PERSONALITY_QUIZ } from '../interfaces/quizTypes';
 
 @Injectable()
 export class QuizHandler {
 
-    private currentQuiz : QuizPersonality;
+    private currentQuiz : Quiz;
     private currentQuestionIndex: number;
     private answers = [];
 
     constructor(){
-        this.resetQuiz();
     }
 
-    load(quiz: QuizPersonality) : this {
+    load(quiz: Quiz) : this {
         this.currentQuiz = quiz;
         return this;
     }
 
-    getQuizObject() : QuizPersonality {
+    getQuizObject() : Quiz {
         return Object.assign({}, this.currentQuiz);
     }
 
-    getNextQuestion() : object | false {
-        if( typeof this.currentQuestionIndex === 'number'){
-            if( this.currentQuestionIndex === this.currentQuiz.questions.length - 1 ) return false; //Questions are finished
-            this.currentQuestionIndex += 1;
-        } else {
-            this.currentQuestionIndex = 0;
-        }
-        let question = this.currentQuiz.questions[this.currentQuestionIndex];
-        return Object.assign({}, question, {
-            number: this.currentQuestionIndex + 1
-        });
-    }
+    getResult(answers : UserAnswers) : Answer {
+        
+        //Get result according to quiz type
+        switch (this.currentQuiz.settings.type){
 
-    giveAnswer(answer: string) : void {
-        this.answers[this.currentQuestionIndex] = answer;
-    }
-
-    getResult() {
-        //Get array of matched profile in every question
-        let matchedProfileIds = this.answers.map((answer, index) => {
-            return this.currentQuiz.questions[index].answers.filter((answerObj) => {
-                return answer === answerObj.answer;
-            })[0].profileId;
-        });
-        //Get id of most called among them
-        let mostFrequentId: number = (() => {
-            let ids = {};
-            matchedProfileIds.forEach((value) => {
-                if(!ids.hasOwnProperty(value)) ids[value] = 1;
-                else ids[value] += 1;
-            });
-            let mostCalledId;
-            for (let id in ids){
-                if(ids.hasOwnProperty(id)){
-                    let obj = {
-                        id: Number(id),
-                        num: ids[id]
-                    };
-                    mostCalledId = ( typeof mostCalledId === 'undefined' || mostCalledId.num < obj.num ? obj : mostCalledId );
+            case(PERSONALITY_QUIZ) :
+                //Create an object where store answers' value with its frequency
+                let answersWithFrequency = {};
+                //Iterate on answers' array to populate answersWithFrequency
+                answers.forEach((value) => {
+                    if(answersWithFrequency.hasOwnProperty(value)){
+                        answersWithFrequency[value] += 1;
+                    } else {
+                        answersWithFrequency[value] = 1;
+                    }
+                });
+                //Find answer with higher frequency
+                let answerWithHigherFrequency;
+                for (let value in answersWithFrequency){
+                    if(answersWithFrequency.hasOwnProperty(value)){
+                        let storedValue = answersWithFrequency[answerWithHigherFrequency];
+                        let currentValue = answersWithFrequency[value];
+                        let cond = typeof storedValue !== 'undefined' && storedValue > currentValue;
+                        answerWithHigherFrequency = (cond ? answerWithHigherFrequency : value);
+                    }
                 }
-            }
-            return mostCalledId.id;
-        })();
-        //Return right profile object
-        return this.currentQuiz.profiles.filter((obj) => {
-            return obj.id === mostFrequentId;
-        })[0];
-    }
+                //Return answer object matches with answerWithHigherFrequency
+                let answerObjs = this.currentQuiz.answers.filter((obj) => {
+                    return obj.value.toString().trim().toLowerCase() === answerWithHigherFrequency.trim().toLowerCase();
+                });
+                return answerObjs[0];
 
-    resetQuiz() : void {
-        this.currentQuestionIndex = undefined;
-        this.answers = [];
+        }
+
     }
 
 }

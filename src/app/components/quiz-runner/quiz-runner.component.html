@@ -10,21 +10,21 @@
         <!-- Intro Quiz -->
         <div *ngSwitchCase='"ready"'>
             <p>
-                {{curQuiz.settings.intro}}
+                {{curQuiz.settings.description}}
             </p>
         </div>
 
         <!-- Quiz Question Box -->
         <div *ngSwitchCase='"started"'>
             <p>
-                Domanda {{curQuestion.number}} / {{curQuiz.questions.length}}
+                Domanda {{curQuestionIndex + 1}} / {{curQuiz.questions.length}}
             </p>
-            <p>{{curQuestion.text}}</p>
+            <p>{{curQuiz.questions[curQuestionIndex].text}}</p>
             <ul>
-                <li *ngFor='let obj of curQuestion.answers'>
+                <li *ngFor='let obj of curQuiz.questions[curQuestionIndex].answers'>
                     <label>
-                        <input type='radio' [name]='curQuiz.title' (click)='selectAnswer(obj.answer)'>
-                        {{obj.answer}}
+                        <input type='radio' [name]='curQuiz.title' (click)='selectAnswer(obj.value)'>
+                        {{obj.text}}
                     </label>
                 </li>
             </ul>
@@ -33,10 +33,10 @@
         <!-- Quiz result -->
         <div *ngSwitchCase='"finished"' id='resultQuiz'>
             <h4>
-                {{quizResult.name}}
+                {{curQuizResult.title}}
             </h4>
             <p>
-                {{quizResult.description}}
+                {{curQuizResult.description}}
             </p>
         </div>
 

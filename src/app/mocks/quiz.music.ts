@@ -1,28 +1,29 @@
-import { QuizPersonality } from '../interfaces/quizPersonality';
+import { Quiz } from '../interfaces/quiz';
 
-export const quizMusic : QuizPersonality = {
+export const quizMusic : Quiz = {
 
     settings: {
         title: 'Quale musica ti piace',
-        intro: 'Scopri il tuo genere preferito facendo il nostro quiz!'
+        description: 'Scopri il tuo genere preferito facendo il nostro quiz!',
+        type: 'personalityQuiz'
     },
 
-    profiles: [
+    answers: [
         {
-            id: 1,
-            name: 'Classica',
+            value: 'classica',
+            title: 'Classica',
             description: 'Ami il mondo classico',
         },
 
         {
-            id: 2,
-            name: 'Rock',
+            value: 'rock',
+            title: 'Rock',
             description: 'Ami il rock',
         },
 
         {
-            id: 3,
-            name: 'Rap',
+            value: 'rap',
+            title: 'Rap',
             description: 'Viva la musica hip hop',
         }
     ],
@@ -31,45 +32,45 @@ export const quizMusic : QuizPersonality = {
         {
             text: `Qual'è il tuo artista preferito`,
             answers: [
-                { answer: 'Mozart', profileId: 1 },
-                { answer: 'Jimi Hendrix', profileId: 2 },
-                { answer: 'Eminem', profileId: 3 }
+                { text: 'Mozart', value: 'classic' },
+                { text: 'Jimi Hendrix', value: 'rock' },
+                { text: 'Eminem', value: 'rap' }
             ]
         },
 
         {
             text: `Cosa preferisci usare per ascoltare la musica`,
             answers: [
-                { answer: 'Giradischi', profileId: 1 },
-                { answer: 'Impianto stereo', profileId: 2 },
-                { answer: 'Auricolari', profileId: 3 }
+                { text: 'Giradischi', value: 'classica' },
+                { text: 'Impianto stereo', value: 'rock' },
+                { text: 'Auricolari', value: 'rap' }
             ]
         },
 
         {
             text: `Qual'è il tuo strumento preferito`,
             answers: [
-                { answer: 'Violino', profileId: 1 },
-                { answer: 'Chitarra', profileId: 2 },
-                { answer: 'Voce', profileId: 3 }
+                { text: 'Violino', value: 'classica' },
+                { text: 'Chitarra', value: 'rock' },
+                { text: 'Voce', value: 'rap' }
             ]
         },
 
         {
             text: `Quale scarpe indossi di solito`,
             answers: [
-                { answer: 'Mocassini', profileId: 1 },
-                { answer: 'Converse', profileId: 2 },
-                { answer: 'Adidas', profileId: 3 }
+                { text: 'Mocassini', value: 'classica' },
+                { text: 'Converse', value: 'rock' },
+                { text: 'Adidas', value: 'rap' }
             ]
         },
 
         {
             text: `Posto ideale per ascoltare la musica`,
             answers: [
-                { answer: 'Teatro', profileId: 1 },
-                { answer: 'Locale', profileId: 2 },
-                { answer: 'Stadio', profileId: 3 }
+                { text: 'Teatro', value: 'classica' },
+                { text: 'Locale', value: 'rock' },
+                { text: 'Stadio', value: 'rap' }
             ]
         },
 
