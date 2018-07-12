@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
+//ngModules
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-
 import { QuizRunnerModule } from './components/quiz-runner/quiz-runner.module';
+//Components
+import { AppComponent } from './app.component';
+//Routes
+import { AppRoutingModule } from './app-routing.module';
+//Services
+import { QuizHandler } from './services/quiz-handler.service';
 
 @NgModule({
   declarations: [
@@ -15,7 +18,9 @@ import { QuizRunnerModule } from './components/quiz-runner/quiz-runner.module';
     QuizRunnerModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    QuizHandler
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
