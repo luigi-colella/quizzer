@@ -1,6 +1,5 @@
 
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
-//import { By } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -48,10 +47,6 @@ describe('QuizRunner Component', () => {
         expect(title).toEqual(expectedTitle);
     }
 
-    it('QuizRunner display right title of quiz', () => {
-        displayRightTitle();
-    })
-
     const displayRightIntro = () => {
         let expectedIntro = compIstance.curQuiz.settings.description;
         let intro = compHTML.querySelectorAll('p')[0].textContent;
@@ -61,6 +56,10 @@ describe('QuizRunner Component', () => {
             normalize(expectedIntro)
         );
     }
+
+    it('QuizRunner display right title of quiz', () => {
+        displayRightTitle();
+    })
 
     it('QuizRunner display right intro of quiz', () => {
         displayRightIntro();

@@ -16,16 +16,16 @@ export class Quiz {
         }>
     }>
 
-    answers: Array<Answer>
+    results: Result[]
 
 }
 
-type AnswerValue = string | number;
+//Value of answer given from user
+export type AnswerValue = string | boolean;
 
-export type UserAnswers = AnswerValue[];
-
-export type Answer = {
-    value: AnswerValue,
+//Result of test
+export type Result = {
+    value: string,
     title: string,
     description: string
 }

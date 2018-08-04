@@ -1,9 +1,9 @@
 
 import { Component, OnInit } from '@angular/core';
-import { Quiz, UserAnswers, Answer } from '../../interfaces/quiz';
+import { Quiz, Result, AnswerValue } from '../../interfaces/quiz';
 import { QuizHandler } from '../../services/quiz-handler.service';
 
-import { quizMusic as mockQuiz } from '../../mocks/quiz.music';
+import { quizCulture as mockQuiz } from '../../mocks/quiz.culture';
 
 @Component({
     selector: 'app-quiz-runner',
@@ -15,8 +15,8 @@ export class QuizRunnerComponent implements OnInit {
     //private current_quiz;
     curQuiz : Quiz;
     curQuestionIndex : number;
-    curQuizResult: Answer;
-    givenUserAnswers: UserAnswers;
+    curQuizResult: Result;
+    givenUserAnswers: AnswerValue[];
     quizState : 'ready' | 'started' | 'finished';
     submitButtonIsDisabled : boolean = false;
 
@@ -29,7 +29,6 @@ export class QuizRunnerComponent implements OnInit {
     loadQuiz() : void {
         this.curQuiz = this.handler.load(mockQuiz).getQuizObject();
         this.resetQuiz();
-        console.log(this.curQuiz);
     }
 
     onSubmit() : void {
@@ -61,7 +60,7 @@ export class QuizRunnerComponent implements OnInit {
 
     }
 
-    selectAnswer(answer : string) : void {
+    selectAnswer(answer : AnswerValue) : void {
         this.submitButtonIsDisabled = false;
         this.givenUserAnswers[this.curQuestionIndex] = answer;
     }
