@@ -8,7 +8,7 @@ import { quizCulture as mockQuiz } from '../../mocks/quiz.culture';
 @Component({
     selector: 'app-quiz-runner',
     templateUrl: './quiz-runner.component.html',
-    styleUrls: ['./quiz-runner.component.css']
+    styleUrls: ['./quiz-runner.component.scss']
 })
 export class QuizRunnerComponent implements OnInit {
 

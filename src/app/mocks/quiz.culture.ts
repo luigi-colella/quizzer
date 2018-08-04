@@ -4,7 +4,7 @@ export const quizCulture : Quiz = {
 
     settings: {
         title: 'Quiz di cultura generale',
-        description: 'Mettiti alla prova le tue conoscenze con questo quiz',
+        description: 'Metti alla prova le tue conoscenze con questo quiz',
         type: 'trueorfalseQuiz'
     },
 

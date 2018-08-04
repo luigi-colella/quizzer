@@ -1,5 +1,5 @@
 
-import { async, TestBed, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
