@@ -12,6 +12,7 @@ Quizzer è una web app per creare, salvare e condividere quiz.
 ## Stack utilizzato
 [![Angular](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/angular.png "Angular")](https://angular.io/)
 [![Typescript](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/typescript.png "Typescript")](https://www.typescriptlang.org/)
+[![Sass](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/sass.png "Sass")](https://sass-lang.com/)
 [![Jasmine](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/jasmine.png "Jasmine")](https://jasmine.github.io/)
 [![Karma](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/karma.png "Karma")](http://karma-runner.github.io)
 [![Yarn](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/yarn.png "Yarn")](https://yarnpkg.com)
