@@ -2,16 +2,13 @@
 <div class="container">
     <nav>
         <div>
-            <h1>
-                {{title}}
-            </h1>
+            <h1 routerLink="/">{{title}}</h1>
         </div>
         
         <div>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Crea quiz</a></li>
-                <li><a href="#">Carica quiz</a></li>
+                <li><a routerLink='create' routerLinkActive="active">Crea quiz</a></li>
+                <li><a routerLink='launch' routerLinkActive="active">Carica quiz</a></li>
             </ul>
         </div>
     </nav>
