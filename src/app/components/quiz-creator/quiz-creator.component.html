@@ -3,43 +3,87 @@
 
     <h1>Crea un nuovo quiz</h1>
 
-    <form>
+    <form [formGroup]="quiz" (ngSubmit)="onSubmit()" >
 
-        <!-- Quiz title -->
-        <label>
-            Titolo del quiz
-            <input type="text">
-        </label>
-        <!-- /Quiz title -->
-        <br>
-        <!-- Quiz description -->
-        <label>
-            Descrizione del quiz
-            <input type="text">
-        </label>
-        <!-- /Quiz description -->
-        <br>
-        <!-- Quiz type -->
-        <label>
-            Tipo di quiz
-            <select>
-                <option>Scelta libera</option>
-                <option>Vero o falso</option>
-            </select>
-        </label>
-        <!-- /Quiz type -->
-        <hr>
+        <h3>Impostazioni del quiz</h3>
+        <!-- Quiz settings -->
+        <div class="settingsBox">
+            <label>Titolo del quiz <input type="text" formControlName="title" required></label>
+            <label> Descrizione del quiz <input type="text" formControlName="description"></label>
+            <label>
+                Tipo di quiz
+                <select formControlName="type">
+                    <ng-container *ngFor="let option of quizTypes">
+                        <option value="{{option}}">{{quizTypesMap[option]}}</option>
+                    </ng-container>
+                </select>
+            </label>
+        </div>
+        <!-- /Quiz settings -->
+
+
+
         <!-- Quiz questions -->
-        <label>
-            Domande del quiz
-        </label>
+        <div>
+            <h3>Domande del quiz</h3>
+            <button (click)="handleQuestions.addNew()">Aggiungi domanda</button>
+        </div>
+        <div formArrayName="questions">
+            <!-- Quiz questions list -->
+            <div *ngFor="let question of quiz.get('questions').controls; let i = index" class="questionBox">
+                <div [formGroup]="question">
+                    <b>Domanda {{i+1}}</b>
+                    <div class="questionBox__buttons">
+                        <button (click)="handleQuestions.addNewAnswer(i)">Aggiungi risposta</button>
+                        <button (click)="handleQuestions.remove(i)">Elimina domanda</button>
+                    </div>
+                    <div class="questionBox__question">
+                        <textarea placeholder="Il testo della tua domanda" formControlName="text"></textarea>
+                    </div>
+                    <!-- Questions' answers list -->
+                    <div formArrayName="answers">
+                        <div *ngFor="let answer of question.get('answers').controls; let z = index" class="questionBox__answer">
+                            <div [formGroup]="answer">
+                                <label> Risposta <input type="text" formControlName="text"></label>
+                                <label> Valore <input type="text" formControlName="value"></label>
+                                <button (click)="handleQuestions.removeAnswer(k, i)">Elimina</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Questions' answers list -->
+                </div>
+            </div>
+            <!-- /Quiz questions list -->
+        </div>
         <!-- /Quiz questions -->
-        <hr>
+        
+        
+
         <!-- Quiz results -->
-        <label>
-            Risultati del quiz
-        </label>
+        <div>
+            <h3>Risultati del quiz</h3>
+            <button (click)="handleAnswers.addNew()">Aggiungi risultato</button>
+        </div>
+        <div formArrayName="answers">
+            <div *ngFor="let answer of quiz.get('answers').controls; let i = index" class="answerBox">
+                <div [formGroup]="answer">
+                    <label> Titolo <input type="text" formControlName="title"></label>
+                    <label> Valore <input type="text" formControlName="value"></label>
+                    <label> Descrizione </label>
+                    <textarea formControlName="description"></textarea>
+                    <button (click)="handleAnswers.remove(i)">Elimina</button>
+                </div>
+            </div>
+        </div>
         <!-- /Quiz results -->
+
+        <!-- Submit -->
+        <br>
+        <p>{{ quiz.value | json }}</p>
+        <p>Quiz valido: {{ quiz.valid }}</p>
+        <p>Quiz status: {{ quiz.status }}</p>
+        <button type="submit">Invia</button>
+        <!-- /Submit -->
 
     </form>
 </div>

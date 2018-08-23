@@ -1,5 +1,64 @@
+$margin-default: 5px 0px;
 
 .container {
     width: 80%;
     margin: auto;
+
+    .questionBox {
+        border: 1px solid;
+        margin: $margin-default;
+        padding: 5px;
+        &__buttons {
+            margin: $margin-default;
+            button {
+                margin-right: 5px;
+            }
+        }
+        &__question {
+            textarea {
+                box-sizing: border-box;
+                width: 100%;
+            }
+        }
+        &__answer {
+            border: 1px solid;
+            margin: $margin-default;
+            padding: 5px;
+            label {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+    }
+
+    .settingsBox {
+        border: 1px solid;
+        margin: $margin-default;
+        padding: 5px;
+        label {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    .answerBox {
+        border: 1px solid;
+        margin: $margin-default;
+        padding: 5px;
+        label {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        textarea {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            margin: $margin-default;
+        }
+    }
 }

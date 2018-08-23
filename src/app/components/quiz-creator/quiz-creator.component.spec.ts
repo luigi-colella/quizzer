@@ -1,5 +1,6 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { QuizCreatorComponent as Component } from './quiz-creator.component';
 
@@ -11,7 +12,10 @@ describe('Quiz Creator Component', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [ Component ]
+            declarations: [ Component ],
+            imports: [
+                FormsModule, ReactiveFormsModule
+            ]
         })
         .compileComponents();
         componentFixture = TestBed.createComponent(Component);
@@ -23,4 +27,17 @@ describe('Quiz Creator Component', () => {
         expect(componentInstance).toBeDefined();
     })
 
+    it('should let add a new question', () => {})
+
+    it('should let remove a question', () => {})
+
+    it('should let add a new answer to a question', () => {})
+
+    it('should let remove an answer of a question', () => {})
+
+    it('should let add a new result to quiz', () => {})
+
+    it('should let remove a result of quiz', () => {})
+
+    it('should create a new quiz', () => {})
 })
