@@ -87,16 +87,9 @@ export class QuizCreatorComponent implements OnInit {
     //Current displayed tab
     currentTab: 'settings' | 'questions' | 'results' | 'all' = 'settings';
 
-    constructor( private ngFormBuilder: FormBuilder ){
-        this.ngOnInit();
-    }
+    constructor( private ngFormBuilder: FormBuilder ){}
 
-    ngOnInit(){
-        //Keyboard shortcut for debug
-        document.addEventListener('keyup', (e: KeyboardEvent) => {
-            if (e.key === "Enter") this.onSubmit();
-        })
-    }
+    ngOnInit(){}
 
     onSubmit(){
         console.log(this.quiz);
