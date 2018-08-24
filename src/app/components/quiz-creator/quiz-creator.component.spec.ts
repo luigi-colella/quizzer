@@ -40,4 +40,6 @@ describe('Quiz Creator Component', () => {
     it('should let remove a result of quiz', () => {})
 
     it('should create a new quiz', () => {})
+
+    it('should move between tabs', () => {})
 })
