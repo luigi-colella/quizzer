@@ -18,7 +18,11 @@
             <h3>Impostazioni del quiz</h3>
             <!-- Quiz settings -->
             <div class="settingsBox">
-                <label>Titolo del quiz <input type="text" formControlName="title" required></label>
+                    <mat-icon>home</mat-icon>
+
+                <mat-form-field>
+                    <input matInput type="text" placeholder="Titolo del quiz" formControlName="title" required>
+                </mat-form-field>
                 <label> Descrizione del quiz</label>
                 <textarea formControlName="description"></textarea>
                 <label>

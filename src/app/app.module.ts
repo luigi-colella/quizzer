@@ -22,9 +22,7 @@ import { QuizHandler } from './services/quiz-handler.service';
     QuizCreatorModule,
     AppRoutingModule
   ],
-  providers: [
-    QuizHandler
-  ],
-  bootstrap: [AppComponent]
+  providers: [ QuizHandler ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
