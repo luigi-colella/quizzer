@@ -47,7 +47,7 @@ export class QuizCreatorComponent implements OnInit {
                 if (quizType === PERSONALITY_QUIZ){
                     return typeof inputValue === 'string' && inputValue.trim() === '' ? { 'validAnswerValue' : { text: 'testo vuoto' } } : null
                 } else if (quizType === TRUEORFALSE_QUIZ) {
-                    typeof inputValue !== 'boolean' ? { 'validAnswerValue' : { text: 'formato vero o falso non corretto' } } : null
+                    return typeof inputValue !== 'boolean' ? { 'validAnswerValue' : { text: 'formato vero o falso non corretto' } } : null
                 } else {
                     return { 'validAnswerValue' : { text: 'tipo di quiz non valido' } }
                 }
@@ -59,21 +59,21 @@ export class QuizCreatorComponent implements OnInit {
 
         const emptyAnswer = () => {
             return this.ngFormBuilder.group({
-                text: ['randomText', this.quizValidators.validText()],
-                value: ['randomValue', this.quizValidators.validAnswerValue()]
+                text: ['', this.quizValidators.validText()],
+                value: ['', this.quizValidators.validAnswerValue()]
             })
         }
         const emptyQuestion = () => {
             return this.ngFormBuilder.group({
-                text: ['textToInsert', this.quizValidators.validText()],
+                text: ['', this.quizValidators.validText()],
                 answers: this.ngFormBuilder.array([ emptyAnswer() ])
             })
         }
         const emptyResult = () => {
             return this.ngFormBuilder.group({
-                value: ['Valore', this.quizValidators.validText()],
-                title: ['Titolo', this.quizValidators.validText()],
-                description: ['Descrizione', this.quizValidators.validText()]
+                value: ['', this.quizValidators.validText()],
+                title: ['', this.quizValidators.validText()],
+                description: ['', this.quizValidators.validText()]
             })
         }
 
@@ -86,11 +86,11 @@ export class QuizCreatorComponent implements OnInit {
     })()
     //Reactive form to create a new quiz
     quiz = this.ngFormBuilder.group({
-        title: ['buzz', this.quizValidators.validText()],
-        description: ['desc', this.quizValidators.validText()],
+        title: ['', this.quizValidators.validText()],
+        description: ['', this.quizValidators.validText()],
         type: ['', this.quizValidators.validQuizType()],
-        questions: this.ngFormBuilder.array([ this.quizBuilders.emptyQuestion() ]),
-        answers: this.ngFormBuilder.array([ this.quizBuilders.emptyResult() ])
+        questions: this.ngFormBuilder.array([ /*this.quizBuilders.emptyQuestion()*/ ]),
+        answers: this.ngFormBuilder.array([ /*this.quizBuilders.emptyResult()*/ ])
     })
 
     constructor( private ngFormBuilder: FormBuilder ){
@@ -140,7 +140,6 @@ export class QuizCreatorComponent implements OnInit {
         const addNew = () => {
             answers.push(this.quizBuilders.emptyResult());
         }
-    
         const remove = (index: number) => {
             answers.removeAt(index);
         }

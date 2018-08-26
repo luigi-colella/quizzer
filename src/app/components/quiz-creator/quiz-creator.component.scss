@@ -11,6 +11,16 @@ $margin-default: 5px 0px;
         display: flex;
         justify-content: space-around;
     }
+    mat-expansion-panel-header {
+        mat-panel-title {
+            align-items: center;
+        }
+        mat-panel-description {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
 
     .questionBox {
         margin: $margin-default;
