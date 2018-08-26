@@ -1,6 +1,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from '../../modules/material.module';
 
 import { QuizCreatorComponent as Component } from './quiz-creator.component';
 
@@ -14,7 +15,7 @@ describe('Quiz Creator Component', () => {
         TestBed.configureTestingModule({
             declarations: [ Component ],
             imports: [
-                FormsModule, ReactiveFormsModule
+                FormsModule, ReactiveFormsModule, MaterialModule
             ]
         })
         .compileComponents();

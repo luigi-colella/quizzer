@@ -1,30 +1,18 @@
 $margin-default: 5px 0px;
 
 .container {
-    width: 80%;
+    width: 90%;
     margin: auto;
-
-    textarea {
-        display: block;
-        box-sizing: border-box;
+    
+    .mat-form-field {
         width: 100%;
     }
-
-    .pagination {
-        button {
-            margin-right: 5px;
-        }
-
-        &__tab {
-            display: none;
-            &.visible {
-                display: block;
-            }
-        }
+    .mat-radio-group {
+        display: flex;
+        justify-content: space-around;
     }
 
     .questionBox {
-        border: 1px solid;
         margin: $margin-default;
         padding: 5px;
         &__buttons {
@@ -34,7 +22,6 @@ $margin-default: 5px 0px;
             }
         }
         &__answer {
-            border: 1px solid;
             margin: $margin-default;
             padding: 5px;
             label {
@@ -46,7 +33,6 @@ $margin-default: 5px 0px;
     }
 
     .settingsBox {
-        border: 1px solid;
         margin: $margin-default;
         padding: 5px;
         label {
@@ -57,7 +43,6 @@ $margin-default: 5px 0px;
     }
 
     .answerBox {
-        border: 1px solid;
         margin: $margin-default;
         padding: 5px;
         label {
@@ -65,8 +50,11 @@ $margin-default: 5px 0px;
             display: flex;
             justify-content: space-between;
         }
-        button {
+        &__buttons {
             margin: $margin-default;
+            button {
+                margin-right: 5px;
+            }
         }
     }
 }

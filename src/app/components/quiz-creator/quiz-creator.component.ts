@@ -1,6 +1,10 @@
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { 
+    FormBuilder, FormArray, 
+    Validators, AbstractControl, ValidatorFn, ValidationErrors,
+} from '@angular/forms';
+import { MatAccordion } from '@angular/material/expansion';
 
 import { QuizType, PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../interfaces/quizTypes';
 
@@ -22,13 +26,17 @@ export class QuizCreatorComponent implements OnInit {
     quizValidators = {
         validText: (): ValidatorFn => {
             return (control: AbstractControl) : {[key: string]: any} | null => {
-                return control.value.trim() === '' ? { 'validText': { text: 'Testo vuoto' } } : null;
+                let errorMsg: string;
+                if (control.value === '') errorMsg = 'campo mancante'
+                else if (control.value.trim() === '') errorMsg = 'testo non valido'
+                else return null;
+                return { 'validText': { text: errorMsg } };
             }
         },
         validQuizType: (): ValidatorFn => {
             return (control: AbstractControl) : ValidationErrors | null => {
                 let valid = control.value === PERSONALITY_QUIZ || control.value === TRUEORFALSE_QUIZ;
-                return !valid ? { 'validQuizType': { text: 'Tipo di quiz non riconosciuto' } } : null
+                return !valid ? { 'validQuizType': { text: 'tipo di quiz non riconosciuto' } } : null
             }
         },
         validAnswerValue: (): ValidatorFn => {
@@ -37,11 +45,11 @@ export class QuizCreatorComponent implements OnInit {
                 let quizType = this.quiz.get('type').value;
                 let inputValue = control.value;
                 if (quizType === PERSONALITY_QUIZ){
-                    return inputValue.trim() === '' ? { 'validAnswerValue' : { text: 'Testo vuoto' } } : null
+                    return typeof inputValue === 'string' && inputValue.trim() === '' ? { 'validAnswerValue' : { text: 'testo vuoto' } } : null
                 } else if (quizType === TRUEORFALSE_QUIZ) {
-                    return typeof inputValue !== 'boolean' ? { 'validAnswerValue' : { text: 'Formato vero o falso non corretto' } } : null
+                    typeof inputValue !== 'boolean' ? { 'validAnswerValue' : { text: 'formato vero o falso non corretto' } } : null
                 } else {
-                    return { 'validAnswerValue' : { text: 'Tipo di quiz non valido' } }
+                    return { 'validAnswerValue' : { text: 'tipo di quiz non valido' } }
                 }
             }
         }
@@ -84,29 +92,16 @@ export class QuizCreatorComponent implements OnInit {
         questions: this.ngFormBuilder.array([ this.quizBuilders.emptyQuestion() ]),
         answers: this.ngFormBuilder.array([ this.quizBuilders.emptyResult() ])
     })
-    //Current displayed tab
-    currentTab: 'settings' | 'questions' | 'results' | 'all' = 'settings';
 
-    constructor( private ngFormBuilder: FormBuilder ){}
+    constructor( private ngFormBuilder: FormBuilder ){
+        console.log(this.quiz);
+    }
 
     ngOnInit(){}
 
     onSubmit(){
         console.log(this.quiz);
     }
-
-    //Event handlers for the page
-    handlePage = (() => {
-
-        const selectTab = (tabName: 'settings' | 'questions' | 'results' | 'all') => {
-            if (this.currentTab !== tabName) this.currentTab = tabName;
-        }
-
-        return {
-            selectTab
-        }
-
-    })()
 
     //Event handlers for questions
     handleQuestions = (() => {
@@ -116,16 +111,13 @@ export class QuizCreatorComponent implements OnInit {
         const addNew = () => {
             questions.push(this.quizBuilders.emptyQuestion());
         }
-    
         const remove = (index: number) => {
             questions.removeAt(index);
         }
-
         const addNewAnswer = (questionIndex: number) => {
             let answers = questions.at(questionIndex).get('answers') as FormArray;
             answers.push(this.quizBuilders.emptyAnswer());
         }
-    
         const removeAnswer = (answerIndex: number, questionIndex: number) => {
             let answers = questions.at(questionIndex).get('answers') as FormArray;
             answers.removeAt(answerIndex);
