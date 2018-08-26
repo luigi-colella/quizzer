@@ -3,14 +3,7 @@ $margin-default: 5px 0px;
 .container {
     width: 90%;
     margin: auto;
-    
-    .mat-form-field {
-        width: 100%;
-    }
-    .mat-radio-group {
-        display: flex;
-        justify-content: space-around;
-    }
+
     mat-expansion-panel-header {
         mat-panel-title {
             align-items: center;
@@ -21,16 +14,25 @@ $margin-default: 5px 0px;
             align-items: center;
         }
     }
+    
+    .mat-form-field {
+        width: 100%;
+    }
+    .mat-radio-group {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .buttons {
+        margin: $margin-default;
+        button {
+            margin-right: 5px;
+        }
+    }
 
     .questionBox {
         margin: $margin-default;
         padding: 5px;
-        &__buttons {
-            margin: $margin-default;
-            button {
-                margin-right: 5px;
-            }
-        }
         &__answer {
             margin: $margin-default;
             padding: 5px;
@@ -59,12 +61,6 @@ $margin-default: 5px 0px;
             width: 100%;
             display: flex;
             justify-content: space-between;
-        }
-        &__buttons {
-            margin: $margin-default;
-            button {
-                margin-right: 5px;
-            }
         }
     }
 }

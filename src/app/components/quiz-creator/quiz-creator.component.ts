@@ -15,22 +15,29 @@ import { QuizType, PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../interfaces/q
 })
 export class QuizCreatorComponent implements OnInit {
 
-    //Avaible type of quiz
-    quizTypes : QuizType[] = ['personalityQuiz', 'trueorfalseQuiz'];
     //Mapped quiz types for template
     quizTypesMap = {
-        personalityQuiz: "Quiz della personalità",
-        trueorfalseQuiz: "Vero o Falso"
+        [PERSONALITY_QUIZ]: "Quiz della personalità",
+        [TRUEORFALSE_QUIZ]: "Vero o Falso"
     }
+    //Array of quiz types for template;
+    quizTypes = Object.keys(this.quizTypesMap);
     //Validators for input
     quizValidators = {
         validText: (): ValidatorFn => {
             return (control: AbstractControl) : {[key: string]: any} | null => {
                 let errorMsg: string;
-                if (control.value === '') errorMsg = 'campo mancante'
-                else if (control.value.trim() === '') errorMsg = 'testo non valido'
+                let inputValue = control.value;
+                if (inputValue === '') errorMsg = 'campo mancante'
+                else if (typeof inputValue === 'string' && inputValue.trim() === '') errorMsg = 'testo non valido'
                 else return null;
                 return { 'validText': { text: errorMsg } };
+            }
+        },
+        validItems: (): ValidatorFn => {
+            return (control: FormArray) : {[key: string] : any} | null => {
+                let valid = control.length > 0;
+                return !valid ? { 'validItems': true } : null;
             }
         },
         validQuizType: (): ValidatorFn => {
@@ -89,8 +96,8 @@ export class QuizCreatorComponent implements OnInit {
         title: ['', this.quizValidators.validText()],
         description: ['', this.quizValidators.validText()],
         type: ['', this.quizValidators.validQuizType()],
-        questions: this.ngFormBuilder.array([ /*this.quizBuilders.emptyQuestion()*/ ]),
-        answers: this.ngFormBuilder.array([ /*this.quizBuilders.emptyResult()*/ ])
+        questions: this.ngFormBuilder.array([ /*this.quizBuilders.emptyQuestion()*/ ], this.quizValidators.validItems()),
+        answers: this.ngFormBuilder.array([ /*this.quizBuilders.emptyResult()*/ ], this.quizValidators.validItems())
     })
 
     constructor( private ngFormBuilder: FormBuilder ){
@@ -101,6 +108,17 @@ export class QuizCreatorComponent implements OnInit {
 
     onSubmit(){
         console.log(this.quiz);
+    }
+
+    onReset(){
+        //Remove all questions
+        let questions = this.quiz.get('questions') as FormArray;
+        for (let i = questions.length; i >= 0; i--) questions.removeAt(i);
+        //Remove all answers
+        let answers = this.quiz.get('answers') as FormArray;
+        for (let i = answers.length; i >= 0; i--) answers.removeAt(i);
+        //Finally reset quiz
+        this.quiz.reset();
     }
 
     //Event handlers for questions
