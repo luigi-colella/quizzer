@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { MatMenuModule, MatMenu } from '@angular/material/menu';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
@@ -21,7 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatInputModule,
         MatRadioModule,
         MatSelectModule,
-        MatMenuModule,
+        MatStepperModule,
         MatTooltipModule
     ]
 })

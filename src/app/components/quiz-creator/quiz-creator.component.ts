@@ -2,11 +2,21 @@
 import { Component, OnInit } from '@angular/core';
 import { 
     FormBuilder, FormArray, 
-    Validators, AbstractControl, ValidatorFn, ValidationErrors,
+    Validators, AbstractControl, ValidatorFn, ValidationErrors, FormControl,
+    FormGroupDirective, NgForm
 } from '@angular/forms';
-import { MatAccordion } from '@angular/material/expansion';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 import { QuizType, PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../interfaces/quizTypes';
+
+//Quiz errors matcher
+class QuizCreatorErrorStateMatcher implements ErrorStateMatcher {
+    isErrorState (control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+        const isFormSubmitted = form && form.submitted;
+        const isControlUsed = control.dirty || control.touched || isFormSubmitted;
+        return !!(control && isControlUsed && control.invalid);
+    }
+}
 
 @Component({
     selector: 'app-quiz-generator',
@@ -99,18 +109,22 @@ export class QuizCreatorComponent implements OnInit {
         questions: this.ngFormBuilder.array([ /*this.quizBuilders.emptyQuestion()*/ ], this.quizValidators.validItems()),
         answers: this.ngFormBuilder.array([ /*this.quizBuilders.emptyResult()*/ ], this.quizValidators.validItems())
     })
+    //Errors state matcher
+    errorMatcher = new QuizCreatorErrorStateMatcher();
 
     constructor( private ngFormBuilder: FormBuilder ){
         console.log(this.quiz);
     }
 
-    ngOnInit(){}
+    ngOnInit(){
+
+    }
 
     onSubmit(){
         console.log(this.quiz);
     }
 
-    onReset(){
+    onReset () {
         //Remove all questions
         let questions = this.quiz.get('questions') as FormArray;
         for (let i = questions.length; i >= 0; i--) questions.removeAt(i);
