@@ -21,7 +21,7 @@ class QuizCreatorErrorStateMatcher implements ErrorStateMatcher {
 @Component({
     selector: 'app-quiz-generator',
     templateUrl: './quiz-creator.component.html',
-    styleUrls: ['./quiz-creator.component.scss']
+    styleUrls: ['./quiz-creator.component.scss'],
 })
 export class QuizCreatorComponent implements OnInit {
 
@@ -121,7 +121,7 @@ export class QuizCreatorComponent implements OnInit {
     }
 
     onSubmit(){
-        console.log(this.quiz);
+        //console.log(this.quiz);
     }
 
     onReset () {
@@ -134,35 +134,6 @@ export class QuizCreatorComponent implements OnInit {
         //Finally reset quiz
         this.quiz.reset();
     }
-
-    //Event handlers for questions
-    handleQuestions = (() => {
-
-        let questions = this.quiz.get('questions') as FormArray;
-
-        const addNew = () => {
-            questions.push(this.quizBuilders.emptyQuestion());
-        }
-        const remove = (index: number) => {
-            questions.removeAt(index);
-        }
-        const addNewAnswer = (questionIndex: number) => {
-            let answers = questions.at(questionIndex).get('answers') as FormArray;
-            answers.push(this.quizBuilders.emptyAnswer());
-        }
-        const removeAnswer = (answerIndex: number, questionIndex: number) => {
-            let answers = questions.at(questionIndex).get('answers') as FormArray;
-            answers.removeAt(answerIndex);
-        }
-    
-        return {
-            addNew,
-            remove,
-            addNewAnswer,
-            removeAnswer
-        }
-
-    })()
     
     //Event handlers for Answers
     handleAnswers = (() => {
