@@ -46,7 +46,7 @@ export class QuizCreatorComponent implements OnInit {
         },
         validItems: (): ValidatorFn => {
             return (control: FormArray) : {[key: string] : any} | null => {
-                let valid = control.length > 0;
+                let valid = control.valid && control.length > 0;
                 return !valid ? { 'validItems': true } : null;
             }
         },
@@ -83,7 +83,7 @@ export class QuizCreatorComponent implements OnInit {
         const emptyQuestion = () => {
             return this.ngFormBuilder.group({
                 text: ['', this.quizValidators.validText()],
-                answers: this.ngFormBuilder.array([ emptyAnswer() ])
+                answers: this.ngFormBuilder.array([ emptyAnswer() ], this.quizValidators.validItems())
             })
         }
         const emptyResult = () => {
@@ -179,6 +179,28 @@ export class QuizCreatorComponent implements OnInit {
         return {
             addNew,
             remove
+        }
+
+    })()
+
+    //Event handlers for stepper
+    handleStepper = (() => {
+
+        const submitSettings = () => {
+            //Mark as dirty the inputs of this stepper group in order to get possibles errors from they
+            this.quiz.get('title').markAsDirty();
+            this.quiz.get('description').markAsDirty();
+            this.quiz.get('type').markAsDirty();
+        }
+        const submitQuestions = () => {
+            this.quiz.get('questions');
+        }
+        const submitAnswers = () => {}
+
+        return {
+            submitSettings,
+            submitQuestions,
+            submitAnswers
         }
 
     })()

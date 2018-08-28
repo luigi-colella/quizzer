@@ -10,6 +10,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
     exports: [
@@ -22,7 +23,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatRadioModule,
         MatSelectModule,
         MatStepperModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatTreeModule
     ]
 })
 export class MaterialModule {}

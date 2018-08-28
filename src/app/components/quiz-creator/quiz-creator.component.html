@@ -14,13 +14,13 @@
                 <div class="settingsBox">
                     <mat-form-field>
                         <mat-label>Titolo</mat-label>
-                        <input matInput type="text" formControlName="title" [errorStateMatcher]="errorMatcher" matTooltip="Inserisci il titolo che avrà il tuo quiz">
+                        <input matInput formControlName="title" [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci il titolo che avrà il tuo quiz">
                         <mat-error *ngIf="!quiz.get('title').valid">{{quiz.get('title').errors.validText.text}}</mat-error>
                     </mat-form-field>
                     
                     <mat-form-field>
                         <mat-label>Tipologia</mat-label>
-                        <mat-select formControlName="type" [errorStateMatcher]="errorMatcher" matTooltip="Scegli il tipo di quiz che vuoi creare">
+                        <mat-select formControlName="type" [errorStateMatcher]="errorMatcher" required matTooltip="Scegli il tipo di quiz che vuoi creare">
                             <ng-container *ngFor="let option of quizTypes">
                                 <mat-option [value]="option">{{quizTypesMap[option]}}</mat-option>
                             </ng-container>
@@ -30,14 +30,16 @@
 
                     <mat-form-field>
                         <mat-label>Descrizione</mat-label>
-                        <textarea matInput formControlName="description" [errorStateMatcher]="errorMatcher" matTooltip="Inserisci una descrizione introduttiva il tuo quiz"></textarea>
+                        <textarea matInput formControlName="description" [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci una descrizione introduttiva il tuo quiz"></textarea>
                         <mat-error *ngIf="!quiz.get('description').valid">{{quiz.get('description').errors.validText.text}}</mat-error>
                     </mat-form-field>
                 </div>
                 <!-- /Quiz settings -->
                 <!-- Stepper buttons -->
                 <div class="buttons">
-                    <button mat-stroked-button matStepperNext type="button">Avanti</button>
+                    <button mat-stroked-button matStepperNext type="button"
+                        [disabled]="quiz.get('title').invalid || quiz.get('description').invalid || quiz.get('type').invalid" 
+                    >Avanti</button>
                 </div>
                 <!-- /Stepper buttons -->
             </mat-step>
@@ -79,59 +81,71 @@
                                             </button>
                                         </mat-panel-description>
                                     </mat-expansion-panel-header>
-                                        <div [formGroup]="question">
-                                            <mat-form-field>
-                                                <mat-label>Testo</mat-label>
-                                                <textarea formControlName="text" matInput [errorStateMatcher]="errorMatcher" matTooltip="Inserisci il testo della tua domanda"></textarea>
-                                                <mat-error *ngIf="!question.controls.text.valid">{{question.controls.text.errors.validText.text}}</mat-error>
-                                            </mat-form-field>
-                                            <!-- Questions' answers list -->
-                                            <div formArrayName="answers">
-                                                <mat-accordion multi="true">
-                                                    <ng-container *ngFor="let answer of question.get('answers').controls; let z = index" class="questionBox__answer">
-                                                        <mat-expansion-panel>
-                                                            <mat-expansion-panel-header>
-                                                                <mat-panel-title>
-                                                                    <mat-icon *ngIf="formInstance.submitted && answer.invalid" matTooltip="Risposta non completa">feedback</mat-icon>
-                                                                    Risposta {{z+1}}/{{question.get('answers').controls.length}}
-                                                                </mat-panel-title>
-                                                                <mat-panel-description>
-                                                                    <span>{{answer.get('text').value}}</span>
-                                                                    <button mat-icon-button (click)="$event.stopPropagation(); handleQuestions.removeAnswer(k, i)" matTooltip="Elimina risposta" type="button">
-                                                                        <mat-icon>delete</mat-icon>
-                                                                    </button>                                                                    
-                                                                </mat-panel-description>
-                                                            </mat-expansion-panel-header>
-                                                            
-                                                            <div [formGroup]="answer">
-                                                                <mat-form-field>
-                                                                        <mat-label>Risposta</mat-label>
-                                                                        <input type="text" formControlName="text" matInput [errorStateMatcher]="errorMatcher" matTooltip="Inserisci una possibile risposta alla domanda">
-                                                                        <mat-error *ngIf="!answer.get('text').valid">{{answer.get('text').errors.validText.text}}</mat-error>
-                                                                </mat-form-field>
-                                                                <!-- Value of answer depends from quiz type -->
-                                                                <ng-container [ngSwitch]="quiz.get('type').value">
-                                                                    <mat-form-field *ngSwitchCase="'personalityQuiz'">
-                                                                        <mat-label>Valore</mat-label>
-                                                                        <input type="text" formControlName="value" matInput [errorStateMatcher]="errorMatcher" matTooltip="Indica il valore di questa risposta">
-                                                                        <mat-error *ngIf="!answer.get('value').valid">{{answer.get('value').errors.validAnswerValue.text}}</mat-error>
-                                                                    </mat-form-field>
-                                                                    <div *ngSwitchCase="'trueorfalseQuiz'">
-                                                                        <mat-radio-group formControlName="value" matTooltip="Indica se la risposta corrente è vera o falsa">
-                                                                            <mat-radio-button [value]="true">Vero</mat-radio-button>
-                                                                            <mat-radio-button [value]="false">Falso</mat-radio-button>
-                                                                        </mat-radio-group>
-                                                                        <mat-error *ngIf="!answer.get('value').valid">{{answer.get('value').errors.validAnswerValue.text}}</mat-error>
-                                                                    </div>
-                                                                </ng-container>
-                                                                <!-- /Value of answer depends from quiz type -->
-                                                            </div>
-                                                        </mat-expansion-panel>
-                                                    </ng-container>
-                                                </mat-accordion>
-                                            </div>
-                                            <!-- /Questions' answers list -->
+                                    <div [formGroup]="question">
+                                        <mat-form-field>
+                                            <mat-label>Testo</mat-label>
+                                            <textarea formControlName="text" matInput [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci il testo della tua domanda"></textarea>
+                                            <mat-error *ngIf="!question.controls.text.valid">{{question.controls.text.errors.validText.text}}</mat-error>
+                                        </mat-form-field>
+                                        <!-- Questions' answers list -->
+                                        <div formArrayName="answers">
+                                            <mat-accordion multi="true">
+                                                    <mat-tab-group>
+
+                                                <ng-container *ngFor="let answer of question.get('answers').controls; let z = index" class="questionBox__answer">
+
+                                                            <mat-tab>
+                                                            <ng-template mat-tab-label>
+                                                                #{{z+1}}
+                                                            </ng-template>
+                                                            <ng-template matTabContent>
+                                                                <mat-expansion-panel>
+                                                                    <mat-expansion-panel-header>
+                                                                            <mat-panel-title>
+                                                                                <mat-icon *ngIf="formInstance.submitted && answer.invalid" matTooltip="Risposta non completa">feedback</mat-icon>
+                                                                                Risposta {{z+1}}/{{question.get('answers').controls.length}}
+                                                                            </mat-panel-title>
+                                                                            <mat-panel-description>
+                                                                                <span>{{answer.get('text').value}}</span>
+                                                                                <button mat-icon-button (click)="$event.stopPropagation(); handleQuestions.removeAnswer(k, i)" matTooltip="Elimina risposta" type="button">
+                                                                                    <mat-icon>delete</mat-icon>
+                                                                                </button>                                                                    
+                                                                            </mat-panel-description>
+                                                                        </mat-expansion-panel-header>
+                                                                        <div [formGroup]="answer">
+                                                                            <mat-form-field>
+                                                                                    <mat-label>Risposta</mat-label>
+                                                                                    <input type="text" formControlName="text" matInput [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci una possibile risposta alla domanda">
+                                                                                    <mat-error *ngIf="!answer.get('text').valid">{{answer.get('text').errors.validText.text}}</mat-error>
+                                                                            </mat-form-field>
+                                                                            <!-- Value of answer depends from quiz type -->
+                                                                            <ng-container [ngSwitch]="quiz.get('type').value">
+                                                                                <mat-form-field *ngSwitchCase="'personalityQuiz'">
+                                                                                    <mat-label>Valore</mat-label>
+                                                                                    <input type="text" formControlName="value" matInput [errorStateMatcher]="errorMatcher" required matTooltip="Indica il valore di questa risposta">
+                                                                                    <mat-error *ngIf="!answer.get('value').valid">{{answer.get('value').errors.validAnswerValue.text}}</mat-error>
+                                                                                </mat-form-field>
+                                                                                <div *ngSwitchCase="'trueorfalseQuiz'">
+                                                                                    <mat-radio-group formControlName="value" required matTooltip="Indica se la risposta corrente è vera o falsa">
+                                                                                        <mat-radio-button [value]="true">Vero</mat-radio-button>
+                                                                                        <mat-radio-button [value]="false">Falso</mat-radio-button>
+                                                                                    </mat-radio-group>
+                                                                                    <mat-error *ngIf="!answer.get('value').valid">{{answer.get('value').errors.validAnswerValue.text}}</mat-error>
+                                                                                </div>
+                                                                            </ng-container>
+                                                                            <!-- /Value of answer depends from quiz type -->
+                                                                        </div>
+                                                                    </mat-expansion-panel>
+                                                            </ng-template>
+                                                            </mat-tab>
+
+                                                </ng-container>
+                                            </mat-tab-group>
+
+                                            </mat-accordion>
                                         </div>
+                                        <!-- /Questions' answers list -->
+                                    </div>
                                 </mat-expansion-panel>
                             </div>
                         </mat-accordion>
@@ -142,7 +156,9 @@
                 <!-- Stepper buttons -->
                 <div class="buttons">
                     <button mat-stroked-button matStepperPrevious type="button">Indietro</button>
-                    <button mat-stroked-button matStepperNext type="button">Avanti</button>
+                    <button mat-stroked-button matStepperNext type="button" 
+                        [disabled]="quiz.get('questions').invalid"
+                    >Avanti</button>
                 </div>
                 <!-- /Stepper buttons -->
             </mat-step>
