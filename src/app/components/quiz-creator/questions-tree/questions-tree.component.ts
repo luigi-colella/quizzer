@@ -1,14 +1,19 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl, FormArray } from '@angular/forms';
+import { AbstractControl, FormControl, FormArray, FormGroup } from '@angular/forms';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { BehaviorSubject } from 'rxjs';
+import { ArrayType } from '@angular/compiler/src/output/output_ast';
 
 //FileNode Model
 class FileNode {
-    nodeName: string;
-    nodeValue: any;
-    children: FileNode[];
+    text: AbstractControl
+    textEditable: boolean //Property used in template to edit text
+    value?: AbstractControl
+    valueEditable?: boolean //Property used in template to edit value
+    index: number //Property used from a form control to refers to its index in FormArray
+    parentIndex?: number //Property used from items inner FormArray controls of FormArray controls
+    children?: FileNode[]
 }
 
 @Component({
@@ -21,48 +26,55 @@ export class QuestionsTreeComponent implements OnInit {
     @Input('quizBuilders') quizBuilders
     //@Input('questionsFormModel') questions: FormArray
 
+    questions: FormArray;
     dataChange: BehaviorSubject<FileNode[]>;
     nestedTreeControl: NestedTreeControl<FileNode>;
     nestedDataSource: MatTreeNestedDataSource<FileNode>;
-    handleQuestions;
 
     constructor () {}
 
     ngOnInit () {
         console.log(this.quiz);
         this.setTreeConfiguration();
-        this.setHandleQuestions();
     }
 
     /**
-     * Build a Tree Data Object from a JSON Data Object
+     * Build a Tree Data Object from quiz questions object
      * @param obj data object
      * @param level parameter used for recursion
      * @return {FileNode[]} fileNode list for data source
      */
-    _buildFileTree(obj: object, level: number): FileNode[] {
-        return Object.keys(obj).reduce<FileNode[]> ((accumulator, key) => {
-          const value = obj[key];
-          const node = new FileNode();
-          node.nodeName = key;
-    
-          if (value != null) {
-            if (typeof value === 'object') {
-              node.children = this._buildFileTree(value, level + 1);
-            } else {
-              node.nodeValue = value;
-            }
-          }
-    
-          return accumulator.concat(node);
-        }, []);
+    _buildFileTree( quizQuestionsObj: FormArray ): FileNode[] {
+        if (!quizQuestionsObj.hasOwnProperty('controls')) return;
+
+        return quizQuestionsObj.controls.map((oQuestion: FormGroup, parentIndex: number): FileNode => {
+            let { text, answers } = oQuestion.controls;
+            return {
+                text,
+                textEditable: text.value.trim() === '',
+                index: parentIndex,
+                children: answers.controls.map((oAnswer: FormGroup, index: number): FileNode => {
+                    let { text, value } = oAnswer.controls;
+                    return {
+                        text,
+                        textEditable: text.value.trim() === '',
+                        value,
+                        valueEditable: value.value.trim() === '',
+                        index,
+                        parentIndex
+                    };
+                })
+            };
+        })
     }
 
     //Configure tree component
     setTreeConfiguration = () => {
+        //Store questions form control object
+        this.questions = this.quiz.get('questions') as FormArray;
         //Create Tree Data Object
-        const jsonData = this.quiz.get('questions').value;
-        const treeData = this._buildFileTree(jsonData, 0);
+        const jsonData = this.questions.value;
+        const treeData = this._buildFileTree(jsonData);
         //Set how to get children from a node
         this.nestedTreeControl = new NestedTreeControl<FileNode> ((node: FileNode) => node.children)
         //Set Tree Data Source
@@ -76,43 +88,63 @@ export class QuestionsTreeComponent implements OnInit {
     }
 
     //Set event handlers for questions
-    setHandleQuestions = () => {
-
-        let questions = this.quiz.get('questions') as FormArray;
+    handleQuestions = (() => {
 
         const _updateObservable = () => {
             //Build new Tree
-            const newTree = this._buildFileTree(questions.value, 0);
-            console.log(questions.value, newTree);
+            const newTree = this._buildFileTree(this.questions);
             //Notify it to observable
             this.dataChange.next(newTree);
         }
+        const toggleEditable = (type: 'text' | 'value', node: FileNode) => {
+            switch (type) {
+                case 'text':
+                    //Switch to view mode only if the value of node is valid
+                    if (node.textEditable && node.text && node.text.invalid) return;
+                    else node.textEditable = !node.textEditable;
+                break;
+
+                case 'value':
+                    //Switch to view mode only if the value of node is valid
+                    if (node.valueEditable && node.value && node.value.invalid) return;
+                    else node.valueEditable = !node.valueEditable;
+                break;
+            }
+            
+        } 
         const addNew = () => {
-            questions.push(this.quizBuilders.emptyQuestion());
+            this.questions.push(this.quizBuilders.emptyQuestion());
             _updateObservable();
         }
         const remove = (index: number) => {
-            questions.removeAt(index);
+            this.questions.removeAt(index);
+            _updateObservable();
         }
-        const addNewAnswer = (questionIndex: number) => {
-            let answers = questions.at(questionIndex).get('answers') as FormArray;
+        const addNewAnswer = (node: FileNode) => {
+            //Get questions FormArray
+            let formGroup = node.text.parent as FormGroup;
+            let answers = formGroup.get('answers') as FormArray;
+            //Add new answer
             answers.push(this.quizBuilders.emptyAnswer());
+            _updateObservable();
         }
         const removeAnswer = (answerIndex: number, questionIndex: number) => {
-            let answers = questions.at(questionIndex).get('answers') as FormArray;
+            let answers = this.questions.at(questionIndex).get('answers') as FormArray;
             answers.removeAt(answerIndex);
+            _updateObservable();
         }
     
-        this.handleQuestions = {
+        return {
+            toggleEditable,
             addNew,
             remove,
             addNewAnswer,
             removeAnswer
         }
 
-    }
+    })()
 
     //Function used from tree in template to know if a node has nested childs
-    hasNestedChild = (_: number, nodeData: FileNode) => !nodeData.nodeValue;
+    hasNestedChild = (_: number, nodeData: FileNode) => nodeData.children;
 
 }
