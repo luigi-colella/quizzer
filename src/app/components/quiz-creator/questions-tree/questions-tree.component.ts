@@ -35,6 +35,7 @@ export class QuestionsTreeComponent implements OnInit {
 
     ngOnInit () {
         console.log(this.quiz);
+        this.quiz.get('type').setValue('personalityQuiz'); //Only for dev purpose
         this.setTreeConfiguration();
     }
 
@@ -48,7 +49,8 @@ export class QuestionsTreeComponent implements OnInit {
         if (!quizQuestionsObj.hasOwnProperty('controls')) return;
 
         return quizQuestionsObj.controls.map((oQuestion: FormGroup, parentIndex: number): FileNode => {
-            let { text, answers } = oQuestion.controls;
+            let text = oQuestion.controls.text as FormControl;
+            let answers = oQuestion.controls.answers as FormArray;
             return {
                 text,
                 textEditable: text.value.trim() === '',
@@ -76,27 +78,46 @@ export class QuestionsTreeComponent implements OnInit {
         const jsonData = this.questions.value;
         const treeData = this._buildFileTree(jsonData);
         //Set how to get children from a node
-        this.nestedTreeControl = new NestedTreeControl<FileNode> ((node: FileNode) => node.children)
+        this.nestedTreeControl = new NestedTreeControl<FileNode> ((node: FileNode) => node.children);
+        //Set data in tree control to use expand/ collapse methods
+        this.nestedTreeControl.dataNodes = treeData;
         //Set Tree Data Source
         this.nestedDataSource = new MatTreeNestedDataSource();
         //Creata an observable to monitor data changes
         this.dataChange = new BehaviorSubject<FileNode[]>([]);
         //Notify first data change
         this.dataChange.next(treeData);
-        //Subscribe to observable in order to update Tree Data Source every change
-        this.dataChange.subscribe((data) => this.nestedDataSource.data = data );
+        //Subscribe to observable in order to update Tree Data Source and Tree Control every change
+        this.dataChange.subscribe((data) => {
+            this.nestedDataSource.data = data;
+            this.nestedTreeControl.dataNodes = data;
+        });
     }
 
     //Set event handlers for questions
-    handleQuestions = (() => {
+    handleQuestions = {
 
-        const _updateObservable = () => {
+        _updateObservable: () => {
+            //If data changes also its reference will change, so it's need to store opened nodes to re-expand after change
+            let openedNodes;
+            if (this.nestedTreeControl.dataNodes) {
+                openedNodes = this.nestedTreeControl.dataNodes
+                .filter((node: FileNode) => this.nestedTreeControl.isExpanded(node))
+                .map((node: FileNode) => node.text)
+            }
             //Build new Tree
             const newTree = this._buildFileTree(this.questions);
             //Notify it to observable
             this.dataChange.next(newTree);
-        }
-        const toggleEditable = (type: 'text' | 'value', node: FileNode) => {
+            //Re-expand opened-before nodes
+            if (openedNodes) {
+                newTree.forEach((node: FileNode) => {
+                    if (openedNodes.indexOf(node.text) !== -1) this.nestedTreeControl.expand(node);
+                    else this.nestedTreeControl.collapse(node);
+                })
+            }
+        },
+        toggleEditable: (type: 'text' | 'value', node: FileNode) => {
             switch (type) {
                 case 'text':
                     //Switch to view mode only if the value of node is valid
@@ -111,38 +132,30 @@ export class QuestionsTreeComponent implements OnInit {
                 break;
             }
             
-        } 
-        const addNew = () => {
+        },
+        addNew: () => {
             this.questions.push(this.quizBuilders.emptyQuestion());
-            _updateObservable();
-        }
-        const remove = (index: number) => {
+            this.handleQuestions._updateObservable();
+        },
+        remove: (index: number) => {
             this.questions.removeAt(index);
-            _updateObservable();
-        }
-        const addNewAnswer = (node: FileNode) => {
+            this.handleQuestions._updateObservable();
+        },
+        addNewAnswer: (node: FileNode) => {
             //Get questions FormArray
             let formGroup = node.text.parent as FormGroup;
             let answers = formGroup.get('answers') as FormArray;
             //Add new answer
             answers.push(this.quizBuilders.emptyAnswer());
-            _updateObservable();
-        }
-        const removeAnswer = (answerIndex: number, questionIndex: number) => {
+            this.handleQuestions._updateObservable();
+        },
+        removeAnswer: (answerIndex: number, questionIndex: number) => {
             let answers = this.questions.at(questionIndex).get('answers') as FormArray;
             answers.removeAt(answerIndex);
-            _updateObservable();
-        }
-    
-        return {
-            toggleEditable,
-            addNew,
-            remove,
-            addNewAnswer,
-            removeAnswer
+            this.handleQuestions._updateObservable();
         }
 
-    })()
+    }
 
     //Function used from tree in template to know if a node has nested childs
     hasNestedChild = (_: number, nodeData: FileNode) => nodeData.children;

@@ -5,16 +5,16 @@
             <button mat-stroked-button (click)="handleQuestions.addNew()" type="button">
                 <mat-icon>add</mat-icon>Aggiungi domanda
             </button>
-            <button mat-stroked-button (click)="questionsAccordion.openAll()" *ngIf="quiz.get('questions').length > 0" type="button">
+            <button mat-stroked-button (click)="nestedTreeControl.expandAll()" *ngIf="quiz.get('questions').length > 0" type="button">
                 <mat-icon>expand_more</mat-icon>Espandi tutto
             </button>
-            <button mat-stroked-button (click)="questionsAccordion.closeAll()" *ngIf="quiz.get('questions').length > 0" type="button">
+            <button mat-stroked-button (click)="nestedTreeControl.collapseAll()" *ngIf="quiz.get('questions').length > 0" type="button">
                 <mat-icon>expand_less</mat-icon>Chiudi tutto
             </button>
         </div>
         <!-- /Questions tree main buttons -->
         <!-- Questions tree -->
-        <mat-tree [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl" class="example-tree">
+        <mat-tree [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl" class="tree">
         
           <!-- QUESTION TEXT -->
           <mat-nested-tree-node *matTreeNodeDef="let node; when: hasNestedChild">
@@ -28,18 +28,19 @@
                 </button>
                 <!-- /Toggle button to expand node and show the answers -->
                 <!-- Element to show question text -->
-                <p *ngIf="node.text.value !== '' && !node.textEditable">{{node.text.value}}</p>
+                <p *ngIf="node.text.value !== '' && !node.textEditable" class="form-field">{{node.text.value}}</p>
                 <!-- /Element to show question text -->
                 <!-- Element to edit question text -->
                 <mat-form-field *ngIf="node.text.value === '' || node.textEditable">
                   <mat-label>Domanda</mat-label>
                   <input matInput [formControl]="node.text" matTooltip="Inserisci il testo della tua domanda">
+                  <mat-error *ngIf="node.text.invalid">{{node.text.errors.validText.text}}</mat-error>
                 </mat-form-field>
                 <!-- /Element to edit question text -->
                 <!-- Button to switch between edit and view mode -->
                 <button mat-icon-button (click)="handleQuestions.toggleEditable('text', node)">
                   <mat-icon *ngIf="node.text.value !== '' && !node.textEditable" matTooltip="Modifica">edit</mat-icon>
-                  <mat-icon *ngIf="node.text.value === '' || node.textEditable" matTooltip="Salva">check</mat-icon>
+                  <mat-icon *ngIf="node.text.valid && (node.text.value === '' || node.textEditable)" matTooltip="Salva">check</mat-icon>
                 </button>
                 <!-- /Button to switch between edit and view mode -->
                 <!-- Button to add a new answer -->
@@ -50,7 +51,7 @@
                 <!-- /Button to remove this question -->
               </div>
               <!-- Nested nodes container -->
-              <ul [class.example-tree-invisible]="!nestedTreeControl.isExpanded(node)">
+              <ul [class.tree-invisible]="!nestedTreeControl.isExpanded(node)">
                 <ng-container matTreeNodeOutlet></ng-container>
               </ul>
               <!-- /Nested nodes container -->
@@ -64,38 +65,42 @@
             <li>
               <div class="mat-tree-node">
                 <!-- Button to remove this question -->
-                <button mat-icon-button (click)="handleQuestions.removeAnswer(node.index, node.parentIndex)" matTooltip="Elimina questa domanda"><mat-icon>delete</mat-icon></button>
+                <button mat-icon-button (click)="handleQuestions.removeAnswer(node.index, node.parentIndex)" matTooltip="Elimina questa risposta">
+                  <mat-icon>delete</mat-icon>
+                </button>
                 <!-- /Button to remove this question -->
 
                 <!-- Elements to show and edit answer text -->
-                <p *ngIf="node.text.value !== '' && !node.textEditable">{{node.text.value}}</p>
+                <p *ngIf="node.text.value !== '' && !node.textEditable" class="form-field">{{node.text.value}}</p>
                 <mat-form-field *ngIf="node.text.value === '' || node.textEditable">
                   <mat-label>Risposta</mat-label>
                   <input matInput [formControl]="node.text" matTooltip="Inserisci una possibile risposta">
+                  <mat-error *ngIf="node.text.invalid">{{node.text.errors.validText.text}}</mat-error>
                 </mat-form-field>
 
                 <button mat-icon-button (click)="handleQuestions.toggleEditable('text', node)">
                   <mat-icon *ngIf="node.text.value !== '' && !node.textEditable" matTooltip="Modifica">edit</mat-icon>
-                  <mat-icon *ngIf="node.text.value === '' || node.textEditable" matTooltip="Salva">check</mat-icon>
+                  <mat-icon *ngIf="node.text.valid && (node.text.value === '' || node.textEditable)" matTooltip="Salva">check</mat-icon>
                 </button>
                 <!-- Elements to show and edit answer text -->
 
                 <!-- Elements to show and edit answer value -->
-                <p *ngIf="node.value.value !== '' && !node.valueEditable">{{node.value.value}}</p>
+                <p *ngIf="node.value.value !== '' && !node.valueEditable" class="form-field">{{node.value.value}}</p>
                 <mat-form-field *ngIf="node.value.value === '' || node.valueEditable">
                   <mat-label>Valore</mat-label>
                   <input matInput [formControl]="node.value" matTooltip="Inserisci il valore della risposta">
+                  <mat-error *ngIf="node.value.invalid">{{node.value.errors.validAnswerValue.text}}</mat-error>
                 </mat-form-field>
 
                 <button mat-icon-button (click)="handleQuestions.toggleEditable('value', node)">
                   <mat-icon *ngIf="node.value.value !== '' && !node.valueEditable" matTooltip="Modifica">edit</mat-icon>
-                  <mat-icon *ngIf="node.value.value === '' || node.valueEditable" matTooltip="Salva">check</mat-icon>
+                  <mat-icon *ngIf="node.value.valid && (node.value.value === '' || node.valueEditable)" matTooltip="Salva">check</mat-icon>
                 </button>
                 <!-- Elements to show and edit answer value -->
 
               </div>
               <!-- Nested nodes container -->
-              <ul [class.example-tree-invisible]="!nestedTreeControl.isExpanded(node)">
+              <ul [class.tree-invisible]="!nestedTreeControl.isExpanded(node)">
                 <ng-container matTreeNodeOutlet></ng-container>
               </ul>
               <!-- /Nested nodes container -->
