@@ -85,17 +85,26 @@
                 <!-- Elements to show and edit answer text -->
 
                 <!-- Elements to show and edit answer value -->
-                <p *ngIf="node.value.value !== '' && !node.valueEditable" class="form-field">{{node.value.value}}</p>
-                <mat-form-field *ngIf="node.value.value === '' || node.valueEditable">
-                  <mat-label>Valore</mat-label>
-                  <input matInput [formControl]="node.value" matTooltip="Inserisci il valore della risposta">
-                  <mat-error *ngIf="node.value.invalid">{{node.value.errors.validAnswerValue.text}}</mat-error>
-                </mat-form-field>
+                <ng-container *ngIf="quiz.get('type').value === quizTypes.personalityQuiz">
+                  <p *ngIf="node.value.value !== '' && !node.valueEditable" class="form-field">{{node.value.value}}</p>
+                  <mat-form-field *ngIf="node.value.value === '' || node.valueEditable">
+                    <mat-label>Valore</mat-label>
+                    <input matInput [formControl]="node.value" matTooltip="Inserisci il valore della risposta">
+                    
+                    <mat-error *ngIf="node.value.invalid">{{node.value.errors.validAnswerValue.text}}</mat-error>
+                  </mat-form-field>
+  
+                  <button mat-icon-button (click)="handleQuestions.toggleEditable('value', node)">
+                    <mat-icon *ngIf="node.value.value !== '' && !node.valueEditable" matTooltip="Modifica">edit</mat-icon>
+                    <mat-icon *ngIf="node.value.valid && (node.value.value === '' || node.valueEditable)" matTooltip="Salva">check</mat-icon>
+                  </button>
+                </ng-container>
+                
 
-                <button mat-icon-button (click)="handleQuestions.toggleEditable('value', node)">
-                  <mat-icon *ngIf="node.value.value !== '' && !node.valueEditable" matTooltip="Modifica">edit</mat-icon>
-                  <mat-icon *ngIf="node.value.valid && (node.value.value === '' || node.valueEditable)" matTooltip="Salva">check</mat-icon>
-                </button>
+                <mat-radio-group *ngIf="quiz.get('type').value === quizTypes.trueorfalseQuiz" matInput [formControl]="node.value" matTooltip="Indica se la risposta è vera o falsa">
+                  <mat-radio-button [value]="true">VERO</mat-radio-button>
+                  <mat-radio-button [value]="false">FALSO</mat-radio-button>
+                </mat-radio-group>
                 <!-- Elements to show and edit answer value -->
 
               </div>

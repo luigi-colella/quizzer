@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../modules/material.module';
 
 import { QuizCreatorComponent as Component } from './quiz-creator.component';
+import { QuestionsTreeComponent as SubComponent } from './questions-tree/questions-tree.component';
 
 describe('Quiz Creator Component', () => {
 
@@ -13,7 +14,7 @@ describe('Quiz Creator Component', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [ Component ],
+            declarations: [ Component, SubComponent ],
             imports: [
                 FormsModule, ReactiveFormsModule, MaterialModule
             ]

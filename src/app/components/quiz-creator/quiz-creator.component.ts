@@ -121,7 +121,7 @@ export class QuizCreatorComponent implements OnInit {
     }
 
     onSubmit(){
-        //console.log(this.quiz);
+        console.log(this.quiz);
     }
 
     onReset () {

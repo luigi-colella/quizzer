@@ -4,6 +4,7 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { BehaviorSubject } from 'rxjs';
 import { ArrayType } from '@angular/compiler/src/output/output_ast';
+import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../../interfaces/quizTypes';
 
 //FileNode Model
 class FileNode {
@@ -24,18 +25,20 @@ class FileNode {
 export class QuestionsTreeComponent implements OnInit {
     @Input('quizFormModel') quiz: FormControl
     @Input('quizBuilders') quizBuilders
-    //@Input('questionsFormModel') questions: FormArray
 
     questions: FormArray;
     dataChange: BehaviorSubject<FileNode[]>;
     nestedTreeControl: NestedTreeControl<FileNode>;
     nestedDataSource: MatTreeNestedDataSource<FileNode>;
+    quizTypes = {
+        'trueorfalseQuiz': TRUEORFALSE_QUIZ,
+        'personalityQuiz': PERSONALITY_QUIZ
+    }
 
     constructor () {}
 
     ngOnInit () {
         console.log(this.quiz);
-        this.quiz.get('type').setValue('personalityQuiz'); //Only for dev purpose
         this.setTreeConfiguration();
     }
 
@@ -61,7 +64,7 @@ export class QuestionsTreeComponent implements OnInit {
                         text,
                         textEditable: text.value.trim() === '',
                         value,
-                        valueEditable: value.value.trim() === '',
+                        valueEditable: typeof value.value === 'string' && value.value.trim() === '',
                         index,
                         parentIndex
                     };

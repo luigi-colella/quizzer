@@ -5,12 +5,7 @@
 
     <form [formGroup]="quiz" #formInstance="ngForm" (ngSubmit)="onSubmit()">
 
-        <questions-tree
-            [quizFormModel]="quiz"
-            [quizBuilders]="quizBuilders"
-        ></questions-tree>
-
-        <mat-vertical-stepper linear *ngIf="false">
+        <mat-vertical-stepper linear>
             <mat-step [completed]="quiz.get('title').valid && quiz.get('type').valid && quiz.get('description').valid">
                 <!-- Stepper label -->
                 <ng-template matStepLabel>Impostazioni</ng-template>
@@ -20,7 +15,7 @@
                     <mat-form-field>
                         <mat-label>Titolo</mat-label>
                         <input matInput formControlName="title" [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci il titolo che avrà il tuo quiz">
-                        <mat-error *ngIf="!quiz.get('title').valid">{{quiz.get('title').errors.validText.text}}</mat-error>
+                        <mat-error *ngIf="quiz.get('title').invalid">{{quiz.get('title').errors.validText.text}}</mat-error>
                     </mat-form-field>
                     
                     <mat-form-field>
@@ -30,13 +25,13 @@
                                 <mat-option [value]="option">{{quizTypesMap[option]}}</mat-option>
                             </ng-container>
                         </mat-select>
-                        <mat-error *ngIf="!quiz.get('type').valid">{{quiz.get('type').errors.validQuizType.text}}</mat-error>
+                        <mat-error *ngIf="quiz.get('type').invalid">{{quiz.get('type').errors.validQuizType.text}}</mat-error>
                     </mat-form-field>
 
                     <mat-form-field>
                         <mat-label>Descrizione</mat-label>
                         <textarea matInput formControlName="description" [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci una descrizione introduttiva il tuo quiz"></textarea>
-                        <mat-error *ngIf="!quiz.get('description').valid">{{quiz.get('description').errors.validText.text}}</mat-error>
+                        <mat-error *ngIf="quiz.get('description').invalid">{{quiz.get('description').errors.validText.text}}</mat-error>
                     </mat-form-field>
                 </div>
                 <!-- /Quiz settings -->
@@ -53,7 +48,10 @@
                 <ng-template matStepLabel>Domande</ng-template>
                 <!-- /Stepper label -->
                 <!-- Quiz questions -->
-                
+                <questions-tree
+                    [quizFormModel]="quiz"
+                    [quizBuilders]="quizBuilders"
+                ></questions-tree>
                 <!-- /Quiz questions -->
                 <!-- Stepper buttons -->
                 <div class="buttons">
@@ -73,8 +71,10 @@
                 <div formArrayName="answers" class="answerBox">
                     <div class="buttons">
                         <button mat-stroked-button (click)="handleAnswers.addNew()" type="button"><mat-icon>add</mat-icon>Aggiungi risultato</button>
+                        <button *ngIf="quiz.get('answers').length > 0" mat-stroked-button (click)="resultsAccordion.openAll()" type="button"><mat-icon>expand_more</mat-icon>Espandi tutto</button>
+                        <button *ngIf="quiz.get('answers').length > 0" mat-stroked-button (click)="resultsAccordion.closeAll()" type="button"><mat-icon>expand_less</mat-icon>Chiudi tutto</button>
                     </div>
-                    <mat-accordion [multi]="true">
+                    <mat-accordion [multi]="true" #resultsAccordion="matAccordion">
                         <ng-container *ngFor="let answer of quiz.get('answers').controls; let i = index">
                             <mat-expansion-panel>
                                 <mat-expansion-panel-header>
@@ -91,12 +91,12 @@
                                     
                                     <mat-form-field>
                                         <mat-label>Titolo</mat-label>
-                                        <input type="text" formControlName="title" matInput [errorStateMatcher]="errorMatcher" matTooltip="Dai un titolo a questo risultato">
+                                        <input type="text" formControlName="title" matInput [errorStateMatcher]="errorMatcher" required matTooltip="Dai un titolo a questo risultato">
                                         <mat-error *ngIf="!answer.get('title').valid">{{answer.get('title').errors.validText.text}}</mat-error>
                                     </mat-form-field>
                                     <mat-form-field>
                                         <mat-label>Valore</mat-label>
-                                        <input type="text" formControlName="value" matInput [errorStateMatcher]="errorMatcher" matTooltip="Inserisci il valore corrispondente a questo risultato">
+                                        <input type="text" formControlName="value" matInput [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci il valore corrispondente a questo risultato">
                                         <mat-error *ngIf="!answer.get('value').valid">{{answer.get('value').errors.validText.text}}</mat-error>
                                     </mat-form-field>
                                     <mat-form-field>
@@ -122,7 +122,7 @@
         <!-- Form actions -->
         <div class="buttons">
             <button mat-stroked-button (click)="onReset()" type="button">Resetta</button>
-            <button mat-raised-button color="primary" [disabled]="formInstance.submitted && !quiz.valid">Invia</button>
+            <button mat-raised-button (click)="onSubmit()" color="primary" [disabled]="formInstance.submitted && quiz.invalid">Invia</button>
         </div>
         <!-- /Form actions -->
 
