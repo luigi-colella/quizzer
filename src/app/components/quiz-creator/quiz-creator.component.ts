@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { 
     FormBuilder, FormArray, 
     Validators, AbstractControl, ValidatorFn, ValidationErrors, FormControl,
-    FormGroupDirective, NgForm
+    FormGroupDirective, NgForm, FormGroup
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
@@ -156,5 +156,12 @@ export class QuizCreatorComponent implements OnInit {
         }
 
     })()
+
+    //Template util functions
+    getInvalidFormControlsNumber = (form: FormArray & FormGroup): number => {
+        return form.controls.reduce((sum, currForm) => {
+            return ( currForm.invalid ? sum + 1 : sum );
+        }, 0);
+    }
 
 }

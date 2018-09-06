@@ -133,6 +133,10 @@ export class QuestionsTreeComponent implements OnInit {
         addNew: () => {
             this.questions.push(this.quizBuilders.emptyQuestion());
             this.handleQuestions._updateObservable();
+            //Expand last created node
+            this.nestedTreeControl.expand(
+                this.nestedTreeControl.dataNodes[this.nestedTreeControl.dataNodes.length - 1]
+            );
         },
         remove: (index: number) => {
             this.questions.removeAt(index);

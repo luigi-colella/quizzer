@@ -3,7 +3,7 @@
 
     <h1>Crea un nuovo quiz</h1>
 
-    <form [formGroup]="quiz" #formInstance="ngForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="quiz" (ngSubmit)="onSubmit()">
 
         <mat-vertical-stepper linear>
             <mat-step [completed]="quiz.get('settings').valid">
@@ -35,6 +35,9 @@
                     </mat-form-field>
                 </div>
                 <!-- /Quiz settings -->
+                <!-- Stepper info -->
+                <i *ngIf="quiz.get('settings').invalid">Inserisci le informazioni necessarie per il quiz prima di continuare.</i>
+                <!-- /Stepper info -->
                 <!-- Stepper buttons -->
                 <div class="buttons">
                     <button mat-stroked-button matStepperNext type="button"
@@ -53,6 +56,10 @@
                     [quizBuilders]="quizBuilders"
                 ></questions-tree>
                 <!-- /Quiz questions -->
+                <!-- Stepper info -->
+                <i *ngIf="quiz.get('questions').invalid && quiz.get('questions').length === 0">Aggiungi delle domande al quiz prima di continuare.</i>
+                <i *ngIf="quiz.get('questions').invalid && quiz.get('questions').length > 0">Hai ancora {{getInvalidFormControlsNumber(quiz.get('questions'))}} su {{quiz.get('questions').length}} domande da completare prima di continuare.</i>
+                <!-- /Stepper info -->
                 <!-- Stepper buttons -->
                 <div class="buttons">
                     <button mat-stroked-button matStepperPrevious type="button">Indietro</button>
@@ -76,10 +83,9 @@
                     </div>
                     <mat-accordion [multi]="true" #resultsAccordion="matAccordion">
                         <ng-container *ngFor="let answer of quiz.get('answers').controls; let i = index">
-                            <mat-expansion-panel>
+                            <mat-expansion-panel [expanded]="true">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
-                                        <mat-icon *ngIf="answer.invalid" matTooltip="Risultato non completo">feedback</mat-icon>
                                         Risultato {{i+1}}/{{quiz.get('answers').controls.length}}
                                     </mat-panel-title>
                                     <mat-panel-description>
@@ -110,6 +116,10 @@
                     </mat-accordion>
                 </div>
                 <!-- /Quiz results -->
+                <!-- Stepper info -->
+                <i *ngIf="quiz.get('answers').invalid && quiz.get('answers').length === 0">Aggiungi dei risultati al quiz prima di continuare.</i>
+                <i *ngIf="quiz.get('answers').invalid && quiz.get('answers').length > 0">Hai ancora {{getInvalidFormControlsNumber(quiz.get('answers'))}} su {{quiz.get('answers').length}} risultati da completare prima di continuare.</i>
+                <!-- /Stepper info -->
                 <!-- Stepper buttons -->
                 <div class="buttons">
                     <button mat-stroked-button matStepperPrevious type="button">Indietro</button>
@@ -121,7 +131,7 @@
 
         <!-- Form actions -->
         <div class="buttons">
-            <button mat-raised-button (click)="onSubmit()" color="primary" [disabled]="formInstance.submitted && quiz.invalid">Invia</button>
+            <button mat-raised-button (click)="onSubmit()" color="primary" [disabled]="quiz.invalid">Invia</button>
         </div>
         <!-- /Form actions -->
 

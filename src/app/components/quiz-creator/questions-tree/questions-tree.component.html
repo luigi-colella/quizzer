@@ -33,7 +33,7 @@
                 <!-- Element to edit question text -->
                 <mat-form-field *ngIf="node.text.value === '' || node.textEditable">
                   <mat-label>Domanda</mat-label>
-                  <input matInput [formControl]="node.text" matTooltip="Inserisci il testo della tua domanda">
+                  <input matInput [formControl]="node.text" required matTooltip="Inserisci il testo della tua domanda">
                   <mat-error *ngIf="node.text.invalid">{{node.text.errors.validText.text}}</mat-error>
                 </mat-form-field>
                 <!-- /Element to edit question text -->
@@ -74,7 +74,7 @@
                 <p *ngIf="node.text.value !== '' && !node.textEditable" class="form-field">{{node.text.value}}</p>
                 <mat-form-field *ngIf="node.text.value === '' || node.textEditable">
                   <mat-label>Risposta</mat-label>
-                  <input matInput [formControl]="node.text" matTooltip="Inserisci una possibile risposta">
+                  <input matInput [formControl]="node.text" required matTooltip="Inserisci una possibile risposta">
                   <mat-error *ngIf="node.text.invalid">{{node.text.errors.validText.text}}</mat-error>
                 </mat-form-field>
 
@@ -89,7 +89,7 @@
                   <p *ngIf="node.value.value !== '' && !node.valueEditable" class="form-field">{{node.value.value}}</p>
                   <mat-form-field *ngIf="node.value.value === '' || node.valueEditable">
                     <mat-label>Valore</mat-label>
-                    <input matInput [formControl]="node.value" matTooltip="Inserisci il valore della risposta">
+                    <input matInput [formControl]="node.value" required matTooltip="Inserisci il valore della risposta">
                     
                     <mat-error *ngIf="node.value.invalid">{{node.value.errors.validAnswerValue.text}}</mat-error>
                   </mat-form-field>
