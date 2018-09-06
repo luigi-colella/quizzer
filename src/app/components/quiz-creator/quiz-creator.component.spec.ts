@@ -5,6 +5,7 @@ import { MaterialModule } from '../../modules/material.module';
 
 import { QuizCreatorComponent as Component } from './quiz-creator.component';
 import { QuestionsTreeComponent as SubComponent } from './questions-tree/questions-tree.component';
+import { FileLoader } from '../../services/fileLoader.service';
 
 describe('Quiz Creator Component', () => {
 
@@ -17,7 +18,8 @@ describe('Quiz Creator Component', () => {
             declarations: [ Component, SubComponent ],
             imports: [
                 FormsModule, ReactiveFormsModule, MaterialModule
-            ]
+            ],
+            providers: [ FileLoader ]
         })
         .compileComponents();
         componentFixture = TestBed.createComponent(Component);

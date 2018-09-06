@@ -85,7 +85,7 @@
                 <!-- Elements to show and edit answer text -->
 
                 <!-- Elements to show and edit answer value -->
-                <ng-container *ngIf="quiz.get('type').value === quizTypes.personalityQuiz">
+                <ng-container *ngIf="quiz.get('settings').get('type').value === quizTypes.personalityQuiz">
                   <p *ngIf="node.value.value !== '' && !node.valueEditable" class="form-field">{{node.value.value}}</p>
                   <mat-form-field *ngIf="node.value.value === '' || node.valueEditable">
                     <mat-label>Valore</mat-label>
@@ -101,7 +101,7 @@
                 </ng-container>
                 
 
-                <mat-radio-group *ngIf="quiz.get('type').value === quizTypes.trueorfalseQuiz" matInput [formControl]="node.value" matTooltip="Indica se la risposta è vera o falsa">
+                <mat-radio-group *ngIf="quiz.get('settings').get('type').value === quizTypes.trueorfalseQuiz" matInput [formControl]="node.value" matTooltip="Indica se la risposta è vera o falsa">
                   <mat-radio-button [value]="true">VERO</mat-radio-button>
                   <mat-radio-button [value]="false">FALSO</mat-radio-button>
                 </mat-radio-group>

@@ -6,16 +6,16 @@
     <form [formGroup]="quiz" #formInstance="ngForm" (ngSubmit)="onSubmit()">
 
         <mat-vertical-stepper linear>
-            <mat-step [completed]="quiz.get('title').valid && quiz.get('type').valid && quiz.get('description').valid">
+            <mat-step [completed]="quiz.get('settings').valid">
                 <!-- Stepper label -->
                 <ng-template matStepLabel>Impostazioni</ng-template>
                 <!-- /Stepper label -->
                 <!-- Quiz settings -->
-                <div class="settingsBox">
+                <div [formGroup]="quiz.get('settings')" class="settingsBox">
                     <mat-form-field>
                         <mat-label>Titolo</mat-label>
                         <input matInput formControlName="title" [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci il titolo che avrà il tuo quiz">
-                        <mat-error *ngIf="quiz.get('title').invalid">{{quiz.get('title').errors.validText.text}}</mat-error>
+                        <mat-error *ngIf="quiz.get('settings').get('title').invalid">{{quiz.get('settings').get('title').errors.validText.text}}</mat-error>
                     </mat-form-field>
                     
                     <mat-form-field>
@@ -25,20 +25,20 @@
                                 <mat-option [value]="option">{{quizTypesMap[option]}}</mat-option>
                             </ng-container>
                         </mat-select>
-                        <mat-error *ngIf="quiz.get('type').invalid">{{quiz.get('type').errors.validQuizType.text}}</mat-error>
+                        <mat-error *ngIf="quiz.get('settings').get('type').invalid">{{quiz.get('settings').get('type').errors.validQuizType.text}}</mat-error>
                     </mat-form-field>
 
                     <mat-form-field>
                         <mat-label>Descrizione</mat-label>
                         <textarea matInput formControlName="description" [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci una descrizione introduttiva il tuo quiz"></textarea>
-                        <mat-error *ngIf="quiz.get('description').invalid">{{quiz.get('description').errors.validText.text}}</mat-error>
+                        <mat-error *ngIf="quiz.get('settings').get('description').invalid">{{quiz.get('settings').get('description').errors.validText.text}}</mat-error>
                     </mat-form-field>
                 </div>
                 <!-- /Quiz settings -->
                 <!-- Stepper buttons -->
                 <div class="buttons">
                     <button mat-stroked-button matStepperNext type="button"
-                        [disabled]="quiz.get('title').invalid || quiz.get('description').invalid || quiz.get('type').invalid" 
+                        [disabled]="quiz.get('settings').invalid" 
                     >Avanti</button>
                 </div>
                 <!-- /Stepper buttons -->
@@ -121,7 +121,6 @@
 
         <!-- Form actions -->
         <div class="buttons">
-            <button mat-stroked-button (click)="onReset()" type="button">Resetta</button>
             <button mat-raised-button (click)="onSubmit()" color="primary" [disabled]="formInstance.submitted && quiz.invalid">Invia</button>
         </div>
         <!-- /Form actions -->

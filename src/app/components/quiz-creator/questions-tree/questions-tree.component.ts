@@ -42,12 +42,6 @@ export class QuestionsTreeComponent implements OnInit {
         this.setTreeConfiguration();
     }
 
-    /**
-     * Build a Tree Data Object from quiz questions object
-     * @param obj data object
-     * @param level parameter used for recursion
-     * @return {FileNode[]} fileNode list for data source
-     */
     _buildFileTree( quizQuestionsObj: FormArray ): FileNode[] {
         if (!quizQuestionsObj.hasOwnProperty('controls')) return;
 

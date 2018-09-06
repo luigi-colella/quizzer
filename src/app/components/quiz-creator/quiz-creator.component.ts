@@ -8,6 +8,7 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 
 import { QuizType, PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../interfaces/quizTypes';
+import { FileLoader } from '../../services/fileLoader.service';
 
 //Quiz errors matcher
 class QuizCreatorErrorStateMatcher implements ErrorStateMatcher {
@@ -59,7 +60,7 @@ export class QuizCreatorComponent implements OnInit {
         validAnswerValue: (): ValidatorFn => {
             return (control: AbstractControl) : ValidationErrors | null => {
                 if (typeof this.quiz === 'undefined') return null; //To prevent errors during bootstrapp
-                let quizType = this.quiz.get('type').value;
+                let quizType = this.quiz.get('settings').get('type').value;
                 let inputValue = control.value;
                 if (quizType === PERSONALITY_QUIZ){
                     return typeof inputValue === 'string' && inputValue.trim() === '' ? { 'validAnswerValue' : { text: 'testo vuoto' } } : null
@@ -103,36 +104,38 @@ export class QuizCreatorComponent implements OnInit {
     })()
     //Reactive form to create a new quiz
     quiz = this.ngFormBuilder.group({
-        title: ['', this.quizValidators.validText()],
-        description: ['', this.quizValidators.validText()],
-        type: ['', this.quizValidators.validQuizType()],
+        settings: this.ngFormBuilder.group({
+            title: ['', this.quizValidators.validText()],
+            description: ['', this.quizValidators.validText()],
+            type: ['', this.quizValidators.validQuizType()],
+        }),
         questions: this.ngFormBuilder.array([ /*this.quizBuilders.emptyQuestion()*/ ], this.quizValidators.validItems()),
         answers: this.ngFormBuilder.array([ /*this.quizBuilders.emptyResult()*/ ], this.quizValidators.validItems())
     })
     //Errors state matcher
     errorMatcher = new QuizCreatorErrorStateMatcher();
 
-    constructor( private ngFormBuilder: FormBuilder ){
-        console.log(this.quiz);
-    }
+    constructor(
+        private ngFormBuilder: FormBuilder,
+        private fileLoader: FileLoader
+    ){}
 
     ngOnInit(){
-
+        console.log(this.quiz);
     }
 
     onSubmit(){
-        console.log(this.quiz);
-    }
-
-    onReset () {
-        //Remove all questions
-        let questions = this.quiz.get('questions') as FormArray;
-        for (let i = questions.length; i >= 0; i--) questions.removeAt(i);
-        //Remove all answers
-        let answers = this.quiz.get('answers') as FormArray;
-        for (let i = answers.length; i >= 0; i--) answers.removeAt(i);
-        //Finally reset quiz
-        this.quiz.reset();
+        if (this.quiz.invalid) return;
+        // Create JSON to download
+        let encodedJSON = this.fileLoader.encode(this.quiz.value);
+        // Create anchor element and attach the JSON to it
+        let aEl: HTMLElement = document.createElement('a');
+        aEl.setAttribute('href', encodedJSON);
+        aEl.setAttribute('download', 'my-quiz.json');
+        document.body.appendChild(aEl);
+        // Trigger anchor element's click and remove it
+        aEl.click();
+        aEl.remove();
     }
     
     //Event handlers for Answers
@@ -150,28 +153,6 @@ export class QuizCreatorComponent implements OnInit {
         return {
             addNew,
             remove
-        }
-
-    })()
-
-    //Event handlers for stepper
-    handleStepper = (() => {
-
-        const submitSettings = () => {
-            //Mark as dirty the inputs of this stepper group in order to get possibles errors from they
-            this.quiz.get('title').markAsDirty();
-            this.quiz.get('description').markAsDirty();
-            this.quiz.get('type').markAsDirty();
-        }
-        const submitQuestions = () => {
-            this.quiz.get('questions');
-        }
-        const submitAnswers = () => {}
-
-        return {
-            submitSettings,
-            submitQuestions,
-            submitAnswers
         }
 
     })()

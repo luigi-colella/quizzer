@@ -4,6 +4,7 @@ import { Quiz, Result, AnswerValue } from '../../interfaces/quiz';
 import { QuizHandler } from '../../services/quiz-handler.service';
 
 import { quizCulture as mockQuiz } from '../../mocks/quiz.culture';
+import { FileLoader } from '../../services/fileLoader.service';
 
 @Component({
     selector: 'app-quiz-runner',
@@ -20,14 +21,35 @@ export class QuizRunnerComponent implements OnInit {
     quizState : 'ready' | 'started' | 'finished';
     submitButtonIsDisabled : boolean = false;
 
-    constructor(private handler : QuizHandler){}
+    constructor(
+        private handler : QuizHandler,
+        private fileLoader: FileLoader
+    ){}
 
     ngOnInit(){
-        this.loadQuiz();
+        this.loadQuiz(this.handler.load(mockQuiz).getQuizObject());
     }
 
-    loadQuiz() : void {
-        this.curQuiz = this.handler.load(mockQuiz).getQuizObject();
+    uploadQuiz(event: Event) {
+        let inputEl = event.target as HTMLInputElement;
+        if (inputEl.files.length === 1) {
+            let file: File = inputEl.files[0];
+            let reader: FileReader = new FileReader();
+            // Reader's events
+            reader.onerror = (event: ErrorEvent) => { throw 'Error in file upload: ' + event.message };
+            reader.onload = (event: Event & {target:{result:string}}) => {
+                let quiz = this.fileLoader.decode(event.target.result);
+                this.loadQuiz(quiz as Quiz);
+            }
+            // Start reader
+            reader.readAsDataURL(file);
+        } else {
+            throw 'Number of uploaded files not correct: ' + inputEl.files.length;
+        }
+    }
+
+    loadQuiz(quiz: Quiz) {
+        this.curQuiz = quiz;
         this.resetQuiz();
     }
 

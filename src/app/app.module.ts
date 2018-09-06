@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 //Services
 import { QuizHandler } from './services/quiz-handler.service';
+import { FileLoader } from './services/fileLoader.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,10 @@ import { QuizHandler } from './services/quiz-handler.service';
     QuizCreatorModule,
     AppRoutingModule
   ],
-  providers: [ QuizHandler ],
+  providers: [
+    QuizHandler,
+    FileLoader
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

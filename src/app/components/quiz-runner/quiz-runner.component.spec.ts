@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { QuizRunnerComponent } from './quiz-runner.component';
 import { QuizHandler } from '../../services/quiz-handler.service';
+import { FileLoader } from '../../services/fileLoader.service';
 import { DebugElement } from '@angular/core';
 
 const normalize = (value: string) => {
@@ -25,6 +26,7 @@ describe('QuizRunner Component', () => {
             imports: [ RouterModule.forRoot([]) ],
             providers: [
                 QuizHandler,
+                FileLoader,
                 { provide: APP_BASE_HREF, useValue: '/' }
             ]
         })
