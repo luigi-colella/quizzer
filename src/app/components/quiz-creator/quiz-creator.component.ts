@@ -157,6 +157,53 @@ export class QuizCreatorComponent implements OnInit {
 
     })()
 
+    //Handler for suggested answers values
+    handleAnswersValue = {
+        //All possibles answers' values
+        _allAnswersValues: <Array<String>> [],
+        //Only suggested answer's values
+        suggestedValues: <Array<String>> [],
+        //Update every possible answer's value
+        updateValues: () => {
+            let result: Array<String>;
+            //Get all possibilies values from questions
+            let allQuestions = this.quiz.get('questions').value;
+            if (allQuestions.length > 0) {
+                result = allQuestions.reduce((prevValue: Array<String>, currQuestion) => {
+                    return prevValue.concat(
+                        currQuestion.answers
+                        .map(answer => answer.value)
+                        .filter((answerValue: String): Boolean => typeof answerValue === 'string' && answerValue.trim() !== '')
+                    );
+                }, [])
+            };
+            //Get all possibilies values from answers
+            let allAnswers = this.quiz.get('answers').value;
+            if (allAnswers.length > 0) {
+                result = result.concat(
+                    allAnswers
+                    .map(currAnswer => currAnswer.value)
+                    .filter(value => typeof value === 'string' && value.trim() !== '')
+                )
+            };
+            //Update values
+            this.handleAnswersValue._allAnswersValues = result;
+
+        },
+        //Get suggested values
+        updateSuggestedValues: (inputedValue: String) => {
+            //Update all possibilies values
+            this.handleAnswersValue.updateValues();
+            //Filter all possibilities values
+            this.handleAnswersValue.suggestedValues = this.handleAnswersValue._allAnswersValues.filter((possibleValue) => {
+                return (
+                    possibleValue.toLowerCase().indexOf(inputedValue.toLowerCase()) === 0 &&
+                    possibleValue.length !== inputedValue.length
+                );
+            })
+        }
+    }
+
     //Template util functions
     getInvalidFormControlsNumber = (form: FormArray & FormGroup): number => {
         return form.controls.reduce((sum, currForm) => {

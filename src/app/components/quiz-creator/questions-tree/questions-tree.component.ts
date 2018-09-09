@@ -25,6 +25,7 @@ class FileNode {
 export class QuestionsTreeComponent implements OnInit {
     @Input('quizFormModel') quiz: FormControl
     @Input('quizBuilders') quizBuilders
+    @Input('handleAnswersValue') handleAnswersValue
 
     questions: FormArray;
     dataChange: BehaviorSubject<FileNode[]>;
@@ -157,6 +158,8 @@ export class QuestionsTreeComponent implements OnInit {
         }
 
     }
+
+    
 
     //Function used from tree in template to know if a node has nested childs
     hasNestedChild = (_: number, nodeData: FileNode) => nodeData.children;

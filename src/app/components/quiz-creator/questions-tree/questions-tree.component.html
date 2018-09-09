@@ -89,8 +89,12 @@
                   <p *ngIf="node.value.value !== '' && !node.valueEditable" class="form-field">{{node.value.value}}</p>
                   <mat-form-field *ngIf="node.value.value === '' || node.valueEditable">
                     <mat-label>Valore</mat-label>
-                    <input matInput [formControl]="node.value" required matTooltip="Inserisci il valore della risposta">
-                    
+                    <input matInput [formControl]="node.value" (keyup)="handleAnswersValue.updateSuggestedValues(node.value.value)" [matAutocomplete]="auto" required matTooltip="Inserisci il valore della risposta">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let option of handleAnswersValue.suggestedValues" [value]="option">
+                        {{option}}
+                      </mat-option>
+                    </mat-autocomplete>
                     <mat-error *ngIf="node.value.invalid">{{node.value.errors.validAnswerValue.text}}</mat-error>
                   </mat-form-field>
   

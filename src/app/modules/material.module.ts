@@ -10,6 +10,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
@@ -24,6 +25,7 @@ import { MatTreeModule } from '@angular/material/tree';
         MatSelectModule,
         MatStepperModule,
         MatTooltipModule,
+        MatAutocompleteModule,
         MatTreeModule
     ]
 })

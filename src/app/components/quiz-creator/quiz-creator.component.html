@@ -54,6 +54,7 @@
                 <questions-tree
                     [quizFormModel]="quiz"
                     [quizBuilders]="quizBuilders"
+                    [handleAnswersValue]="handleAnswersValue"
                 ></questions-tree>
                 <!-- /Quiz questions -->
                 <!-- Stepper info -->
@@ -102,7 +103,12 @@
                                     </mat-form-field>
                                     <mat-form-field>
                                         <mat-label>Valore</mat-label>
-                                        <input type="text" formControlName="value" matInput [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci il valore corrispondente a questo risultato">
+                                        <input type="text" formControlName="value" matInput (keyup)="handleAnswersValue.updateSuggestedValues(answer.get('value').value)" [matAutocomplete]="auto" [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci il valore corrispondente a questo risultato">
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                            <mat-option *ngFor="let option of handleAnswersValue.suggestedValues" [value]="option">
+                                              {{option}}
+                                            </mat-option>
+                                        </mat-autocomplete>
                                         <mat-error *ngIf="!answer.get('value').valid">{{answer.get('value').errors.validText.text}}</mat-error>
                                     </mat-form-field>
                                     <mat-form-field>
