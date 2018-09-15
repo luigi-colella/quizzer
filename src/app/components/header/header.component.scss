@@ -1,9 +1,11 @@
+@import '../../style/_style';
 
 .container {
     width: 100%;
-    background-color: #fafafb;
-    border-bottom: 1px solid #333;
-    box-shadow: 0 1px 0 rgba(12, 13, 14, 0.1), 0 1px 6px rgba(59, 64, 69, 0.1);
+    @include box($color-primary, $color-secondary);
+    border-top: 0px;
+    border-right: 0px;
+    border-left: 0px;
 
     nav {
         width: 80%;

@@ -1,11 +1,11 @@
+@import '../../style/_style';
+
 .container {
     width: 80%;
     margin: auto;
     margin-top: 40px;
     padding: 5% 2%;
-    border: 1px solid #333;
-    background-color: #fafafb;
-    box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);
+    @include box($color-primary, $color-secondary);
 
     ul {
         list-style: none;

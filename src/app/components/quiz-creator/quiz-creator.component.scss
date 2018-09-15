@@ -1,8 +1,13 @@
+@import '../../style/_style';
 $margin-default: 5px 0px;
 
 .container {
     width: 90%;
     margin: auto;
+
+    mat-vertical-stepper {
+        @include box($color-primary, $color-secondary);
+    }
 
     mat-expansion-panel-header {
         mat-panel-title {
