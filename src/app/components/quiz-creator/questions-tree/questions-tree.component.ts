@@ -9,7 +9,6 @@ import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../../interfaces/quizType
 //FileNode Model
 class FileNode {
     text: AbstractControl
-    textEditable: boolean //Property used in template to edit text
     value?: AbstractControl
     valueEditable?: boolean //Property used in template to edit value
     index: number //Property used from a form control to refers to its index in FormArray
@@ -51,13 +50,11 @@ export class QuestionsTreeComponent implements OnInit {
             let answers = oQuestion.controls.answers as FormArray;
             return {
                 text,
-                textEditable: text.value.trim() === '',
                 index: parentIndex,
                 children: answers.controls.map((oAnswer: FormGroup, index: number): FileNode => {
                     let { text, value } = oAnswer.controls;
                     return {
                         text,
-                        textEditable: text.value.trim() === '',
                         value,
                         valueEditable: typeof value.value === 'string' && value.value.trim() === '',
                         index,
@@ -114,22 +111,6 @@ export class QuestionsTreeComponent implements OnInit {
                     else this.nestedTreeControl.collapse(node);
                 })
             }
-        },
-        toggleEditable: (type: 'text' | 'value', node: FileNode) => {
-            switch (type) {
-                case 'text':
-                    //Switch to view mode only if the value of node is valid
-                    if (node.textEditable && node.text && node.text.invalid) return;
-                    else node.textEditable = !node.textEditable;
-                break;
-
-                case 'value':
-                    //Switch to view mode only if the value of node is valid
-                    if (node.valueEditable && node.value && node.value.invalid) return;
-                    else node.valueEditable = !node.valueEditable;
-                break;
-            }
-            
         },
         addNew: () => {
             this.questions.push(this.quizBuilders.emptyQuestion());

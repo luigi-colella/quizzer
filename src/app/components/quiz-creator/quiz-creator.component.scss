@@ -1,5 +1,4 @@
 @import '../../style/_style';
-$margin-default: 5px 0px;
 
 .container {
     width: 90%;
@@ -9,14 +8,19 @@ $margin-default: 5px 0px;
         @include box($color-primary, $color-secondary);
     }
 
-    mat-expansion-panel-header {
-        mat-panel-title {
-            align-items: center;
-        }
-        mat-panel-description {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
+    mat-expansion-panel {
+        background-color: transparent;
+        border: 1px solid $color-ternary;
+        box-shadow: $box-shadow;
+        mat-expansion-panel-header {
+            mat-panel-title {
+                align-items: center;
+            }
+            mat-panel-description {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+            }
         }
     }
     

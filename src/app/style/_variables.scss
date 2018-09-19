@@ -1,6 +1,15 @@
+//COLORS
 $color-light: #fafafb;
 $color-dark: #333;
+$color-gray: rgba(0,0,0,.12);
 $color-primary: $color-light;
 $color-secondary: $color-dark;
+$color-ternary: $color-gray;
 
+//MARGINS
+$margin-zero: 0px;
+$margin-little: 5px;
+$margin-default: $margin-little $margin-zero;
+
+//BOX-SHADOW
 $box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);

@@ -46,7 +46,7 @@
                 </div>
                 <!-- /Stepper buttons -->
             </mat-step>            
-            <mat-step [completed]="quiz.get('questions').valid">
+            <mat-step>
                 <!-- Stepper label -->
                 <ng-template matStepLabel>Domande</ng-template>
                 <!-- /Stepper label -->
@@ -64,14 +64,12 @@
                 <!-- Stepper buttons -->
                 <div class="buttons">
                     <button mat-stroked-button matStepperPrevious type="button">Indietro</button>
-                    <button mat-stroked-button matStepperNext type="button" 
-                        [disabled]="quiz.get('questions').invalid"
-                    >Avanti</button>
+                    <button mat-stroked-button matStepperNext type="button">Avanti</button>
                 </div>
                 <!-- /Stepper buttons -->
             </mat-step>
 
-            <mat-step [completed]="quiz.get('answers').valid">
+            <mat-step>
                 <!-- Stepper label -->
                 <ng-template matStepLabel>Risultati</ng-template>
                 <!-- /Stepper label -->
@@ -84,7 +82,7 @@
                     </div>
                     <mat-accordion [multi]="true" #resultsAccordion="matAccordion">
                         <ng-container *ngFor="let answer of quiz.get('answers').controls; let i = index">
-                            <mat-expansion-panel [expanded]="true">
+                            <mat-expansion-panel [expanded]="true" [hideToggle]="true">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         Risultato {{i+1}}/{{quiz.get('answers').controls.length}}

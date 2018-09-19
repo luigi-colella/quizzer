@@ -2,6 +2,10 @@
 .tree-invisible {
     display: none;
 }
+
+.mat-tree {
+    background-color: transparent;
+}
   
 .tree ul,
 .tree li {
@@ -10,8 +14,29 @@
     list-style-type: none;
     background-color: $color-primary;
 
-    mat-form-field, .form-field {
-        width: 100%;
+    &.tree-node-with-childs {
+        border: 1px solid $color-ternary;
+        border-bottom-width: 0px;
+        margin: 0em;
+        padding: 0.5em;
+        box-shadow: $box-shadow;
     }
 
+    .tree-node-child {
+        border-top: 1px dashed $color-ternary;
+        padding: 0.5em 0em;
+    }
+
+    mat-form-field, .form-field {
+        width: 100%;
+        margin-right: 20px;
+    }
+
+}
+
+.buttons {
+    margin: $margin-default;
+    button {
+        margin-right: 5px;
+    }
 }
