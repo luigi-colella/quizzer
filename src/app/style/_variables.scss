@@ -2,14 +2,57 @@
 $color-light: #fafafb;
 $color-dark: #333;
 $color-gray: rgba(0,0,0,.12);
-$color-primary: $color-light;
-$color-secondary: $color-dark;
-$color-ternary: $color-gray;
+$color-gray-dark: #7e8d98;
+
+$yellow: #d9b310;
+$yellow-2: #ffcc5c;
+$yellow-3: #ffd265;
+$yellow-4:  #f6cd61;
+$yellow-5: #f7b733;
+$yellow-6: #e9b000;
+$yellow-7: #F7CA4C;
+$yellow-8: #eea309;
+
+$blue: #35a79c;
+$blue-2: #0a7b83;
+$blue-3: #3da4ab;
+$blue-4: #63ace5;
+
+$green: #66ab8c;
+$green-2:#2aa876;
+$green-3: #009688;
+$green-4: #4abdac;
+$green-5: #76b4bd;
+$green-6: #3cc47c;
+$green-7: #008f95;
+
+$grey-1: #e8e8e8;
+$grey-2: #dfe3ee;
+
+$red-1: #fc4a1a;
+$red-2: #b82602;
+
+$orange: #eeaa7b;
+
+$color-primary: $grey-2;
+$color-secondary: $green-7;
+$color-ternary: $yellow-5;
+$color-ternary-dark: $yellow-7;
+$color-quaternary: $red-1;
 
 //MARGINS
 $margin-zero: 0px;
 $margin-little: 5px;
+$margin-large: 15px;
 $margin-default: $margin-little $margin-zero;
+$margin-default-large: $margin-large $margin-zero;
+
+//PADDINGS
+$padding-little: .5em;
 
 //BOX-SHADOW
 $box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);
+$box-shadow-2: 2px 2px 10px #6e7f80;
+
+//TRANSITION
+$transition: .5s;

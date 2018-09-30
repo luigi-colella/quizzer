@@ -1,0 +1,30 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "./assets/fonts/material-design-icons/material-icons.css";
+@import "./app/style/_style.scss";
+
+body {
+    margin: 0px;
+    background: $color-secondary;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: $color-primary;
+}
+
+/* Custom Components style */
+
+.buttons {
+    margin: $margin-default;
+    button {
+        @include button($color-ternary, $color-secondary);
+        margin-right: 5px;
+        &.red {
+            @include button($color-ternary, $color-quaternary);
+        }
+    }
+}
+
+/* Angular Material style */
+.mat-step-header .mat-step-icon {
+    background-color: $color-secondary;
+}

@@ -15,16 +15,15 @@
     background-color: $color-primary;
 
     &.tree-node-with-childs {
-        border: 1px solid $color-ternary;
-        border-bottom-width: 0px;
-        margin: 0em;
-        padding: 0.5em;
+        border: 2px solid $color-ternary;
+        margin: $margin-default-large;
+        padding: $padding-little;
         box-shadow: $box-shadow;
     }
 
     .tree-node-child {
-        border-top: 1px dashed $color-ternary;
         padding: 0.5em 0em;
+        margin-left: 6em;
     }
 
     mat-form-field, .form-field {
@@ -32,11 +31,4 @@
         margin-right: 20px;
     }
 
-}
-
-.buttons {
-    margin: $margin-default;
-    button {
-        margin-right: 5px;
-    }
 }

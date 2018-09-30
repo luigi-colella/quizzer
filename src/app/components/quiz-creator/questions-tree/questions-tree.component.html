@@ -8,7 +8,7 @@
             <button mat-stroked-button (click)="nestedTreeControl.expandAll()" *ngIf="quiz.get('questions').length > 0" type="button">
                 <mat-icon>expand_more</mat-icon>Espandi tutto
             </button>
-            <button mat-stroked-button (click)="nestedTreeControl.collapseAll()" *ngIf="quiz.get('questions').length > 0" type="button">
+            <button mat-stroked-button (click)="nestedTreeControl.collapseAll()" *ngIf="quiz.get('questions').length > 0" type="button" class="red">
                 <mat-icon>expand_less</mat-icon>Chiudi tutto
             </button>
         </div>
@@ -42,9 +42,7 @@
                 <!-- /Button to remove this question -->
               </div>
               <!-- Nested nodes container -->
-              <ul [class.tree-invisible]="!nestedTreeControl.isExpanded(node)" class="tree-node-childs">
-                <ng-container matTreeNodeOutlet></ng-container>
-              </ul>
+              <ng-container *ngIf="nestedTreeControl.isExpanded(node)" matTreeNodeOutlet></ng-container>
               <!-- /Nested nodes container -->
             </li>
           </mat-nested-tree-node>

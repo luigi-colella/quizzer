@@ -4,3 +4,23 @@
     background-color: $background-color;
     box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);
 }
+
+@mixin button($color, $color-hover) {
+    border: 2px solid $color;
+    background-color: $color;
+    transition: $transition;
+    &:hover:not([disabled]) {
+        border-color: $color-hover;
+        background-color: $color-hover;
+        color: $color-light;
+        box-shadow: $box-shadow-2;
+        text-shadow: $box-shadow-2;
+    }
+    &[disabled] {
+        border-color: $color-gray-dark;
+        background-color: $color-gray-dark !important;
+        &:hover {
+            cursor: not-allowed;
+        }
+    }
+}

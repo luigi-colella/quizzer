@@ -10,7 +10,9 @@
 
     mat-expansion-panel {
         background-color: transparent;
-        border: 1px solid $color-ternary;
+        border: 2px solid $color-ternary;
+        margin: $margin-default-large;
+        padding: $padding-little;
         box-shadow: $box-shadow;
         mat-expansion-panel-header {
             mat-panel-title {
@@ -32,44 +34,17 @@
         justify-content: space-around;
     }
 
-    .buttons {
-        margin: $margin-default;
-        button {
-            margin-right: 5px;
+    .alert-box {
+        margin: $margin-default-large;
+        font-size: small;
+    }
+
+    .buttons button.mat-raised-button.mat-primary:not([disabled]) {
+        @include button($color-ternary, $color-secondary);
+        color: $color-dark;
+        &:hover {
+            border-color: $color-primary !important;
         }
     }
 
-    .questionBox {
-        margin: $margin-default;
-        padding: 5px;
-        &__answer {
-            margin: $margin-default;
-            padding: 5px;
-            label {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-            }
-        }
-    }
-
-    .settingsBox {
-        margin: $margin-default;
-        padding: 5px;
-        label {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-        }
-    }
-
-    .answerBox {
-        margin: $margin-default;
-        padding: 5px;
-        label {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-        }
-    }
 }

@@ -10,9 +10,9 @@ import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../../interfaces/quizType
 class FileNode {
     text: AbstractControl
     value?: AbstractControl
-    valueEditable?: boolean //Property used in template to edit value
     index: number //Property used from a form control to refers to its index in FormArray
     parentIndex?: number //Property used from items inner FormArray controls of FormArray controls
+    isExpanded?: boolean// Property used in template to show node children
     children?: FileNode[]
 }
 
@@ -51,14 +51,15 @@ export class QuestionsTreeComponent implements OnInit {
             return {
                 text,
                 index: parentIndex,
+                isExpanded: true,
                 children: answers.controls.map((oAnswer: FormGroup, index: number): FileNode => {
                     let { text, value } = oAnswer.controls;
                     return {
                         text,
                         value,
-                        valueEditable: typeof value.value === 'string' && value.value.trim() === '',
                         index,
-                        parentIndex
+                        parentIndex,
+                        isExpanded: true
                     };
                 })
             };

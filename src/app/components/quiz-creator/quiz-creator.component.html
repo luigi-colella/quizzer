@@ -6,7 +6,7 @@
     <form [formGroup]="quiz" (ngSubmit)="onSubmit()">
 
         <mat-vertical-stepper linear>
-            <mat-step [completed]="quiz.get('settings').valid">
+            <mat-step [completed]="true || quiz.get('settings').valid">
                 <!-- Stepper label -->
                 <ng-template matStepLabel>Impostazioni</ng-template>
                 <!-- /Stepper label -->
@@ -36,13 +36,15 @@
                 </div>
                 <!-- /Quiz settings -->
                 <!-- Stepper info -->
-                <i *ngIf="quiz.get('settings').invalid">Inserisci le informazioni necessarie per il quiz prima di continuare.</i>
+                <div class="alert-box">
+                    <i *ngIf="quiz.get('settings').invalid">Inserisci le informazioni necessarie per il quiz prima di continuare.</i>
+                </div>
                 <!-- /Stepper info -->
                 <!-- Stepper buttons -->
                 <div class="buttons">
                     <button mat-stroked-button matStepperNext type="button"
-                        [disabled]="quiz.get('settings').invalid" 
-                    >Avanti</button>
+                        [disabled]="false && quiz.get('settings').invalid" 
+                    ><mat-icon>navigate_next</mat-icon>Avanti</button>
                 </div>
                 <!-- /Stepper buttons -->
             </mat-step>            
@@ -58,13 +60,15 @@
                 ></questions-tree>
                 <!-- /Quiz questions -->
                 <!-- Stepper info -->
-                <i *ngIf="quiz.get('questions').invalid && quiz.get('questions').length === 0">Aggiungi delle domande al quiz prima di continuare.</i>
-                <i *ngIf="quiz.get('questions').invalid && quiz.get('questions').length > 0">Hai ancora {{getInvalidFormControlsNumber(quiz.get('questions'))}} su {{quiz.get('questions').length}} domande da completare prima di continuare.</i>
+                <div class="alert-box">
+                    <i *ngIf="quiz.get('questions').invalid && quiz.get('questions').length === 0">Aggiungi delle domande al quiz prima di continuare.</i>
+                    <i *ngIf="quiz.get('questions').invalid && quiz.get('questions').length > 0">Hai ancora {{getInvalidFormControlsNumber(quiz.get('questions'))}} su {{quiz.get('questions').length}} domande da completare prima di continuare.</i>
+                </div>
                 <!-- /Stepper info -->
                 <!-- Stepper buttons -->
                 <div class="buttons">
-                    <button mat-stroked-button matStepperPrevious type="button">Indietro</button>
-                    <button mat-stroked-button matStepperNext type="button">Avanti</button>
+                    <button mat-stroked-button matStepperPrevious type="button"><mat-icon>navigate_before</mat-icon>Indietro</button>
+                    <button mat-stroked-button matStepperNext type="button"><mat-icon>navigate_next</mat-icon>Avanti</button>
                 </div>
                 <!-- /Stepper buttons -->
             </mat-step>
@@ -78,7 +82,7 @@
                     <div class="buttons">
                         <button mat-stroked-button (click)="handleAnswers.addNew()" type="button"><mat-icon>add</mat-icon>Aggiungi risultato</button>
                         <button *ngIf="quiz.get('answers').length > 0" mat-stroked-button (click)="resultsAccordion.openAll()" type="button"><mat-icon>expand_more</mat-icon>Espandi tutto</button>
-                        <button *ngIf="quiz.get('answers').length > 0" mat-stroked-button (click)="resultsAccordion.closeAll()" type="button"><mat-icon>expand_less</mat-icon>Chiudi tutto</button>
+                        <button *ngIf="quiz.get('answers').length > 0" mat-stroked-button (click)="resultsAccordion.closeAll()" type="button" class="red"><mat-icon>expand_less</mat-icon>Chiudi tutto</button>
                     </div>
                     <mat-accordion [multi]="true" #resultsAccordion="matAccordion">
                         <ng-container *ngFor="let answer of quiz.get('answers').controls; let i = index">
@@ -121,12 +125,14 @@
                 </div>
                 <!-- /Quiz results -->
                 <!-- Stepper info -->
-                <i *ngIf="quiz.get('answers').invalid && quiz.get('answers').length === 0">Aggiungi dei risultati al quiz prima di continuare.</i>
-                <i *ngIf="quiz.get('answers').invalid && quiz.get('answers').length > 0">Hai ancora {{getInvalidFormControlsNumber(quiz.get('answers'))}} su {{quiz.get('answers').length}} risultati da completare prima di continuare.</i>
+                <div class="alert-box">
+                    <i *ngIf="quiz.get('answers').invalid && quiz.get('answers').length === 0">Aggiungi dei risultati al quiz prima di continuare.</i>
+                    <i *ngIf="quiz.get('answers').invalid && quiz.get('answers').length > 0">Hai ancora {{getInvalidFormControlsNumber(quiz.get('answers'))}} su {{quiz.get('answers').length}} risultati da completare prima di continuare.</i>
+                </div>
                 <!-- /Stepper info -->
                 <!-- Stepper buttons -->
                 <div class="buttons">
-                    <button mat-stroked-button matStepperPrevious type="button">Indietro</button>
+                    <button mat-stroked-button matStepperPrevious type="button"><mat-icon>navigate_before</mat-icon>Indietro</button>
                 </div>
                 <!-- Stepper buttons -->
             </mat-step>
