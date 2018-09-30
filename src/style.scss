@@ -28,3 +28,9 @@ h1, h2, h3, h4, h5, h6 {
 .mat-step-header .mat-step-icon {
     background-color: $color-secondary;
 }
+
+.mat-radio-button.mat-accent {
+    &.mat-radio-checked .mat-radio-outer-circle { border-color: $color-secondary;  }
+    .mat-radio-outer-circle { border-color: $color-secondary; }
+    .mat-radio-inner-circle { background-color: $color-secondary; }
+}

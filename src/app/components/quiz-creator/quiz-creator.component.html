@@ -20,7 +20,7 @@
                     
                     <mat-form-field>
                         <mat-label>Tipologia</mat-label>
-                        <mat-select formControlName="type" [errorStateMatcher]="errorMatcher" required matTooltip="Scegli il tipo di quiz che vuoi creare">
+                        <mat-select formControlName="type" (selectionChange)="onChangeQuizType()" [errorStateMatcher]="errorMatcher" required matTooltip="Scegli il tipo di quiz che vuoi creare">
                             <ng-container *ngFor="let option of quizTypes">
                                 <mat-option [value]="option">{{quizTypesMap[option]}}</mat-option>
                             </ng-container>

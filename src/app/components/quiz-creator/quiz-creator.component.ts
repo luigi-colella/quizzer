@@ -211,4 +211,21 @@ export class QuizCreatorComponent implements OnInit {
         }, 0);
     }
 
+    onChangeQuizType = () => {
+        let quizType: QuizType = this.quiz.get('settings').get('type').value;
+        let questions = this.quiz.get('questions') as FormArray;
+        let questionsControls: AbstractControl[] = questions.controls;
+        questionsControls.forEach((form: FormGroup) => {
+            let answers = form.controls.answers as FormArray;
+            let answersControls: AbstractControl[] = answers.controls;
+            answersControls.forEach((form: FormGroup) => {
+                let valueControl = form.get('value');
+                if (
+                    (quizType === PERSONALITY_QUIZ && typeof valueControl.value === 'boolean') ||
+                    (quizType === TRUEORFALSE_QUIZ && valueControl.value.trim && valueControl.value.trim() !== '' )
+                ) valueControl.setValue('');
+            });
+        });
+    }
+
 }
