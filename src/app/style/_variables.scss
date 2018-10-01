@@ -34,9 +34,11 @@ $red-2: #b82602;
 
 $orange: #eeaa7b;
 
+$purple: #94618e;
+
 $color-primary: $grey-2;
 $color-secondary: $green-7;
-$color-ternary: $yellow-5;
+$color-ternary: $purple;
 $color-ternary-dark: $yellow-7;
 $color-quaternary: $red-1;
 
@@ -49,6 +51,7 @@ $margin-default-large: $margin-large $margin-zero;
 
 //PADDINGS
 $padding-little: .5em;
+$padding-medium: 1em;
 
 //BOX-SHADOW
 $box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);

@@ -3,15 +3,41 @@
 .container {
     width: 80%;
     margin: auto;
-    margin-top: 40px;
-    padding: 5% 2%;
+    margin-top: 20px;
+    padding: 2%;
     @include box($color-primary, $color-secondary);
 
-    h1, h2, h3, h4, h5, h6 {
-        color: $color-dark;
+    &.quiz-loader-container {
+        padding: 2%;
     }
 
-    ul {
-        list-style: none;
+    .sub-container {
+        padding: $padding-medium 0em;
+        border-bottom: 1px solid $color-gray;
+        &:last-child {
+            border-bottom-width: 0px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: $color-dark;
+            margin: 0px;
+            text-align: center;
+        }
+        p {
+            margin-top: 0px;
+        }
+        i {
+            text-align: center;
+            display: block;
+            margin-top: $margin-little;
+        }
+        mat-radio-button {
+            width: 50%;
+        }
     }
+
+    .buttons {
+        display: flex;
+        justify-content: flex-end;
+    }
+
 }

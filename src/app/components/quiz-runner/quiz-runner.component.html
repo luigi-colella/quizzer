@@ -1,60 +1,51 @@
 <!-- Load Quiz options -->
-    <div class='container'>
+    <div class='container quiz-loader-container'>
         <input type='file' (change)='uploadQuiz($event)'>
     </div>
 <!-- /Load Quiz options -->
 
 <div class='container'>
     
-    <div>
+    <div class="sub-container">
         <h1>{{curQuiz.settings.title}}</h1>
+        <i *ngIf="quizState === 'started'">Domanda {{curQuestionIndex + 1}} / {{curQuiz.questions.length}}</i>
     </div>
 
     <ng-container [ngSwitch]='quizState'>
-
-        <!-- Intro Quiz -->
-        <div *ngSwitchCase='"ready"'>
-            <p>
-                {{curQuiz.settings.description}}
-            </p>
-        </div>
-
-        <!-- Quiz Question Box -->
-        <div *ngSwitchCase='"started"'>
-            <p>
-                Domanda {{curQuestionIndex + 1}} / {{curQuiz.questions.length}}
-            </p>
-            <p>{{curQuiz.questions[curQuestionIndex].text}}</p>
-            <ul>
-                <li *ngFor='let obj of curQuiz.questions[curQuestionIndex].answers'>
-                    <label>
-                        <input type='radio' [name]='curQuiz.title' (click)='selectAnswer(obj.value)'>
-                        {{obj.text}}
-                    </label>
-                </li>
-            </ul>
-        </div>
+        <div class="sub-container">
+            <!-- Intro Quiz -->
+            <div *ngSwitchCase='"ready"'>
+                <p>{{curQuiz.settings.description}}</p>
+            </div>
     
-        <!-- Quiz result -->
-        <div *ngSwitchCase='"finished"' id='resultQuiz'>
-            <h4>
-                {{curQuizResult.title}}
-            </h4>
-            <p>
-                {{curQuizResult.description}}
-            </p>
+            <!-- Quiz Question Box -->
+            <div *ngSwitchCase='"started"'>
+                <p>{{curQuiz.questions[curQuestionIndex].text}}</p>
+                <mat-radio-group [value]="givenUserAnswers[curQuestionIndex]">
+                    <ng-container *ngFor='let obj of curQuiz.questions[curQuestionIndex].answers'>
+                        <mat-radio-button [name]='curQuiz.title' (click)='selectAnswer(obj.value)' selected="false">
+                            {{obj.text}}
+                        </mat-radio-button>
+                    </ng-container>
+                </mat-radio-group>
+            </div>
+        
+            <!-- Quiz result -->
+            <div *ngSwitchCase='"finished"' id='resultQuiz'>
+                <h4>{{curQuizResult.title}}</h4>
+                <p>{{curQuizResult.description}}</p>
+            </div>
         </div>
-
     </ng-container>
 
-    <div>
-        <ng-container [ngSwitch]='quizState'>
-
-            <button *ngSwitchCase='"ready"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'>Inizia il test</button>
-            <button *ngSwitchCase='"started"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'>Ok</button>
-            <button *ngSwitchCase='"finished"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'>Ricomincia</button>
-
-        </ng-container>
-    </div>
+    <ng-container [ngSwitch]='quizState'>
+        <div class="sub-container">
+            <div class="buttons">
+                <button mat-stroked-button *ngSwitchCase='"ready"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>play_arrow</mat-icon>Inizia il test</button>
+                <button mat-stroked-button *ngSwitchCase='"started"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>check</mat-icon>Ok</button>
+                <button mat-stroked-button *ngSwitchCase='"finished"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>refresh</mat-icon>Ricomincia</button>
+            </div>
+        </div>
+    </ng-container>
 
 </div>

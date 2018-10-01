@@ -121,7 +121,7 @@ export class QuizCreatorComponent implements OnInit {
     ){}
 
     ngOnInit(){
-        console.log(this.quiz);
+        
     }
 
     onSubmit(){
