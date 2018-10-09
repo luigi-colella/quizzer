@@ -8,7 +8,7 @@ export const quizMusic : Quiz = {
         type: 'personalityQuiz'
     },
 
-    results: [
+    answers: [
         {
             value: 'classica',
             title: 'Classica',

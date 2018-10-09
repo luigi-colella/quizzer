@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { Quiz, Result, AnswerValue } from '../../interfaces/quiz';
+import { Quiz, AnswerValue } from '../../interfaces/quiz';
 import { QuizHandler } from '../../services/quiz-handler.service';
 
 import { quizCulture as mockQuiz } from '../../mocks/quiz.culture';
@@ -16,7 +16,7 @@ export class QuizRunnerComponent implements OnInit {
     //private current_quiz;
     curQuiz : Quiz;
     curQuestionIndex : number;
-    curQuizResult: Result;
+    curQuizResult: Quiz['answers'][0];
     givenUserAnswers: AnswerValue[];
     quizState : 'ready' | 'started' | 'finished';
     submitButtonIsDisabled : boolean = false;

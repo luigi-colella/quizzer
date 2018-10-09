@@ -8,7 +8,7 @@ export const quizCulture : Quiz = {
         type: 'trueorfalseQuiz'
     },
 
-    results: [
+    answers: [
         {
             value: '5',
             title: 'Super!',

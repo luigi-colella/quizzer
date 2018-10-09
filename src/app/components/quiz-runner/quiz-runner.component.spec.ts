@@ -2,6 +2,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { MaterialModule } from '../../modules/material.module';
 
 import { QuizRunnerComponent } from './quiz-runner.component';
 import { QuizHandler } from '../../services/quiz-handler.service';
@@ -23,7 +24,10 @@ describe('QuizRunner Component', () => {
         TestBed
         .configureTestingModule({
             declarations: [ QuizRunnerComponent ],
-            imports: [ RouterModule.forRoot([]) ],
+            imports: [ 
+                RouterModule.forRoot([]),
+                MaterialModule
+            ],
             providers: [
                 QuizHandler,
                 FileLoader,

@@ -38,7 +38,6 @@ export class QuestionsTreeComponent implements OnInit {
     constructor () {}
 
     ngOnInit () {
-        console.log(this.quiz);
         this.setTreeConfiguration();
     }
 

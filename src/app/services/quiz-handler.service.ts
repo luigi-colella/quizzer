@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Quiz, Result, AnswerValue } from '../interfaces/quiz';
+import { Quiz, AnswerValue } from '../interfaces/quiz';
 import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../interfaces/quizTypes';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class QuizHandler {
         return Object.assign({}, this.currentQuiz);
     }
 
-    getResult(answers : AnswerValue[]) : Result {
+    getResult(answers : AnswerValue[]) : Quiz['answers'][0] {
         
         //Results matching with provided answers
         let answerObjs;
@@ -53,7 +53,7 @@ export class QuizHandler {
                     }
                 }
                 //Return result object matching with answerWithHigherFrequency
-                answerObjs = this.currentQuiz.results.filter((obj) => {
+                answerObjs = this.currentQuiz.answers.filter((obj) => {
                     return obj.value.toString().trim().toLowerCase() === answerWithHigherFrequency.trim().toLowerCase();
                 });
             break;
@@ -64,7 +64,7 @@ export class QuizHandler {
                     if (answers[i]) correctAnswers++
                 }
                 //Filter answer objects matching with number of correct answers
-                answerObjs = this.currentQuiz.results.filter((answerObj) => {
+                answerObjs = this.currentQuiz.answers.filter((answerObj) => {
                     let answerValue = answerObj.value;
                     let rangeSeparator = '-'; //If answerValue is a range then it has this separator
                     //Detect if answerValue is a single number or a range
