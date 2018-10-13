@@ -12,7 +12,7 @@ export class Quiz {
         text: string,
         answers: Array<{
             text: string,
-            value: AnswerValue
+            value: string | boolean;
         }>
     }>
 
@@ -24,5 +24,6 @@ export class Quiz {
 
 }
 
-//Value of answer given from user
-export type AnswerValue = string | boolean;
+export type AnswerValue = Quiz['questions'][0]['answers'][0]['value'];
+
+export type Result = Quiz['answers'][0];

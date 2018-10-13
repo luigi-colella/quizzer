@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Quiz, AnswerValue } from '../interfaces/quiz';
+import { Quiz, AnswerValue, Result } from '../interfaces/quiz';
 import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../interfaces/quizTypes';
 
 @Injectable()
@@ -21,41 +21,35 @@ export class QuizHandler {
         return Object.assign({}, this.currentQuiz);
     }
 
-    getResult(answers : AnswerValue[]) : Quiz['answers'][0] {
+    getResult(answers : AnswerValue[]) : Result {
         
         //Results matching with provided answers
-        let answerObjs;
-
+        let answerObjs: Result[];
         //Get result according to quiz type
         switch (this.currentQuiz.settings.type){
 
             case (PERSONALITY_QUIZ) :
-                //Create an object where store answers' value with its frequency
-                let answersWithFrequency = {};
-                //Iterate on answers' array to populate answersWithFrequency
-                answers.forEach((value) => {
-                    if (typeof value !== 'string') throw `Valore di ${value} non valido.`;
-                    
-                    if( answersWithFrequency.hasOwnProperty(value)){
-                        answersWithFrequency[value] += 1;
-                    } else {
-                        answersWithFrequency[value] = 1;
-                    }
-                });
-                //Find answer with higher frequency
-                let answerWithHigherFrequency;
-                for (let value in answersWithFrequency){
-                    if(answersWithFrequency.hasOwnProperty(value)){
-                        let storedValue = answersWithFrequency[answerWithHigherFrequency];
-                        let currentValue = answersWithFrequency[value];
-                        let cond = typeof storedValue !== 'undefined' && storedValue > currentValue;
-                        answerWithHigherFrequency = (cond ? answerWithHigherFrequency : value);
-                    }
-                }
+                //Create an object where store each answers' value with its frequency
+                let answersWithFrequency: {[key: string]: number} = answers.reduce((prevResult, currValue) => {
+                    if (typeof currValue !== 'string') throw `Valore di ${currValue} non valido.`;
+                    let result = prevResult.hasOwnProperty(currValue) ? prevResult[currValue] += 1 : 1;
+                    return Object.assign({}, prevResult, {
+                        [currValue]: result
+                    })
+                }, {});
+                
+                //Get answer with higher frequency
+                let answerWithHigherFrequency: string = 
+                    Object.entries(answersWithFrequency)
+                    .reduce(
+                        (prevResult, currValue) => (currValue[1] > prevResult[1] ? currValue : prevResult)
+                    )[0]
+                    .trim().toLowerCase();
+
                 //Return result object matching with answerWithHigherFrequency
-                answerObjs = this.currentQuiz.answers.filter((obj) => {
-                    return obj.value.toString().trim().toLowerCase() === answerWithHigherFrequency.trim().toLowerCase();
-                });
+                answerObjs = this.currentQuiz.answers.filter(
+                    (obj) => obj.value.trim().toLowerCase() === answerWithHigherFrequency
+                );
             break;
             case (TRUEORFALSE_QUIZ) :
                 //Get number of correct answers
@@ -83,8 +77,7 @@ export class QuizHandler {
 
         }
 
-
-        //Return first right result
+        //Return first matching result
         return answerObjs[0];
 
     }

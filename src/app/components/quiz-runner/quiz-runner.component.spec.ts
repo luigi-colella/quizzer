@@ -20,6 +20,28 @@ describe('QuizRunner Component', () => {
     let compIstance: DebugElement['componentInstance'];
     let compHTML: HTMLElement;
 
+    let DOMSelectors = {
+        'title': 'h1',
+        'quizDescription': 'p',
+        'actionButton': '.buttons button',
+        'radioInputs': 'mat-radio-button',
+        'firstRadioInput': 'mat-radio-button:first-child',
+        'resultTitle': '#resultQuiz h4',
+        'resultDescription': '#resultQuiz p'
+    }
+    let testUtils = {
+        getElementText: (selectorCSS: string): string => {
+            return compHTML.querySelector(selectorCSS).textContent;
+        },
+        getElementsNumber: (selectorCSS: string): number => {
+            return compHTML.querySelectorAll(selectorCSS).length;
+        },
+        click: (selectorCSS: string) => {
+            (compHTML.querySelector(selectorCSS) as HTMLInputElement).click();
+            fixture.detectChanges();
+        }
+    }
+
     beforeEach(() => {
         TestBed
         .configureTestingModule({
@@ -49,13 +71,13 @@ describe('QuizRunner Component', () => {
 
     const displayRightTitle = () => {
         let expectedTitle = compIstance.curQuiz.settings.title;
-        let title = compHTML.querySelectorAll('h1')[0].textContent;
+        let title = testUtils.getElementText(DOMSelectors.title);
         expect(title).toEqual(expectedTitle);
     }
 
     const displayRightIntro = () => {
         let expectedIntro = compIstance.curQuiz.settings.description;
-        let intro = compHTML.querySelectorAll('p')[0].textContent;
+        let intro = testUtils.getElementText(DOMSelectors.quizDescription);
         expect(
             normalize(intro)
         ).toEqual(
@@ -73,16 +95,14 @@ describe('QuizRunner Component', () => {
 
     it('Display button to start the test', () => {
         expect(
-            compHTML.querySelectorAll('button').length
+            testUtils.getElementsNumber(DOMSelectors.actionButton)
         ).toEqual(1)
     })
 
     it('Button starts the test', () => {
-        let button = compHTML.querySelectorAll('button')[0];
-        button.dispatchEvent(new Event('click'));
-        fixture.detectChanges();
+        testUtils.click(DOMSelectors.actionButton);
         expect(
-            compHTML.querySelectorAll('input[type="radio"]').length
+            testUtils.getElementsNumber(DOMSelectors.radioInputs)
         ).toEqual(
             compIstance.curQuiz.questions[0].answers.length
         )
@@ -90,18 +110,14 @@ describe('QuizRunner Component', () => {
 
     const answerToAllQuestions = () => {
         //Click submit button to start the test
-        compHTML.querySelectorAll('button')[0].dispatchEvent(new Event('click'));
-        fixture.detectChanges();
+        testUtils.click(DOMSelectors.actionButton);
         //Get questions number...
         let qNum = compIstance.curQuiz.questions.length;
-        //...and loop for every
+        //...and loop for each
         for (let i = 0; i < qNum; i++){
-            //Click radio button
-            compHTML.querySelectorAll('input[type="radio"]')[0].dispatchEvent(new Event('click'));
-            fixture.detectChanges();
-            //Click submit button
-            compHTML.querySelectorAll('button')[0].dispatchEvent(new Event('click'));
-            fixture.detectChanges();
+            //Select first choice
+            testUtils.click(DOMSelectors.firstRadioInput);
+            testUtils.click(DOMSelectors.actionButton);
         }
     }
 
@@ -109,7 +125,7 @@ describe('QuizRunner Component', () => {
         answerToAllQuestions();
         //If there will not be another choices, test is passed
         expect(
-            compHTML.querySelectorAll('input[type="radio"]').length
+            testUtils.getElementsNumber(DOMSelectors.radioInputs)
         ).toEqual(0)
 
     });
@@ -119,11 +135,11 @@ describe('QuizRunner Component', () => {
         let expectedResultTitle = compIstance.curQuizResult.title;
         let expectedResultDescription = compIstance.curQuizResult.description;
         expect(
-            normalize(compHTML.querySelectorAll('h4')[0].textContent)
+            normalize(testUtils.getElementText(DOMSelectors.resultTitle))
         ).toEqual(
             normalize(expectedResultTitle)
         ) && expect(
-            normalize(compHTML.querySelectorAll('#resultQuiz p')[0].textContent)
+            normalize(testUtils.getElementText(DOMSelectors.resultDescription))
         ).toEqual(
             normalize(expectedResultDescription)
         )
@@ -131,8 +147,7 @@ describe('QuizRunner Component', () => {
 
     it('After finishing the quiz, you can repeat it', () => {
         answerToAllQuestions();
-        compHTML.querySelectorAll('button')[0].dispatchEvent(new Event('click'));
-        fixture.detectChanges();
+        testUtils.click(DOMSelectors.actionButton);
         displayRightIntro();
         displayRightTitle();
     })

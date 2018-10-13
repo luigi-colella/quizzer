@@ -32,7 +32,7 @@ export const quizMusic : Quiz = {
         {
             text: `Qual'è il tuo artista preferito`,
             answers: [
-                { text: 'Mozart', value: 'classic' },
+                { text: 'Mozart', value: 'classica' },
                 { text: 'Jimi Hendrix', value: 'rock' },
                 { text: 'Eminem', value: 'rap' }
             ]

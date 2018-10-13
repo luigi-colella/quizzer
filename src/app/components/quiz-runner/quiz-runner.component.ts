@@ -2,9 +2,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Quiz, AnswerValue } from '../../interfaces/quiz';
 import { QuizHandler } from '../../services/quiz-handler.service';
-
-import { quizCulture as mockQuiz } from '../../mocks/quiz.culture';
 import { FileLoader } from '../../services/fileLoader.service';
+
+import { quizMusic as mockQuiz } from '../../mocks/quiz.music';
+
+type FileInputEvent = Event & {target:{files: FileList}};
+type FileLoaderEvent = Event & {target:{result:string}};
 
 @Component({
     selector: 'app-quiz-runner',
@@ -30,21 +33,21 @@ export class QuizRunnerComponent implements OnInit {
         this.loadQuiz(this.handler.load(mockQuiz).getQuizObject());
     }
 
-    uploadQuiz(event: Event) {
-        let inputEl = event.target as HTMLInputElement;
-        if (inputEl.files.length === 1) {
-            let file: File = inputEl.files[0];
+    uploadQuiz(event: FileInputEvent) {
+        let uploadedFiles = event.target.files;
+        if (uploadedFiles.length === 1) {
+            let file: File = uploadedFiles[0];
             let reader: FileReader = new FileReader();
             // Reader's events
             reader.onerror = (event: ErrorEvent) => { throw 'Error in file upload: ' + event.message };
-            reader.onload = (event: Event & {target:{result:string}}) => {
-                let quiz = this.fileLoader.decode(event.target.result);
-                this.loadQuiz(quiz as Quiz);
+            reader.onload = (event: FileLoaderEvent) => {
+                let quiz = this.fileLoader.decode(event.target.result) as Quiz;
+                this.loadQuiz(quiz);
             }
             // Start reader
             reader.readAsDataURL(file);
         } else {
-            throw 'Number of uploaded files not correct: ' + inputEl.files.length;
+            throw 'Number of uploaded files not correct: ' + uploadedFiles.length;
         }
     }
 
@@ -82,12 +85,12 @@ export class QuizRunnerComponent implements OnInit {
 
     }
 
-    selectAnswer(answer : AnswerValue) : void {
+    selectAnswer(answer : AnswerValue) {
         this.submitButtonIsDisabled = false;
         this.givenUserAnswers[this.curQuestionIndex] = answer;
     }
 
-    resetQuiz() : void {
+    resetQuiz() {
         this.quizState = 'ready';
         this.curQuestionIndex = 0;
         this.givenUserAnswers = [];
