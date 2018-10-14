@@ -26,13 +26,11 @@ class QuizCreatorErrorStateMatcher implements ErrorStateMatcher {
 })
 export class QuizCreatorComponent implements OnInit {
 
-    //Mapped quiz types for template
-    quizTypesMap = {
-        [PERSONALITY_QUIZ]: "Quiz della personalità",
-        [TRUEORFALSE_QUIZ]: "Vero o Falso"
+    //Object of quiz types for template;
+    quizTypes = {
+        'trueorfalseQuiz': TRUEORFALSE_QUIZ,
+        'personalityQuiz': PERSONALITY_QUIZ
     }
-    //Array of quiz types for template;
-    quizTypes = Object.keys(this.quizTypesMap);
     //Validators for input
     quizValidators = {
         validText: (): ValidatorFn => {
@@ -137,25 +135,42 @@ export class QuizCreatorComponent implements OnInit {
         aEl.click();
         aEl.remove();
     }
-    
-    //Event handlers for Answers
-    handleAnswers = (() => {
 
-        let answers = this.quiz.get('answers') as FormArray;
+    //Event handlers for questions
+    handleQuestions = {
 
-        const addNew = () => {
-            answers.push(this.quizBuilders.emptyResult());
+        addNew: () => {
+            (this.quiz.get('questions') as FormArray ).push(this.quizBuilders.emptyQuestion());
+        },
+        remove: (questionIndex: number) => {
+            (this.quiz.get('questions') as FormArray ).removeAt(questionIndex);
+        },
+        addNewAnswer: (questionIndex: number) => {
+            //Get questions FormArray
+            let question = (this.quiz.get('questions') as FormArray).at(questionIndex);
+            (question.get('answers') as FormArray).push(this.quizBuilders.emptyAnswer());
+        },
+        removeAnswer: (answerIndex: number, questionIndex: number) => {
+            let question = (this.quiz.get('questions') as FormArray).at(questionIndex);
+            let answers = question.get('answers') as FormArray;
+            answers.removeAt(answerIndex);
         }
-        const remove = (index: number) => {
+
+    }
+
+    //Event handlers for answers
+    handleAnswers = {
+
+        addNew: () => {
+            let answers = this.quiz.get('answers') as FormArray;
+            answers.push(this.quizBuilders.emptyResult());
+        },
+        remove: (index: number) => {
+            let answers = this.quiz.get('answers') as FormArray;
             answers.removeAt(index);
         }
 
-        return {
-            addNew,
-            remove
-        }
-
-    })()
+    }
 
     //Handler for suggested answers values
     handleAnswersValue = {

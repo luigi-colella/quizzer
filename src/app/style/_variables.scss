@@ -1,6 +1,7 @@
 //COLORS
 $color-light: #fafafb;
 $color-dark: #333;
+$color-gray-light: #dfe3ee;
 $color-gray: rgba(0,0,0,.12);
 $color-gray-dark: #7e8d98;
 
@@ -54,8 +55,9 @@ $padding-little: .5em;
 $padding-medium: 1em;
 
 //BOX-SHADOW
-$box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);
-$box-shadow-2: 2px 2px 10px #6e7f80;
+$box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+$box-shadow-2: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);
+$box-shadow-3: 2px 2px 10px #6e7f80;
 
 //TRANSITION
 $transition: .5s;

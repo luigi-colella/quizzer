@@ -21,9 +21,8 @@
                     <mat-form-field>
                         <mat-label>Tipologia</mat-label>
                         <mat-select formControlName="type" (selectionChange)="onChangeQuizType()" [errorStateMatcher]="errorMatcher" required matTooltip="Scegli il tipo di quiz che vuoi creare">
-                            <ng-container *ngFor="let option of quizTypes">
-                                <mat-option [value]="option">{{quizTypesMap[option]}}</mat-option>
-                            </ng-container>
+                            <mat-option [value]="quizTypes.personalityQuiz">Quiz della personalità</mat-option>
+                            <mat-option [value]="quizTypes.trueorfalseQuiz">Vero o Falso</mat-option>
                         </mat-select>
                         <mat-error *ngIf="quiz.get('settings').get('type').invalid">{{quiz.get('settings').get('type').errors.validQuizType.text}}</mat-error>
                     </mat-form-field>
@@ -42,7 +41,7 @@
                 <!-- /Stepper info -->
                 <!-- Stepper buttons -->
                 <div class="buttons">
-                    <button mat-stroked-button matStepperNext type="button"
+                    <button mat-button matStepperNext type="button"
                         [disabled]="false && quiz.get('settings').invalid" 
                     ><mat-icon>navigate_next</mat-icon>Avanti</button>
                 </div>
@@ -52,25 +51,108 @@
                 <!-- Stepper label -->
                 <ng-template matStepLabel>Domande</ng-template>
                 <!-- /Stepper label -->
-                <!-- Quiz questions -->
-                <questions-tree
-                    [quizFormModel]="quiz"
-                    [quizBuilders]="quizBuilders"
-                    [handleAnswersValue]="handleAnswersValue"
-                ></questions-tree>
-                <!-- /Quiz questions -->
-                <!-- Stepper info -->
-                <div class="alert-box">
-                    <i *ngIf="quiz.get('questions').invalid && quiz.get('questions').length === 0">Aggiungi delle domande al quiz prima di continuare.</i>
-                    <i *ngIf="quiz.get('questions').invalid && quiz.get('questions').length > 0">Hai ancora {{getInvalidFormControlsNumber(quiz.get('questions'))}} su {{quiz.get('questions').length}} domande da completare prima di continuare.</i>
+                <div formArrayName="questions">
+                    <!-- Questions main buttons -->
+                    <div class="buttons">
+                        <button mat-button (click)="handleQuestions.addNew()" type="button">
+                            <mat-icon>add</mat-icon>Aggiungi domanda
+                        </button>
+                        <button mat-button (click)="questionAccordion.openAll()" *ngIf="quiz.get('questions').length > 0" type="button">
+                            <mat-icon>expand_more</mat-icon>Espandi tutto
+                        </button>
+                        <button mat-button (click)="questionAccordion.closeAll()" *ngIf="quiz.get('questions').length > 0" type="button" class="red">
+                            <mat-icon>expand_less</mat-icon>Chiudi tutto
+                        </button>
+                    </div>
+                    <!-- /Questions main buttons -->
+
+                    <!-- Quiz questions -->
+                    <mat-accordion #questionAccordion="matAccordion" [multi]="true">
+                        <ng-container *ngFor="let question of quiz.get('questions').controls; let questionIndex = index">
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>Domanda {{questionIndex + 1}}/{{quiz.get('questions').length}}</mat-panel-title>
+                                    <mat-panel-description>
+                                        <div class="truncate-label">
+                                            <span class="panel-label">{{question.get('text').value}}</span>
+                                        </div>
+                                        <!-- Button to remove this question -->
+                                        <button mat-icon-button (click)="handleQuestions.remove(questionIndex)" matTooltip="Elimina questa domanda"><mat-icon>delete</mat-icon></button>
+                                        <!-- /Button to remove this question -->
+                                        <!-- Button to add a new answer -->
+                                        <button mat-icon-button 
+                                            (click)="$event.stopPropagation(); handleQuestions.addNewAnswer(questionIndex)" matTooltip="Aggiungi una risposta"
+                                        ><mat-icon>add</mat-icon></button>
+                                        <!-- /Button to add a new answer -->
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <!-- Expansion panel body -->
+                                <div [formGroup]="question">
+                                    <!-- Question text -->
+                                    <mat-form-field>
+                                        <mat-label>Domanda</mat-label>
+                                        <input matInput formControlName="text" matTooltip="Inserisci il testo della tua domanda" required>
+                                        <mat-error *ngIf="question.get('text').invalid">{{question.get('text').errors.validText.text}}</mat-error>
+                                    </mat-form-field>
+                                    <!-- /Question text -->
+                                    <!-- Question answers -->
+                                    <ng-container *ngFor="let answer of question.get('answers').controls; let answerIndex = index">
+                                        <div [formGroup]="answer" class="question-answer-box">
+                                            <!-- Button to remove this question -->
+                                            <button mat-icon-button (click)="handleQuestions.removeAnswer(answerIndex, questionIndex)" matTooltip="Elimina questa risposta">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                            <!-- /Button to remove this question -->
+                                            
+                                            <!-- Answer text -->
+                                            <mat-form-field>
+                                                <mat-label>Risposta</mat-label>
+                                                <input matInput formControlName="text" matTooltip="Inserisci una possibile risposta" required>
+                                                <mat-error *ngIf="answer.get('text').invalid">{{answer.get('text').errors.validText.text}}</mat-error>
+                                            </mat-form-field>
+                                            <!-- /Answer text -->
+    
+                                            <!-- Answer value -->
+                                            <ng-container *ngIf="quiz.get('settings').get('type').value === quizTypes.personalityQuiz">
+                                                <mat-form-field>
+                                                    <mat-label>Valore</mat-label>
+                                                    <input matInput formControlName="value" (keyup)="handleAnswersValue.updateSuggestedValues($event.target.value)" [matAutocomplete]="auto" required matTooltip="Inserisci il valore della risposta">
+                                                    <mat-autocomplete #auto="matAutocomplete">
+                                                        <mat-option *ngFor="let option of handleAnswersValue.suggestedValues" [value]="option">
+                                                        {{option}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <mat-error *ngIf="answer.get('value').invalid">{{answer.get('value').errors.validAnswerValue.text}}</mat-error>
+                                                </mat-form-field>
+                                            </ng-container>
+                                            
+                                            <mat-radio-group *ngIf="quiz.get('settings').get('type').value === quizTypes.trueorfalseQuiz" matInput [formControl]="answer.get('value')" matTooltip="Indica se la risposta è vera o falsa">
+                                                <mat-radio-button [value]="true">VERO</mat-radio-button>
+                                                <mat-radio-button [value]="false">FALSO</mat-radio-button>
+                                            </mat-radio-group>
+                                            <!-- /Answer value -->
+                                        </div>
+                                    </ng-container>
+                                    <!-- /Question answers -->
+                                </div>
+                                <!-- /Expansion panel body -->
+                            </mat-expansion-panel>
+                        </ng-container>
+                    </mat-accordion>
+                    <!-- /Quiz questions -->
+                    <!-- Stepper info -->
+                    <div class="alert-box">
+                        <i *ngIf="quiz.get('questions').invalid && quiz.get('questions').length === 0">Aggiungi delle domande al quiz prima di continuare.</i>
+                        <i *ngIf="quiz.get('questions').invalid && quiz.get('questions').length > 0">Hai ancora {{getInvalidFormControlsNumber(quiz.get('questions'))}} su {{quiz.get('questions').length}} domande da completare prima di continuare.</i>
+                    </div>
+                    <!-- /Stepper info -->
+                    <!-- Stepper buttons -->
+                    <div class="buttons">
+                        <button mat-button matStepperPrevious type="button"><mat-icon>navigate_before</mat-icon>Indietro</button>
+                        <button mat-button matStepperNext type="button"><mat-icon>navigate_next</mat-icon>Avanti</button>
+                    </div>
+                    <!-- /Stepper buttons -->
                 </div>
-                <!-- /Stepper info -->
-                <!-- Stepper buttons -->
-                <div class="buttons">
-                    <button mat-stroked-button matStepperPrevious type="button"><mat-icon>navigate_before</mat-icon>Indietro</button>
-                    <button mat-stroked-button matStepperNext type="button"><mat-icon>navigate_next</mat-icon>Avanti</button>
-                </div>
-                <!-- /Stepper buttons -->
             </mat-step>
 
             <mat-step>
@@ -80,9 +162,9 @@
                 <!-- Quiz results -->
                 <div formArrayName="answers" class="answerBox">
                     <div class="buttons">
-                        <button mat-stroked-button (click)="handleAnswers.addNew()" type="button"><mat-icon>add</mat-icon>Aggiungi risultato</button>
-                        <button *ngIf="quiz.get('answers').length > 0" mat-stroked-button (click)="resultsAccordion.openAll()" type="button"><mat-icon>expand_more</mat-icon>Espandi tutto</button>
-                        <button *ngIf="quiz.get('answers').length > 0" mat-stroked-button (click)="resultsAccordion.closeAll()" type="button" class="red"><mat-icon>expand_less</mat-icon>Chiudi tutto</button>
+                        <button mat-button (click)="handleAnswers.addNew()" type="button"><mat-icon>add</mat-icon>Aggiungi risultato</button>
+                        <button *ngIf="quiz.get('answers').length > 0" mat-button (click)="resultsAccordion.openAll()" type="button"><mat-icon>expand_more</mat-icon>Espandi tutto</button>
+                        <button *ngIf="quiz.get('answers').length > 0" mat-button (click)="resultsAccordion.closeAll()" type="button" class="red"><mat-icon>expand_less</mat-icon>Chiudi tutto</button>
                     </div>
                     <mat-accordion [multi]="true" #resultsAccordion="matAccordion">
                         <ng-container *ngFor="let answer of quiz.get('answers').controls; let i = index">
@@ -92,7 +174,9 @@
                                         Risultato {{i+1}}/{{quiz.get('answers').controls.length}}
                                     </mat-panel-title>
                                     <mat-panel-description>
-                                        <span>{{answer.get('title').value}}</span>
+                                        <div class="truncate-label">
+                                            <span>{{answer.get('title').value}}</span>
+                                        </div>
                                         <button mat-icon-button (click)="handleAnswers.remove(i)" type="button"><mat-icon>delete</mat-icon></button>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
@@ -132,7 +216,7 @@
                 <!-- /Stepper info -->
                 <!-- Stepper buttons -->
                 <div class="buttons">
-                    <button mat-stroked-button matStepperPrevious type="button"><mat-icon>navigate_before</mat-icon>Indietro</button>
+                    <button mat-button matStepperPrevious type="button"><mat-icon>navigate_before</mat-icon>Indietro</button>
                 </div>
                 <!-- Stepper buttons -->
             </mat-step>

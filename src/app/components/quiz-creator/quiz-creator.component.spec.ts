@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../modules/material.module';
 
 import { QuizCreatorComponent as Component } from './quiz-creator.component';
-import { QuestionsTreeComponent as SubComponent } from './questions-tree/questions-tree.component';
 import { FileLoader } from '../../services/fileLoader.service';
 
 import { MatOption } from '@angular/material/core';
@@ -32,14 +31,14 @@ describe('Quiz Creator Component', () => {
             addButton: '[formarrayname="questions"] .buttons button:first-child',
             expandAllButton: '[formarrayname="questions"] .buttons button:nth-child(2)',
             collapseAllButton: '[formarrayname="questions"] .buttons button:nth-child(3)',
-            questionInput: '[formarrayname="questions"] .tree-node-with-childs > .mat-tree-node [matinput]',
-            removeButton: '[formarrayname="questions"] .tree-node-with-childs > .mat-tree-node button:last-child',
-            answersList: '[formarrayname="questions"] .tree-node-with-childs > mat-nested-tree-node',
-            addAnswer: '[formarrayname="questions"] .tree-node-with-childs > .mat-tree-node button:nth-child(3)',
-            removeAnswer: '[formarrayname="questions"] .tree-node-with-childs > mat-nested-tree-node button',
-            answerTextInput: '[formarrayname="questions"] .tree-node-with-childs > mat-nested-tree-node [matInput]:first-child',
-            answerValueRadioInput: '[formarrayname="questions"] .tree-node-with-childs > mat-nested-tree-node [matInput] mat-radio-button input[type="radio"]',
-            answerValueTextInput: '[formarrayname="questions"] .tree-node-with-childs > mat-nested-tree-node mat-form-field:nth-child(2) [matInput]',
+            questionTextInput: '[formarrayname="questions"] .mat-expansion-panel-body > div > mat-form-field [matinput][formcontrolname="text"]',
+            removeButton: '[formarrayname="questions"] mat-expansion-panel-header button:nth-child(2)',
+            expandedAnswersList: '[formarrayname="questions"] mat-expansion-panel.mat-expanded .question-answer-box',
+            addAnswer: '[formarrayname="questions"] mat-panel-description button:nth-child(3)',
+            removeAnswer: '[formarrayname="questions"] .question-answer-box button:nth-child(1)',
+            answerTextInput: '[formarrayname="questions"] .question-answer-box mat-form-field:nth-child(2) [matInput]',
+            answerValueRadioInput: '[formarrayname="questions"] .question-answer-box mat-radio-group mat-radio-button input[type="radio"]',
+            answerValueTextInput: '[formarrayname="questions"] .question-answer-box mat-form-field:nth-child(3) [matInput]',
         },
         answerForm: {
             addButton: '[formarrayname="answers"] .buttons button:first-child',
@@ -139,7 +138,7 @@ describe('Quiz Creator Component', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [ Component, SubComponent ],
+            declarations: [ Component ],
             imports: [
                 FormsModule, ReactiveFormsModule, MaterialModule
             ],
@@ -221,17 +220,17 @@ describe('Quiz Creator Component', () => {
     })
 
     it('should expand and collapse all questions', () => {
-        let isPanelExpanded = () => componentHTML.querySelectorAll(DOMSelectors.questionForm.answersList).length
+        let isPanelExpanded = () => componentHTML.querySelectorAll(DOMSelectors.questionForm.expandedAnswersList).length
         testUtils.goNext();
         testUtils.addQuestion();
-        // When a question is added, its panel is expanded as default
-        expect(isPanelExpanded()).toBeTruthy();
-        // Collapse all questions
-        testUtils.click(DOMSelectors.questionForm.collapseAllButton);
+        // When a question is added, its panel is collapsed as default
         expect(isPanelExpanded()).toBeFalsy();
         // Expand all questions
         testUtils.click(DOMSelectors.questionForm.expandAllButton);
         expect(isPanelExpanded()).toBeTruthy();
+        // Collapse all questions
+        testUtils.click(DOMSelectors.questionForm.collapseAllButton);
+        expect(isPanelExpanded()).toBeFalsy();
     })
 
     it('should let fill questions text', () => {
@@ -240,7 +239,7 @@ describe('Quiz Creator Component', () => {
         testUtils.goNext();
         testUtils.addQuestion();
         // Fill input and check that quiz object has updated
-        testUtils.fillInput(DOMSelectors.questionForm.questionInput, randomValue);
+        testUtils.fillInput(DOMSelectors.questionForm.questionTextInput, randomValue);
         expect(getQuestionText()).toBe(randomValue);
     })
 
@@ -291,6 +290,7 @@ describe('Quiz Creator Component', () => {
         testUtils.selectOption(DOMSelectors.quizForm.type, PERSONALITY_QUIZ);
         testUtils.goNext();
         testUtils.addQuestion();
+        testUtils.click(DOMSelectors.questionForm.expandAllButton);
         // Check that there is an input
         let selector = DOMSelectors.questionForm.answerValueTextInput;
         expect(componentHTML.querySelector(selector)).toBeDefined();

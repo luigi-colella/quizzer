@@ -10,13 +10,14 @@
 
     mat-expansion-panel {
         background-color: transparent;
-        border: 2px solid $color-ternary;
+        border: 1px solid $color-ternary;
         margin: $margin-default-large;
-        padding: $padding-little;
+        padding: 0px;
         box-shadow: $box-shadow;
         mat-expansion-panel-header {
             mat-panel-title {
                 align-items: center;
+                white-space: nowrap;
             }
             mat-panel-description {
                 display: flex;
@@ -32,19 +33,39 @@
     .mat-radio-group {
         display: flex;
         justify-content: space-around;
+        
+    }
+
+    .question-answer-box {
+        display: flex;
+        align-items: baseline;
+        mat-form-field, mat-radio-group {
+            margin-left: $margin-little;
+            mat-radio-button {
+                margin-left: $margin-little;
+            }
+        };
+        button {
+            text-align: left;
+        };
+    }
+
+    .truncate-label {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+        white-space: nowrap;
+        > * {
+            display: table-cell;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: right;
+        }
     }
 
     .alert-box {
         margin: $margin-default-large;
         font-size: small;
-    }
-
-    .buttons button.mat-raised-button.mat-primary:not([disabled]) {
-        @include button($color-ternary, $color-secondary);
-        color: $color-dark;
-        &:hover {
-            border-color: $color-primary !important;
-        }
     }
 
 }

@@ -16,10 +16,13 @@ h1, h2, h3, h4, h5, h6 {
 .buttons {
     margin: $margin-default;
     button {
-        @include button($color-ternary, $color-secondary);
+        @include button($color-gray-light, $color-dark, $color-dark);
         margin-right: 5px;
         &.red {
-            @include button($color-ternary, $color-quaternary);
+            @include button($color-gray-light, $color-quaternary, $color-dark);
+            &:hover {
+                @include button($color-quaternary, $color-quaternary, $color-light);
+            }
         }
     }
 }
