@@ -39,6 +39,7 @@ describe('Quiz Creator Component', () => {
             answerTextInput: '[formarrayname="questions"] .question-answer-box mat-form-field:nth-child(2) [matInput]',
             answerValueRadioInput: '[formarrayname="questions"] .question-answer-box mat-radio-group mat-radio-button input[type="radio"]',
             answerValueTextInput: '[formarrayname="questions"] .question-answer-box mat-form-field:nth-child(3) [matInput]',
+            noSelectedQuizTypeWarning: '[formarrayname="questions"] .question-answer-box .notype-warning'
         },
         answerForm: {
             addButton: '[formarrayname="answers"] .buttons button:first-child',
@@ -265,6 +266,14 @@ describe('Quiz Creator Component', () => {
         // Add a new answer to question and check that quiz object has updated
         testUtils.click(DOMSelectors.questionForm.removeAnswer);
         expect(getAnswersLength()).toBe(defaultAnswersLength - 1);
+    })
+
+    it('should have a warning message if no quiz type is selected', () => {
+        testUtils.goNext();
+        testUtils.addQuestion();
+        expect(
+            componentHTML.querySelector(DOMSelectors.questionForm.noSelectedQuizTypeWarning)
+        ).toBeTruthy();
     })
 
     it('should set right answer\'s options for the "True or False" type', () => {

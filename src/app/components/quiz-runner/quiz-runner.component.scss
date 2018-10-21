@@ -1,29 +1,25 @@
 @import '../../style/_style';
 
 .container {
-    width: 80%;
-    margin: auto;
-    margin-top: 20px;
-    padding: 2%;
-    @include box($color-primary, $color-secondary);
 
-    &.quiz-loader-container {
-        padding: 2%;
+    padding: $padding-medium;
+    @include box($color-primary, $color-secondary);
+    box-shadow: $box-shadow;
+
+    h1, h2, h3, h4, h5, h6 {
+        color: $color-dark;
+        margin: 0px;
+        text-align: center;
     }
 
     .sub-container {
         padding: $padding-medium 0em;
-        border-bottom: 1px solid $color-gray;
         &:last-child {
             border-bottom-width: 0px;
         }
-        h1, h2, h3, h4, h5, h6 {
-            color: $color-dark;
-            margin: 0px;
-            text-align: center;
-        }
         p {
             margin-top: 0px;
+            text-align: center;
         }
         i {
             text-align: center;
@@ -38,7 +34,7 @@
 
     .buttons {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
     }
 
 }

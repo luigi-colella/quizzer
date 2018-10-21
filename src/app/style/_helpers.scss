@@ -1,0 +1,32 @@
+
+.container {
+    width: 80%;
+    margin: auto;
+    margin-top: $margin-large * 2;
+    margin-bottom: $margin-large * 2;
+    box-shadow: $box-shadow;
+    overflow: auto;
+    background-image: url($texture-2);
+}
+
+.buttons {
+    margin: $margin-default;
+    label, button {
+        @include button($color-gray-light, $color-ternary, $color-dark);
+        margin-right: 5px;
+        &.red {
+            @include button($color-gray-light, $color-quaternary, $color-dark);
+            &:hover {
+                @include button($color-quaternary, $color-quaternary, $color-light);
+            }
+        }
+    }
+    label {
+        input[type="file"] {
+            display: none;
+        }
+        &:hover {
+            background-color: rgba(0,0,0,.12);
+        }
+    }
+}

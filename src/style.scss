@@ -1,39 +1,3 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "./assets/fonts/material-design-icons/material-icons.css";
 @import "./app/style/_style.scss";
-
-body {
-    margin: 0px;
-    background: $color-secondary;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    color: $color-primary;
-}
-
-/* Custom Components style */
-
-.buttons {
-    margin: $margin-default;
-    button {
-        @include button($color-gray-light, $color-dark, $color-dark);
-        margin-right: 5px;
-        &.red {
-            @include button($color-gray-light, $color-quaternary, $color-dark);
-            &:hover {
-                @include button($color-quaternary, $color-quaternary, $color-light);
-            }
-        }
-    }
-}
-
-/* Angular Material style */
-.mat-step-header .mat-step-icon {
-    background-color: $color-secondary;
-}
-
-.mat-radio-button.mat-accent {
-    &.mat-radio-checked .mat-radio-outer-circle { border-color: $color-secondary;  }
-    .mat-radio-outer-circle { border-color: $color-secondary; }
-    .mat-radio-inner-circle { background-color: $color-secondary; }
-}

@@ -1,8 +1,6 @@
 
 <div class="container">
 
-    <h1>Crea un nuovo quiz</h1>
-
     <form [formGroup]="quiz" (ngSubmit)="onSubmit()">
 
         <mat-vertical-stepper linear>
@@ -69,7 +67,7 @@
                     <!-- Quiz questions -->
                     <mat-accordion #questionAccordion="matAccordion" [multi]="true">
                         <ng-container *ngFor="let question of quiz.get('questions').controls; let questionIndex = index">
-                            <mat-expansion-panel>
+                            <mat-expansion-panel [hideToggle]="true">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>Domanda {{questionIndex + 1}}/{{quiz.get('questions').length}}</mat-panel-title>
                                     <mat-panel-description>
@@ -113,8 +111,9 @@
                                             <!-- /Answer text -->
     
                                             <!-- Answer value -->
-                                            <ng-container *ngIf="quiz.get('settings').get('type').value === quizTypes.personalityQuiz">
-                                                <mat-form-field>
+                                            <ng-container [ngSwitch]="quiz.get('settings').get('type').value">
+
+                                                <mat-form-field *ngSwitchCase="quizTypes.personalityQuiz">
                                                     <mat-label>Valore</mat-label>
                                                     <input matInput formControlName="value" (keyup)="handleAnswersValue.updateSuggestedValues($event.target.value)" [matAutocomplete]="auto" required matTooltip="Inserisci il valore della risposta">
                                                     <mat-autocomplete #auto="matAutocomplete">
@@ -124,12 +123,17 @@
                                                     </mat-autocomplete>
                                                     <mat-error *ngIf="answer.get('value').invalid">{{answer.get('value').errors.validAnswerValue.text}}</mat-error>
                                                 </mat-form-field>
+
+                                                <mat-radio-group *ngSwitchCase="quizTypes.trueorfalseQuiz" matInput [formControl]="answer.get('value')" matTooltip="Indica se la risposta è vera o falsa">
+                                                    <mat-radio-button [value]="true">VERO</mat-radio-button>
+                                                    <mat-radio-button [value]="false">FALSO</mat-radio-button>
+                                                </mat-radio-group>
+
+                                                <div *ngSwitchDefault class="alert-box notype-warning">
+                                                    <i>Seleziona un tipo di quiz prima.</i>
+                                                </div>
+
                                             </ng-container>
-                                            
-                                            <mat-radio-group *ngIf="quiz.get('settings').get('type').value === quizTypes.trueorfalseQuiz" matInput [formControl]="answer.get('value')" matTooltip="Indica se la risposta è vera o falsa">
-                                                <mat-radio-button [value]="true">VERO</mat-radio-button>
-                                                <mat-radio-button [value]="false">FALSO</mat-radio-button>
-                                            </mat-radio-group>
                                             <!-- /Answer value -->
                                         </div>
                                     </ng-container>
@@ -224,8 +228,12 @@
     </form>
 
         <!-- Form actions -->
-        <div class="buttons">
-            <button mat-raised-button (click)="onSubmit()" color="primary" [disabled]="quiz.invalid">Invia</button>
+        <div class="form-actions">
+            <div class="buttons">
+                <button mat-button (click)="onSubmit()" color="primary" [disabled]="quiz.invalid">
+                    <mat-icon>get_app</mat-icon>Salva
+                </button>
+            </div>
         </div>
         <!-- /Form actions -->
 

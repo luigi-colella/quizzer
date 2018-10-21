@@ -1,0 +1,34 @@
+
+body {
+    margin: 0px;
+    background-color: $color-secondary;
+    background-image: url($texture-1);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: $color-primary;
+}
+
+hr {
+    border: .5px solid $color-gray;
+}
+
+/* Angular Material style */
+.mat-step-header {
+    .mat-step-label.mat-step-label-active {
+        color: $color-secondary;
+        &.mat-step-label-selected {
+            font-size: 1em;
+            font-weight: bold;
+        }
+    }
+    .mat-step-icon {
+        background-color: $color-secondary;
+    }
+}
+
+.mat-radio-button.mat-accent {
+    &.mat-radio-checked .mat-radio-outer-circle { border-color: $color-secondary;  }
+    .mat-radio-outer-circle { border-color: $color-secondary; }
+    .mat-radio-inner-circle { background-color: $color-secondary; }
+}

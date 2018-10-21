@@ -1,12 +1,17 @@
 @import '../../style/_style';
 
 .container {
+    @include box($color-ternary, $color-ternary);
+    margin-top: 0px;
     width: 100%;
-    @include box($color-secondary, $color-secondary);
     border-width: 0px;
+    border-radius: 0px;
+    border-bottom: 3px solid $color-primary;
+    box-shadow: $box-shadow;
 
     nav {
         width: 80%;
+        padding: 0px $padding-medium;
         margin: auto;
         display: flex;
         align-items: center;
@@ -22,32 +27,39 @@
 
         h1 {
             margin: 0px;
+            font-size: 2em;
+            color: $color-primary;
             &:hover {
                 cursor: pointer;
+            }
+            &:focus {
+                outline: none;
             }
         }
     
         ul {
             list-style: none;
+            display: flex;
             float: right;
             margin: 0px;
-            height: 50px;
+            height: 60px;
             li {
                 float: left;
-                height: 100%;
                 transition: $transition;
+                padding: 0px $padding-medium;
                 &:hover, &.active {
-                    background-color: $color-ternary;
-                    color: $color-dark;
+                    transition: $transition;
+                    background-color: $color-secondary;
+                    background-image: url($texture-1);
                 }
                 a {
-                    display: flex;
-                    align-items: center;
-                    height: 100%;
-                    padding: 0px $padding-little;
                     color: $color-primary;
                     text-decoration: none;
+                    text-transform: uppercase;
                     transition: $transition;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
                 }
             }
         }

@@ -1,11 +1,12 @@
 @import '../../style/_style';
 
 .container {
-    width: 90%;
-    margin: auto;
+
+    @include box($color-primary, $color-secondary);
+    box-shadow: $box-shadow;
 
     mat-vertical-stepper {
-        @include box($color-primary, $color-secondary);
+        background-color: transparent;
     }
 
     mat-expansion-panel {
@@ -66,6 +67,22 @@
     .alert-box {
         margin: $margin-default-large;
         font-size: small;
+    }
+
+    .notype-warning {
+        width: 100%;
+        text-align: center;
+    }
+
+    .form-actions {
+        box-shadow: none;
+        border-width: 0px;
+        margin: $margin-large * 2;
+        margin-top: $margin-large;
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+        }
     }
 
 }

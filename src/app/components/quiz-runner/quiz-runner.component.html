@@ -1,16 +1,13 @@
-<!-- Load Quiz options -->
-    <div class='container quiz-loader-container'>
-        <input type='file' (change)='uploadQuiz($event)'>
-    </div>
-<!-- /Load Quiz options -->
 
-<div class='container'>
-    
+<div class="container">
+
     <div class="sub-container">
         <h1>{{curQuiz.settings.title}}</h1>
-        <i *ngIf="quizState === 'started'">Domanda {{curQuestionIndex + 1}} / {{curQuiz.questions.length}}</i>
     </div>
 
+    <i *ngIf="quizState === 'started'">Domanda {{curQuestionIndex + 1}} / {{curQuiz.questions.length}}</i>        
+    <hr>
+    
     <ng-container [ngSwitch]='quizState'>
         <div class="sub-container">
             <!-- Intro Quiz -->
@@ -38,12 +35,20 @@
         </div>
     </ng-container>
 
+    <hr>
+
     <ng-container [ngSwitch]='quizState'>
         <div class="sub-container">
             <div class="buttons">
-                <button mat-stroked-button *ngSwitchCase='"ready"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>play_arrow</mat-icon>Inizia il test</button>
-                <button mat-stroked-button *ngSwitchCase='"started"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>check</mat-icon>Ok</button>
-                <button mat-stroked-button *ngSwitchCase='"finished"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>refresh</mat-icon>Ricomincia</button>
+                <label class="mat-button">
+                    <span class="mat-button-wrapper">
+                        <mat-icon>cloud_upload</mat-icon> Carica nuovo
+                        <input type='file' (change)='uploadQuiz($event)'>
+                    </span>
+                </label>
+                <button mat-button *ngSwitchCase='"ready"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>play_arrow</mat-icon>Inizia il test</button>
+                <button mat-button *ngSwitchCase='"started"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>check</mat-icon>Ok</button>
+                <button mat-button *ngSwitchCase='"finished"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>refresh</mat-icon>Ricomincia</button>
             </div>
         </div>
     </ng-container>

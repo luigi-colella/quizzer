@@ -23,7 +23,7 @@ describe('QuizRunner Component', () => {
     let DOMSelectors = {
         'title': 'h1',
         'quizDescription': 'p',
-        'actionButton': '.buttons button',
+        'actionButton': '.buttons button:nth-child(2)',
         'radioInputs': 'mat-radio-button',
         'firstRadioInput': 'mat-radio-button:first-child',
         'resultTitle': '#resultQuiz h4',
