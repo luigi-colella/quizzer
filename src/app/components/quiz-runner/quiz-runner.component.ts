@@ -52,8 +52,9 @@ export class QuizRunnerComponent implements OnInit {
     }
 
     loadQuiz(quiz: Quiz) {
-        this.curQuiz = quiz;
         this.resetQuiz();
+        this.handler.load(quiz);
+        this.curQuiz = quiz;
     }
 
     onSubmit() : void {
