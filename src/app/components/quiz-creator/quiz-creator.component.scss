@@ -3,6 +3,7 @@
 .container {
 
     @include box($color-primary, $color-secondary);
+    border-radius: $border-radius-2;
     box-shadow: $box-shadow;
 
     mat-vertical-stepper {

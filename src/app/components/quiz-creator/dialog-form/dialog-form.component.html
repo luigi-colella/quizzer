@@ -1,9 +1,15 @@
 
-<div [formGroup]="inputControlGroup">
-    
-    <mat-form-field>
-        <mat-label>Valore</mat-label>
-        <input matInput [formControl]="inputControl" matTooltip="Inserisci il valore della risposta" required>
-    </mat-form-field>
+<div class="dialog-form">
+
+    <div mat-dialog-content [formGroup]="inputControl.parent">
+        <mat-form-field>
+            <mat-label>Valore</mat-label>
+            <input matInput [formControl]="inputControl" matTooltip="Inserisci il valore della risposta" required>
+        </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions class="buttons">
+        <button mat-button (click)="onClose()">Ok</button>
+    </div>
 
 </div>

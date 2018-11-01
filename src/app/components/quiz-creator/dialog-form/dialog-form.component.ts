@@ -1,23 +1,36 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { FormControl } from '@angular/forms';
 
 @Component({
     selector: 'app-dialog-form',
-    templateUrl: './dialog-form.component.html'
+    templateUrl: './dialog-form.component.html',
+    styleUrls: ['dialog-form.component.scss']
 })
-export class DialogFormComponent implements OnInit {
+export class DialogFormComponent implements OnInit, OnDestroy {
 
-    inputControlGroup: FormGroup
     inputControl: FormControl
 
     constructor(
+        private dialogRef: MatDialogRef<DialogFormComponent>,
         @Inject(MAT_DIALOG_DATA) private data
     ){}
 
     ngOnInit () {
-        this.inputControlGroup = this.data.inputControlGroup;
         this.inputControl = this.data.inputControl;
+        document.addEventListener('keydown', this.onKeyboardEnterEvent);
+    }
+
+    ngOnDestroy () {
+        document.removeEventListener('keydown', this.onKeyboardEnterEvent);
+    }
+
+    onKeyboardEnterEvent = (ev: KeyboardEvent) => {
+        if (ev.key === 'Enter') this.onClose();
+    }
+
+    onClose () {
+        this.dialogRef.close();
     }
 
 }

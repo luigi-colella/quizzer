@@ -2,8 +2,9 @@
 
 .container {
 
-    padding: $padding-medium;
     @include box($color-primary, $color-secondary);
+    padding: $padding-medium;
+    border-radius: $border-radius-2;
     box-shadow: $box-shadow;
 
     h1, h2, h3, h4, h5, h6 {

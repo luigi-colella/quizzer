@@ -32,3 +32,8 @@ hr {
     .mat-radio-outer-circle { border-color: $color-secondary; }
     .mat-radio-inner-circle { background-color: $color-secondary; }
 }
+
+mat-dialog-container.mat-dialog-container {
+    @include box($color-primary, $color-ternary);
+    background-image: url($texture-2);
+}

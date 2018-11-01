@@ -6,7 +6,7 @@ import {
     FormGroupDirective, NgForm, FormGroup
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { DialogFormComponent } from './dialog-form/dialog-form.component';
 
@@ -114,8 +114,10 @@ export class QuizCreatorComponent implements OnInit {
         questions: this.ngFormBuilder.array([ /*this.quizBuilders.emptyQuestion()*/ ], this.quizValidators.validItems()),
         answers: this.ngFormBuilder.array([ /*this.quizBuilders.emptyResult()*/ ], this.quizValidators.validItems())
     })
-    //Errors state matcher
+    // Errors state matcher
     errorMatcher = new QuizCreatorErrorStateMatcher();
+    // Input dialog reference
+    dialogFormRef: MatDialogRef<DialogFormComponent>
 
     constructor(
         private ngFormBuilder: FormBuilder,
@@ -181,13 +183,17 @@ export class QuizCreatorComponent implements OnInit {
     handleAnswersValue = {
         addSuggestedValue: (value: string, inputControl: FormControl) => {
             if (value) return;
-            this.ngDialog.closeAll();
-            this.ngDialog.open(DialogFormComponent, {
-                data: {
-                    inputControl,
-                    inputControlGroup: inputControl.parent
-                }
-            });
+            if (!value && !this.dialogFormRef) {
+                this.dialogFormRef = this.ngDialog.open(DialogFormComponent, {
+                    data: {
+                        inputControl
+                    }
+                });
+                let subscription = this.dialogFormRef.afterClosed().subscribe(() => {
+                    this.dialogFormRef = null;
+                    subscription.unsubscribe();
+                })
+            }
         },
         // Get suggested values based on answers' values
         getSuggestedValues: (): Array<String> => {
