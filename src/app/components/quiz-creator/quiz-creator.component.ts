@@ -6,9 +6,13 @@ import {
     FormGroupDirective, NgForm, FormGroup
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { MatDialog } from '@angular/material';
+
+import { DialogFormComponent } from './dialog-form/dialog-form.component';
 
 import { QuizType, PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../interfaces/quizTypes';
 import { FileLoader } from '../../services/fileLoader.service';
+import { Quiz } from '../../interfaces/quiz';
 
 //Quiz errors matcher
 class QuizCreatorErrorStateMatcher implements ErrorStateMatcher {
@@ -20,7 +24,7 @@ class QuizCreatorErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-    selector: 'app-quiz-generator',
+    selector: 'app-quiz-creator',
     templateUrl: './quiz-creator.component.html',
     styleUrls: ['./quiz-creator.component.scss'],
 })
@@ -115,11 +119,12 @@ export class QuizCreatorComponent implements OnInit {
 
     constructor(
         private ngFormBuilder: FormBuilder,
+        private ngDialog: MatDialog,
         private fileLoader: FileLoader
     ){}
 
     ngOnInit(){
-        
+
     }
 
     onSubmit(){
@@ -174,48 +179,36 @@ export class QuizCreatorComponent implements OnInit {
 
     //Handler for suggested answers values
     handleAnswersValue = {
-        //All possibles answers' values
-        _allAnswersValues: <Array<String>> [],
-        //Only suggested answer's values
-        suggestedValues: <Array<String>> [],
-        //Update every possible answer's value
-        updateValues: () => {
-            let result: Array<String>;
-            //Get all possibilies values from questions
-            let allQuestions = this.quiz.get('questions').value;
-            if (allQuestions.length > 0) {
-                result = allQuestions.reduce((prevValue: Array<String>, currQuestion) => {
-                    return prevValue.concat(
-                        currQuestion.answers
-                        .map(answer => answer.value)
-                        .filter((answerValue: String): Boolean => typeof answerValue === 'string' && answerValue.trim() !== '')
-                    );
-                }, [])
-            };
-            //Get all possibilies values from answers
-            let allAnswers = this.quiz.get('answers').value;
-            if (allAnswers.length > 0) {
-                result = result.concat(
-                    allAnswers
-                    .map(currAnswer => currAnswer.value)
-                    .filter(value => typeof value === 'string' && value.trim() !== '')
-                )
-            };
-            //Update values
-            this.handleAnswersValue._allAnswersValues = result;
-
+        addSuggestedValue: (value: string, inputControl: FormControl) => {
+            if (value) return;
+            this.ngDialog.closeAll();
+            this.ngDialog.open(DialogFormComponent, {
+                data: {
+                    inputControl,
+                    inputControlGroup: inputControl.parent
+                }
+            });
         },
-        //Get suggested values
-        updateSuggestedValues: (inputedValue: String) => {
-            //Update all possibilies values
-            this.handleAnswersValue.updateValues();
-            //Filter all possibilities values
-            this.handleAnswersValue.suggestedValues = this.handleAnswersValue._allAnswersValues.filter((possibleValue) => {
-                return (
-                    possibleValue.toLowerCase().indexOf(inputedValue.toLowerCase()) === 0 &&
-                    possibleValue.length !== inputedValue.length
-                );
+        // Get suggested values based on answers' values
+        getSuggestedValues: (): Array<String> => {
+            let suggestedValues = [];
+            // Get all answer's value from every question
+            let questions = this.quiz.get('questions').value as Quiz['questions'];
+            questions.forEach(question => {
+                question.answers.forEach(answer => {
+                    if (!!answer.value && suggestedValues.indexOf(answer.value) === -1) {
+                        suggestedValues.push(answer.value)
+                    }
+                });
+            });
+            // Get all value from every result
+            let answers = this.quiz.get('answers').value as Quiz['answers'];
+            answers.forEach(answer => {
+                if (!!answer.value && suggestedValues.indexOf(answer.value) === -1) {
+                    suggestedValues.push(answer.value)
+                }
             })
+            return suggestedValues;
         }
     }
 

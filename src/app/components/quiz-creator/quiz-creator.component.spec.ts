@@ -1,9 +1,8 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../modules/material.module';
-
+import { QuizCreatorModule } from './quiz-creator.module';
 import { QuizCreatorComponent as Component } from './quiz-creator.component';
 import { FileLoader } from '../../services/fileLoader.service';
 
@@ -22,10 +21,13 @@ describe('Quiz Creator Component', () => {
         stepContent: '.mat-vertical-stepper-content[aria-expanded="true"]',
         nextButton: 'button[matStepperNext]',
         beforeButton: 'button[matStepperPrevious]',
-        quizForm: {
+        settingsForm: {
             title: 'input[matInput][formControlName="title"]',
             type: 'mat-select[formcontrolname="type"]',
             description: 'textarea[matinput][formcontrolname="description"]'
+        },
+        dialog: {
+            textInput: 'mat-dialog-container input[matInput]'
         },
         questionForm: {
             addButton: '[formarrayname="questions"] .buttons button:first-child',
@@ -38,7 +40,7 @@ describe('Quiz Creator Component', () => {
             removeAnswer: '[formarrayname="questions"] .question-answer-box button:nth-child(1)',
             answerTextInput: '[formarrayname="questions"] .question-answer-box mat-form-field:nth-child(2) [matInput]',
             answerValueRadioInput: '[formarrayname="questions"] .question-answer-box mat-radio-group mat-radio-button input[type="radio"]',
-            answerValueTextInput: '[formarrayname="questions"] .question-answer-box mat-form-field:nth-child(3) [matInput]',
+            answerValueSelect: '[formarrayname="questions"] .question-answer-box mat-select',
             noSelectedQuizTypeWarning: '[formarrayname="questions"] .question-answer-box .notype-warning'
         },
         answerForm: {
@@ -46,6 +48,7 @@ describe('Quiz Creator Component', () => {
             removeButton: '[formarrayname="answers"] mat-accordion button',
             titleInput: '[formarrayname="answers"] [formcontrolname="title"]',
             valueInput: '[formarrayname="answers"] [formcontrolname="value"]',
+            answerValueSelect: '[formarrayname="answers"] mat-select',
             descriptionInput: '[formarrayname="answers"] [formcontrolname="description"]'
         }
     };
@@ -84,6 +87,7 @@ describe('Quiz Creator Component', () => {
          */
         fillInput: (inputSelector: string, value: string) => {
             let input: HTMLInputElement = componentHTML.querySelector(inputSelector);
+            if (!input) input = document.querySelector(inputSelector);
             input.focus();
             input.value = value;
             input.dispatchEvent(new Event('input'));
@@ -138,14 +142,12 @@ describe('Quiz Creator Component', () => {
 
 
     beforeEach(() => {
-        TestBed.configureTestingModule({
-            declarations: [ Component ],
-            imports: [
-                FormsModule, ReactiveFormsModule, MaterialModule
-            ],
-            providers: [ FileLoader ]
-        })
-        .compileComponents();
+        TestBed
+            .configureTestingModule({
+                imports: [ QuizCreatorModule ],
+                providers: [ FileLoader ]
+            })
+            .compileComponents();
         componentFixture = TestBed.createComponent(Component);
         componentDebug = componentFixture.debugElement;
         componentInstance = componentDebug.componentInstance;
@@ -176,9 +178,9 @@ describe('Quiz Creator Component', () => {
             type: testUtils.getRandomValue([PERSONALITY_QUIZ, TRUEORFALSE_QUIZ]),
             description: testUtils.getRandomValue()
         }
-        testUtils.fillInput(DOMSelectors.quizForm.title, quizValues.title);
-        testUtils.fillInput(DOMSelectors.quizForm.description, quizValues.description);
-        testUtils.selectOption(DOMSelectors.quizForm.type, quizValues.type);
+        testUtils.fillInput(DOMSelectors.settingsForm.title, quizValues.title);
+        testUtils.fillInput(DOMSelectors.settingsForm.description, quizValues.description);
+        testUtils.selectOption(DOMSelectors.settingsForm.type, quizValues.type);
         // Check that quiz object is updated
         let quizSettings = testUtils.getQuizObj().settings;
         expect(quizSettings.title).toBe(quizValues.title);
@@ -189,7 +191,7 @@ describe('Quiz Creator Component', () => {
     it('should have only default types of avaible quiz', () => {
         let defaultTypes: Array<QuizType> = [PERSONALITY_QUIZ, TRUEORFALSE_QUIZ];
         // Get the values of options of the select element instance
-        let select: MatSelect = componentDebug.query(By.css(DOMSelectors.quizForm.type)).componentInstance;
+        let select: MatSelect = componentDebug.query(By.css(DOMSelectors.settingsForm.type)).componentInstance;
         let avaiblesTypes: Array<QuizType> = select.options.map((el: MatOption) => el.value);
         // Check that values of options are the default types
         avaiblesTypes.forEach(type => {
@@ -278,7 +280,7 @@ describe('Quiz Creator Component', () => {
 
     it('should set right answer\'s options for the "True or False" type', () => {
         // Set type of quiz
-        testUtils.selectOption(DOMSelectors.quizForm.type, TRUEORFALSE_QUIZ);
+        testUtils.selectOption(DOMSelectors.settingsForm.type, TRUEORFALSE_QUIZ);
         testUtils.goNext();
         testUtils.addQuestion();
         // Check that there are two radio buttons
@@ -294,24 +296,23 @@ describe('Quiz Creator Component', () => {
 
     })
 
-    it('should set right answer\'s input for the "Personality" type', () => {
+    it('should set right answer\'s input for the "Personality" type', async () => {
         // Set type of quiz
-        testUtils.selectOption(DOMSelectors.quizForm.type, PERSONALITY_QUIZ);
+        testUtils.selectOption(DOMSelectors.settingsForm.type, PERSONALITY_QUIZ);
         testUtils.goNext();
         testUtils.addQuestion();
         testUtils.click(DOMSelectors.questionForm.expandAllButton);
-        // Check that there is an input
-        let selector = DOMSelectors.questionForm.answerValueTextInput;
-        expect(componentHTML.querySelector(selector)).toBeDefined();
-        // Fill the input
+        // Trigger modal opening and waiting for it
+        testUtils.selectOption(DOMSelectors.questionForm.answerValueSelect, undefined);
+        await componentFixture.whenRenderingDone();
+        // Enter answer's value in modal and check quiz object
         let randomValue = testUtils.getRandomValue();
-        return componentFixture.whenRenderingDone().then(() => {
-            testUtils.fillInput(selector, randomValue);
-            // Check quiz object
-            expect(
-                testUtils.getQuizObj().questions[0].answers[0].value
-            ).toBe(randomValue);
-        });
+        testUtils.fillInput(DOMSelectors.dialog.textInput, randomValue);
+        expect(
+            testUtils.getQuizObj().questions[0].answers[0].value
+        ).toBe(randomValue);
+        // After test remove modal input to avoid conflicts with other tests that use it
+        document.querySelector(DOMSelectors.dialog.textInput).remove();
     })
 
     it('should let fill text of a question\'s answer', () => {
@@ -349,13 +350,14 @@ describe('Quiz Creator Component', () => {
         expect(getResultsLength()).toBe(defaultResultsLength - 1);
     })
 
-    it('should let fill a result of quiz', () => {
+    it('should let fill a result for a \'True or False\' quiz', () => {
         // Values with which fill inputs
         let quizValues = {
             title: testUtils.getRandomValue(),
             value: testUtils.getRandomValue(),
             description: testUtils.getRandomValue()
         }
+        testUtils.selectOption(DOMSelectors.settingsForm.type, TRUEORFALSE_QUIZ);
         testUtils.goNext();
         testUtils.goNext();
         testUtils.addResult();
@@ -363,6 +365,31 @@ describe('Quiz Creator Component', () => {
         testUtils.fillInput(DOMSelectors.answerForm.titleInput, quizValues.title);
         testUtils.fillInput(DOMSelectors.answerForm.valueInput, quizValues.value);
         testUtils.fillInput(DOMSelectors.answerForm.descriptionInput, quizValues.description);
+        expect(testUtils.getQuizObj().answers[0].title).toBe(quizValues.title);
+        expect(testUtils.getQuizObj().answers[0].value).toBe(quizValues.value);
+        expect(testUtils.getQuizObj().answers[0].description).toBe(quizValues.description);
+    })
+
+    it('should let fill a result for a \'Personality\' quiz', async () => {
+        // Values with which fill inputs
+        let quizValues = {
+            title: testUtils.getRandomValue(),
+            value: testUtils.getRandomValue(),
+            description: testUtils.getRandomValue()
+        }
+        testUtils.selectOption(DOMSelectors.settingsForm.type, PERSONALITY_QUIZ);
+        testUtils.goNext();
+        testUtils.goNext();
+        testUtils.addResult();
+        // Fill inputs
+        testUtils.fillInput(DOMSelectors.answerForm.titleInput, quizValues.title);
+        testUtils.fillInput(DOMSelectors.answerForm.descriptionInput, quizValues.description);
+        // Trigger modal opening and waiting for it
+        testUtils.selectOption(DOMSelectors.answerForm.answerValueSelect, undefined);
+        await componentFixture.whenRenderingDone();
+        // Enter result's value in the modal
+        testUtils.fillInput(DOMSelectors.dialog.textInput, quizValues.value);
+        // Check the quiz object
         expect(testUtils.getQuizObj().answers[0].title).toBe(quizValues.title);
         expect(testUtils.getQuizObj().answers[0].value).toBe(quizValues.value);
         expect(testUtils.getQuizObj().answers[0].description).toBe(quizValues.description);

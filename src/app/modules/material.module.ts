@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 //Material modules
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule, MatTab } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -10,11 +11,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
     exports: [
         BrowserAnimationsModule,
+        MatDialogModule,
         MatIconModule,
         MatTabsModule,
         MatExpansionModule,
@@ -23,8 +24,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         MatRadioModule,
         MatSelectModule,
         MatStepperModule,
-        MatTooltipModule,
-        MatAutocompleteModule
+        MatTooltipModule
     ]
 })
 export class MaterialModule {}

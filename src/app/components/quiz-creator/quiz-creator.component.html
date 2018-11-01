@@ -115,13 +115,13 @@
 
                                                 <mat-form-field *ngSwitchCase="quizTypes.personalityQuiz">
                                                     <mat-label>Valore</mat-label>
-                                                    <input matInput formControlName="value" (keyup)="handleAnswersValue.updateSuggestedValues($event.target.value)" [matAutocomplete]="auto" required matTooltip="Inserisci il valore della risposta">
-                                                    <mat-autocomplete #auto="matAutocomplete">
-                                                        <mat-option *ngFor="let option of handleAnswersValue.suggestedValues" [value]="option">
-                                                        {{option}}
-                                                        </mat-option>
-                                                    </mat-autocomplete>
-                                                    <mat-error *ngIf="answer.get('value').invalid">{{answer.get('value').errors.validAnswerValue.text}}</mat-error>
+                                                    <mat-select [formControl]="answer.get('value')" (selectionChange)="handleAnswersValue.addSuggestedValue($event.value, answer.get('value'))" [errorStateMatcher]="errorMatcher" required matTooltip="Scegli il tipo di quiz che vuoi creare">
+                                                        <ng-container *ngFor="let option of handleAnswersValue.getSuggestedValues()">
+                                                            <mat-option [value]="option">{{option}}</mat-option>
+                                                        </ng-container>
+                                                        <mat-option [value]="">Nuovo...</mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="answer.get('value').invalid">{{answer.get('value').errors.validAnswerValue && answer.get('value').errors.validAnswerValue.text}}</mat-error>
                                                 </mat-form-field>
 
                                                 <mat-radio-group *ngSwitchCase="quizTypes.trueorfalseQuiz" matInput [formControl]="answer.get('value')" matTooltip="Indica se la risposta è vera o falsa">
@@ -186,26 +186,49 @@
                                 </mat-expansion-panel-header>
                                 <div [formGroup]="answer">
                                     
+                                    <!-- Result title -->
                                     <mat-form-field>
                                         <mat-label>Titolo</mat-label>
                                         <input type="text" formControlName="title" matInput [errorStateMatcher]="errorMatcher" required matTooltip="Dai un titolo a questo risultato">
                                         <mat-error *ngIf="!answer.get('title').valid">{{answer.get('title').errors.validText.text}}</mat-error>
                                     </mat-form-field>
-                                    <mat-form-field>
-                                        <mat-label>Valore</mat-label>
-                                        <input type="text" formControlName="value" matInput (keyup)="handleAnswersValue.updateSuggestedValues(answer.get('value').value)" [matAutocomplete]="auto" [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci il valore corrispondente a questo risultato">
-                                        <mat-autocomplete #auto="matAutocomplete">
-                                            <mat-option *ngFor="let option of handleAnswersValue.suggestedValues" [value]="option">
-                                              {{option}}
-                                            </mat-option>
-                                        </mat-autocomplete>
-                                        <mat-error *ngIf="!answer.get('value').valid">{{answer.get('value').errors.validText.text}}</mat-error>
-                                    </mat-form-field>
+                                    <!-- /Result title -->
+
+                                    <!-- Result value -->
+                                    <ng-container [ngSwitch]="quiz.get('settings').get('type').value">
+
+                                            <mat-form-field *ngSwitchCase="quizTypes.personalityQuiz">
+                                                <mat-label>Valore</mat-label>
+                                                <mat-select [formControl]="answer.get('value')" (selectionChange)="handleAnswersValue.addSuggestedValue($event.value, answer.get('value'))" [errorStateMatcher]="errorMatcher" required matTooltip="Scegli il tipo di quiz che vuoi creare">
+                                                    <ng-container *ngFor="let option of handleAnswersValue.getSuggestedValues()">
+                                                        <mat-option [value]="option">{{option}}</mat-option>
+                                                    </ng-container>
+                                                    <mat-option [value]="">Nuovo...</mat-option>
+                                                </mat-select>
+                                                <mat-error *ngIf="answer.get('value').invalid">{{answer.get('value').errors.validText && answer.get('value').errors.validText.text}}</mat-error>
+                                            </mat-form-field>
+
+                                            <mat-form-field *ngSwitchCase="quizTypes.trueorfalseQuiz">
+                                                <mat-label>Valore</mat-label>
+                                                <input type="text" formControlName="value" matInput (keyup)="handleAnswersValue.updateSuggestedValues(answer.get('value').value)" [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci il valore corrispondente a questo risultato">
+                                                <mat-error *ngIf="answer.get('value').invalid">{{answer.get('value').errors.validText.text}}</mat-error>
+                                            </mat-form-field>
+
+                                            <div *ngSwitchDefault class="alert-box notype-warning">
+                                                <i>Seleziona un tipo di quiz prima.</i>
+                                            </div>
+
+                                    </ng-container>
+                                    <!-- /Result value -->
+
+                                    <!-- Result description -->
                                     <mat-form-field>
                                         <mat-label>Descrizione</mat-label>
                                         <textarea formControlName="description" matInput [errorStateMatcher]="errorMatcher" matTooltip="Fornisci una descrizione del risultato"></textarea>
                                         <mat-error *ngIf="!answer.get('description').valid">{{answer.get('description').errors.validText.text}}</mat-error>
                                     </mat-form-field>
+                                    <!-- /Result description -->
+
                                 </div>
                             </mat-expansion-panel>
                         </ng-container>
