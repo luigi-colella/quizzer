@@ -37,8 +37,8 @@ describe('Quiz Creator Component', () => {
             removeButton: '[formarrayname="questions"] mat-expansion-panel-header button:nth-child(2)',
             expandedAnswersList: '[formarrayname="questions"] mat-expansion-panel.mat-expanded .question-answer-box',
             addAnswer: '[formarrayname="questions"] mat-panel-description button:nth-child(3)',
-            removeAnswer: '[formarrayname="questions"] .question-answer-box button:nth-child(1)',
-            answerTextInput: '[formarrayname="questions"] .question-answer-box mat-form-field:nth-child(2) [matInput]',
+            removeAnswer: '[formarrayname="questions"] .question-answer-box button:nth-child(3)',
+            answerTextInput: '[formarrayname="questions"] .question-answer-box mat-form-field:nth-child(1) [matInput]',
             answerValueRadioInput: '[formarrayname="questions"] .question-answer-box mat-radio-group mat-radio-button input[type="radio"]',
             answerValueSelect: '[formarrayname="questions"] .question-answer-box mat-select',
             noSelectedQuizTypeWarning: '[formarrayname="questions"] .question-answer-box .notype-warning'
@@ -88,6 +88,7 @@ describe('Quiz Creator Component', () => {
         fillInput: (inputSelector: string, value: string) => {
             let input: HTMLInputElement = componentHTML.querySelector(inputSelector);
             if (!input) input = document.querySelector(inputSelector);
+            if (!input) throw 'Element not found: ' + inputSelector
             input.focus();
             input.value = value;
             input.dispatchEvent(new Event('input'));
@@ -303,7 +304,8 @@ describe('Quiz Creator Component', () => {
         testUtils.addQuestion();
         testUtils.click(DOMSelectors.questionForm.expandAllButton);
         // Trigger modal opening and waiting for it
-        testUtils.selectOption(DOMSelectors.questionForm.answerValueSelect, undefined);
+        let selectDebugElement = componentDebug.query(By.css(DOMSelectors.questionForm.answerValueSelect));
+        selectDebugElement.componentInstance.options.last._element.nativeElement.click();
         await componentFixture.whenRenderingDone();
         // Enter answer's value in modal and check quiz object
         let randomValue = testUtils.getRandomValue();
@@ -385,7 +387,8 @@ describe('Quiz Creator Component', () => {
         testUtils.fillInput(DOMSelectors.answerForm.titleInput, quizValues.title);
         testUtils.fillInput(DOMSelectors.answerForm.descriptionInput, quizValues.description);
         // Trigger modal opening and waiting for it
-        testUtils.selectOption(DOMSelectors.answerForm.answerValueSelect, undefined);
+        let selectDebugElement = componentDebug.query(By.css(DOMSelectors.answerForm.answerValueSelect));
+        selectDebugElement.componentInstance.options.last._element.nativeElement.click();
         await componentFixture.whenRenderingDone();
         // Enter result's value in the modal
         testUtils.fillInput(DOMSelectors.dialog.textInput, quizValues.value);
@@ -393,5 +396,7 @@ describe('Quiz Creator Component', () => {
         expect(testUtils.getQuizObj().answers[0].title).toBe(quizValues.title);
         expect(testUtils.getQuizObj().answers[0].value).toBe(quizValues.value);
         expect(testUtils.getQuizObj().answers[0].description).toBe(quizValues.description);
+        // After test remove modal input to avoid conflicts with other tests that use it
+        document.querySelector(DOMSelectors.dialog.textInput).remove();
     })
 })

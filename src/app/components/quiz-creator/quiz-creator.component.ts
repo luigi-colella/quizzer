@@ -65,7 +65,7 @@ export class QuizCreatorComponent implements OnInit {
                 let quizType = this.quiz.get('settings').get('type').value;
                 let inputValue = control.value;
                 if (quizType === PERSONALITY_QUIZ){
-                    return typeof inputValue === 'string' && inputValue.trim() === '' ? { 'validAnswerValue' : { text: 'testo vuoto' } } : null
+                    return !inputValue ? { 'validAnswerValue' : { text: 'testo vuoto' } } : null
                 } else if (quizType === TRUEORFALSE_QUIZ) {
                     return typeof inputValue !== 'boolean' ? { 'validAnswerValue' : { text: 'formato vero o falso non corretto' } } : null
                 } else {
@@ -181,12 +181,12 @@ export class QuizCreatorComponent implements OnInit {
 
     //Handler for suggested answers values
     handleAnswersValue = {
-        addSuggestedValue: (value: string, inputControl: FormControl) => {
-            if (value) return;
-            if (!value && !this.dialogFormRef) {
+        addSuggestedValue: (inputControl: FormControl) => {
+            if (!this.dialogFormRef) {
                 this.dialogFormRef = this.ngDialog.open(DialogFormComponent, {
                     data: {
-                        inputControl
+                        inputControl,
+                        errorMatcher: this.errorMatcher
                     }
                 });
                 let subscription = this.dialogFormRef.afterClosed().subscribe(() => {
