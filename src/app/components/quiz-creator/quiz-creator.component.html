@@ -69,7 +69,10 @@
                         <ng-container *ngFor="let question of quiz.get('questions').controls; let questionIndex = index">
                             <mat-expansion-panel [hideToggle]="true">
                                 <mat-expansion-panel-header>
-                                    <mat-panel-title>Domanda {{questionIndex + 1}}/{{quiz.get('questions').length}}</mat-panel-title>
+                                    <mat-panel-title>
+                                        <label>{{questionIndex + 1}}/{{quiz.get('questions').length}}</label>
+                                        <mat-icon *ngIf="question.valid">check</mat-icon>
+                                    </mat-panel-title>
                                     <mat-panel-description>
                                         <div class="truncate-label">
                                             <span class="panel-label">{{question.get('text').value}}</span>
@@ -178,13 +181,16 @@
                             <mat-expansion-panel [expanded]="true" [hideToggle]="true">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
-                                        Risultato {{i+1}}/{{quiz.get('answers').controls.length}}
+                                        <label>{{i+1}}/{{quiz.get('answers').controls.length}}</label>
+                                        <mat-icon *ngIf="answer.valid">check</mat-icon>
                                     </mat-panel-title>
                                     <mat-panel-description>
                                         <div class="truncate-label">
                                             <span>{{answer.get('title').value}}</span>
                                         </div>
-                                        <button mat-icon-button (click)="handleAnswers.remove(i)" type="button"><mat-icon>delete</mat-icon></button>
+                                        <button mat-icon-button (click)="handleAnswers.remove(i)" type="button" matTooltip="Elimina questo risultato">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
                                 <div [formGroup]="answer">

@@ -20,6 +20,9 @@
             mat-panel-title {
                 align-items: center;
                 white-space: nowrap;
+                mat-icon {
+                    margin-left: $margin-little
+                }
             }
             mat-panel-description {
                 display: flex;
