@@ -26,7 +26,7 @@ describe('QuizRunner Component', () => {
         'actionButton': '.buttons button:nth-child(2)',
         'radioInputs': 'mat-radio-button',
         'firstRadioInput': 'mat-radio-button:first-child',
-        'resultTitle': '#resultQuiz h4',
+        'resultTitle': '#resultQuiz h2',
         'resultDescription': '#resultQuiz p'
     }
     let testUtils = {
