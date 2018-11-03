@@ -37,6 +37,18 @@ describe('QuizRunner Component', () => {
         click: (selectorCSS: string) => {
             (compHTML.querySelector(selectorCSS) as HTMLInputElement).click();
             fixture.detectChanges();
+        },
+        answerToAllQuestions: () => {
+            //Click submit button to start the test
+            testUtils.click(DOMSelectors.actionButton);
+            //Get questions number...
+            let qNum = compIstance.curQuiz.questions.length;
+            //...and loop for each
+            for (let i = 0; i < qNum; i++){
+                //Select first choice
+                testUtils.click(DOMSelectors.firstRadioInput);
+                testUtils.click(DOMSelectors.actionButton);
+            }
         }
     }
 
@@ -61,17 +73,17 @@ describe('QuizRunner Component', () => {
         compHTML = compDebug.nativeElement
     })
 
-    it('Component exists', () => {
+    it('should exists', () => {
         expect(compIstance).toBeDefined();
     })
 
-    const displayRightTitle = () => {
+    it('should have the quiz title', () => {
         let expectedTitle = compIstance.curQuiz.settings.title;
         let title = testUtils.getElementText(DOMSelectors.title);
         expect(title).toEqual(expectedTitle);
-    }
+    })
 
-    const displayRightIntro = () => {
+    it('should have the quiz intro', () => {
         let expectedIntro = compIstance.curQuiz.settings.description;
         let intro = testUtils.getElementText(DOMSelectors.quizDescription);
         expect(
@@ -79,23 +91,15 @@ describe('QuizRunner Component', () => {
         ).toEqual(
             testUtils.normalize(expectedIntro)
         );
-    }
-
-    it('QuizRunner display right title of quiz', () => {
-        displayRightTitle();
     })
 
-    it('QuizRunner display right intro of quiz', () => {
-        displayRightIntro();
-    })
-
-    it('Display button to start the test', () => {
+    it('should have a button to start the test', () => {
         expect(
             testUtils.getElementsNumber(DOMSelectors.actionButton)
         ).toEqual(1)
     })
 
-    it('Button starts the test', () => {
+    it('should starts the test', () => {
         testUtils.click(DOMSelectors.actionButton);
         expect(
             testUtils.getElementsNumber(DOMSelectors.radioInputs)
@@ -104,21 +108,8 @@ describe('QuizRunner Component', () => {
         )
     })
 
-    const answerToAllQuestions = () => {
-        //Click submit button to start the test
-        testUtils.click(DOMSelectors.actionButton);
-        //Get questions number...
-        let qNum = compIstance.curQuiz.questions.length;
-        //...and loop for each
-        for (let i = 0; i < qNum; i++){
-            //Select first choice
-            testUtils.click(DOMSelectors.firstRadioInput);
-            testUtils.click(DOMSelectors.actionButton);
-        }
-    }
-
-    it('Test finishes normally after answering all questions', () => {
-        answerToAllQuestions();
+    it('should finish the quiz after answering all questions', () => {
+        testUtils.answerToAllQuestions();
         //If there will not be another choices, test is passed
         expect(
             testUtils.getElementsNumber(DOMSelectors.radioInputs)
@@ -126,8 +117,8 @@ describe('QuizRunner Component', () => {
 
     });
 
-    it('Display right result message', () => {
-        answerToAllQuestions();
+    it('should have result message', () => {
+        testUtils.answerToAllQuestions();
         let expectedResultTitle = compIstance.curQuizResult.title;
         let expectedResultDescription = compIstance.curQuizResult.description;
         expect(
@@ -141,11 +132,21 @@ describe('QuizRunner Component', () => {
         )
     })
 
-    it('After finishing the quiz, you can repeat it', () => {
-        answerToAllQuestions();
+    it('should repeat the quiz after having finished it', () => {
+        testUtils.answerToAllQuestions();
         testUtils.click(DOMSelectors.actionButton);
-        displayRightIntro();
-        displayRightTitle();
+        // Check quiz title
+        let expectedTitle = compIstance.curQuiz.settings.title;
+        let title = testUtils.getElementText(DOMSelectors.title);
+        expect(title).toEqual(expectedTitle);
+        // Check quiz intro
+        let expectedIntro = compIstance.curQuiz.settings.description;
+        let intro = testUtils.getElementText(DOMSelectors.quizDescription);
+        expect(
+            testUtils.normalize(intro)
+        ).toEqual(
+            testUtils.normalize(expectedIntro)
+        );
     })
 
 });

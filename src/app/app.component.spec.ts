@@ -23,7 +23,7 @@ describe('AppComponent', () => {
 		}).compileComponents();
 	}));
 
-	it('Application exists', async(() => {
+	it('should exists', async(() => {
 		const fixture = TestBed.createComponent(AppComponent);
 		const app = fixture.debugElement.componentInstance;
 		expect(app).toBeTruthy();
