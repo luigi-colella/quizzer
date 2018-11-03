@@ -1,6 +1,7 @@
+/* Vendor imports */
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
-
+/* App imports */
 import { AppHeader } from './header.component';
 
 describe('Header Component', () => {
@@ -31,7 +32,8 @@ describe('Header Component', () => {
     it('should have title', () => {
         let expectedTitle = componentInstance.title;
         let currentTitle = componentHTML.querySelector('h1').innerText;
-        expect(expectedTitle).toBe(currentTitle);
+        expect(expectedTitle).toBeTruthy();
+        expect(currentTitle).toBe(expectedTitle);
     })
 
     it('should have links', () => {

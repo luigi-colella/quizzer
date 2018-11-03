@@ -5,7 +5,7 @@
         <h1>{{curQuiz.settings.title}}</h1>
     </div>
 
-    <i *ngIf="quizState === 'started'">Domanda {{curQuestionIndex + 1}} / {{curQuiz.questions.length}}</i>        
+    <i *ngIf="quizState === quizAvailableStates.STARTED">Domanda {{curQuestionIndex + 1}} / {{curQuiz.questions.length}}</i>        
     <hr>
     
     <ng-container [ngSwitch]='quizState'>
@@ -16,7 +16,7 @@
             </div>
     
             <!-- Quiz Question Box -->
-            <div *ngSwitchCase='"started"'>
+            <div *ngSwitchCase='quizAvailableStates.STARTED'>
                 <p>{{curQuiz.questions[curQuestionIndex].text}}</p>
                 <mat-radio-group [value]="givenUserAnswers[curQuestionIndex]">
                     <ng-container *ngFor='let obj of curQuiz.questions[curQuestionIndex].answers'>
@@ -28,7 +28,7 @@
             </div>
         
             <!-- Quiz result -->
-            <div *ngSwitchCase='"finished"' id='resultQuiz' class="result">
+            <div *ngSwitchCase='quizAvailableStates.FINISHED' id='resultQuiz' class="result">
                 <h2>{{curQuizResult.title}}</h2>
                 <p>{{curQuizResult.description}}</p>
             </div>
@@ -46,9 +46,9 @@
                         <input type='file' (change)='uploadQuiz($event)'>
                     </span>
                 </label>
-                <button mat-button *ngSwitchCase='"ready"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>play_arrow</mat-icon>Inizia il test</button>
-                <button mat-button *ngSwitchCase='"started"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>check</mat-icon>Ok</button>
-                <button mat-button *ngSwitchCase='"finished"' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>refresh</mat-icon>Ricomincia</button>
+                <button mat-button *ngSwitchCase='quizAvailableStates.READY' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>play_arrow</mat-icon>Inizia il test</button>
+                <button mat-button *ngSwitchCase='quizAvailableStates.STARTED' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>check</mat-icon>Ok</button>
+                <button mat-button *ngSwitchCase='quizAvailableStates.FINISHED' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>refresh</mat-icon>Ricomincia</button>
             </div>
         </div>
     </ng-container>

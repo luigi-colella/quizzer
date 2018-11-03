@@ -3,7 +3,7 @@
   <form [formGroup]="quiz" (ngSubmit)="onSubmit()">
 
     <mat-vertical-stepper linear>
-      <mat-step [completed]="true || quiz.get('settings').valid">
+      <mat-step>
         <!-- Stepper label -->
         <ng-template matStepLabel>Impostazioni</ng-template>
         <!-- /Stepper label -->

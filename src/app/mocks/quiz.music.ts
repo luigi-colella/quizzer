@@ -1,4 +1,4 @@
-import { Quiz } from '../interfaces/quiz';
+import { Quiz } from '../types';
 
 export const quizMusic : Quiz = {
 

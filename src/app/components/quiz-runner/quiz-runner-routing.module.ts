@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
+/* Vendor imports */
 import { RouterModule, Routes } from '@angular/router';
-
+/* App imports */
 import { QuizRunnerComponent } from './quiz-runner.component';
 
 const routes : Routes = [

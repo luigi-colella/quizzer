@@ -1,6 +1,8 @@
+/* Vendor imports */
 import { Injectable } from '@angular/core';
-import { Quiz, AnswerValue, Result } from '../interfaces/quiz';
-import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../interfaces/quizTypes';
+/* App imports */
+import { Quiz, AnswerValue, Result } from '../types';
+import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../constants';
 
 @Injectable()
 export class QuizHandler {
@@ -8,8 +10,32 @@ export class QuizHandler {
     private currentQuiz : Quiz;
     private currentQuestionIndex: number;
     private answers = [];
+    private encodingDeclaration = 'data:text/json;charset=utf-8,'
 
-    constructor(){
+    constructor(){}
+
+    /**
+     * Encode the quiz object to JSON format
+     * @param {Object} data the quiz object
+     * @return {string} the JSON string
+     */
+    encode (data: Quiz): string {
+        return this.encodingDeclaration + encodeURIComponent(JSON.stringify(data));
+    }
+
+    /**
+     * Decode a JSON string to quiz object
+     * @param {string} string the JSON string
+     * @return {Object} the quiz object
+     */
+    decode (string: string): Quiz {
+        return JSON.parse(
+            atob(
+                decodeURIComponent(
+                    string.substring(this.encodingDeclaration.length)
+                )
+            )
+        )
     }
 
     load(quiz: Quiz) : this {

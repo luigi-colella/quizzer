@@ -1,15 +1,15 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
+/* Vendor imports */
 import { By } from '@angular/platform-browser';
 import { MaterialModule } from '../../modules/material.module';
-import { QuizCreatorModule } from './quiz-creator.module';
-import { QuizCreatorComponent as Component } from './quiz-creator.component';
-import { FileLoader } from '../../services/fileLoader.service';
-
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
-import { Quiz } from '../../interfaces/quiz';
-import { QuizType, PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../interfaces/quizTypes';
+/* App imports */
+import { QuizCreatorModule } from './quiz-creator.module';
+import { QuizCreatorComponent as Component } from './quiz-creator.component';
+import { Quiz, QuizType } from '../../types';
+import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../constants';
 
 describe('Quiz Creator Component', () => {
 
@@ -145,8 +145,7 @@ describe('Quiz Creator Component', () => {
     beforeEach(() => {
         TestBed
             .configureTestingModule({
-                imports: [ QuizCreatorModule ],
-                providers: [ FileLoader ]
+                imports: [ QuizCreatorModule ]
             })
             .compileComponents();
         componentFixture = TestBed.createComponent(Component);

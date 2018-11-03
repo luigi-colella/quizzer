@@ -1,17 +1,12 @@
-
+/* Vendor imports */
+import { DebugElement } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../modules/material.module';
-
+/* App imports */
+import { QuizRunnerModule } from './quiz-runner.module'
 import { QuizRunnerComponent } from './quiz-runner.component';
-import { QuizHandler } from '../../services/quiz-handler.service';
-import { FileLoader } from '../../services/fileLoader.service';
-import { DebugElement } from '@angular/core';
-
-const normalize = (value: string) => {
-    return value.trim().toLowerCase();
-}
 
 describe('QuizRunner Component', () => {
 
@@ -30,6 +25,9 @@ describe('QuizRunner Component', () => {
         'resultDescription': '#resultQuiz p'
     }
     let testUtils = {
+        normalize: (value: string): string => {
+            return value.trim().toLowerCase();
+        },
         getElementText: (selectorCSS: string): string => {
             return compHTML.querySelector(selectorCSS).textContent;
         },
@@ -45,14 +43,12 @@ describe('QuizRunner Component', () => {
     beforeEach(() => {
         TestBed
         .configureTestingModule({
-            declarations: [ QuizRunnerComponent ],
             imports: [ 
                 RouterModule.forRoot([]),
+                QuizRunnerModule,
                 MaterialModule
             ],
             providers: [
-                QuizHandler,
-                FileLoader,
                 { provide: APP_BASE_HREF, useValue: '/' }
             ]
         })
@@ -79,9 +75,9 @@ describe('QuizRunner Component', () => {
         let expectedIntro = compIstance.curQuiz.settings.description;
         let intro = testUtils.getElementText(DOMSelectors.quizDescription);
         expect(
-            normalize(intro)
+            testUtils.normalize(intro)
         ).toEqual(
-            normalize(expectedIntro)
+            testUtils.normalize(expectedIntro)
         );
     }
 
@@ -135,13 +131,13 @@ describe('QuizRunner Component', () => {
         let expectedResultTitle = compIstance.curQuizResult.title;
         let expectedResultDescription = compIstance.curQuizResult.description;
         expect(
-            normalize(testUtils.getElementText(DOMSelectors.resultTitle))
+            testUtils.normalize(testUtils.getElementText(DOMSelectors.resultTitle))
         ).toEqual(
-            normalize(expectedResultTitle)
+            testUtils.normalize(expectedResultTitle)
         ) && expect(
-            normalize(testUtils.getElementText(DOMSelectors.resultDescription))
+            testUtils.normalize(testUtils.getElementText(DOMSelectors.resultDescription))
         ).toEqual(
-            normalize(expectedResultDescription)
+            testUtils.normalize(expectedResultDescription)
         )
     })
 

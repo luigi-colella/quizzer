@@ -1,11 +1,10 @@
-import { QuizType } from './quizTypes';
 
 export class Quiz {
 
     settings: {
         title: string,
         description: string,
-        type: QuizType
+        type: 'personalityQuiz' | 'trueorfalseQuiz';
     }
 
     questions: Array<{
@@ -23,6 +22,8 @@ export class Quiz {
     }>
 
 }
+
+export type QuizType = Quiz['settings']['type'];
 
 export type AnswerValue = Quiz['questions'][0]['answers'][0]['value'];
 

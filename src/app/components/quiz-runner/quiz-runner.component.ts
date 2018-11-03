@@ -1,13 +1,18 @@
-
+/* Vendor imports */
 import { Component, OnInit } from '@angular/core';
-import { Quiz, AnswerValue } from '../../interfaces/quiz';
-import { QuizHandler } from '../../services/quiz-handler.service';
-import { FileLoader } from '../../services/fileLoader.service';
-
+/* App imports */
+import { Quiz, AnswerValue } from '../../types';
+import { QuizHandler } from '../../services/quizHandler.service';
+/* Quiz sample imports */
 import { quizMusic as mockQuiz } from '../../mocks/quiz.music';
 
-type FileInputEvent = Event & {target:{files: FileList}};
-type FileLoaderEvent = Event & {target:{result:string}};
+type FileInputEvent = Event & { target: { files: FileList } };
+type FileLoaderEvent = Event & { target: { result: string } };
+interface QuizStates {
+    READY: 'ready',
+    STARTED: 'started',
+    FINISHED: 'finished'
+}
 
 @Component({
     selector: 'app-quiz-runner',
@@ -17,20 +22,24 @@ type FileLoaderEvent = Event & {target:{result:string}};
 export class QuizRunnerComponent implements OnInit {
 
     //private current_quiz;
-    curQuiz : Quiz;
-    curQuestionIndex : number;
+    curQuiz: Quiz;
+    curQuestionIndex: number;
     curQuizResult: Quiz['answers'][0];
     givenUserAnswers: AnswerValue[];
-    quizState : 'ready' | 'started' | 'finished';
-    submitButtonIsDisabled : boolean = false;
+    quizState: QuizStates['READY'] | QuizStates['STARTED'] | QuizStates['FINISHED']
+    quizAvailableStates: QuizStates = {
+        READY: 'ready',
+        STARTED: 'started',
+        FINISHED: 'finished'
+    }
+    submitButtonIsDisabled: boolean = false;
 
     constructor(
-        private handler : QuizHandler,
-        private fileLoader: FileLoader
+        private quizHandler : QuizHandler
     ){}
 
     ngOnInit(){
-        this.loadQuiz(this.handler.load(mockQuiz).getQuizObject());
+        this.loadQuiz(this.quizHandler.load(mockQuiz).getQuizObject());
     }
 
     uploadQuiz(event: FileInputEvent) {
@@ -41,7 +50,7 @@ export class QuizRunnerComponent implements OnInit {
             // Reader's events
             reader.onerror = (event: ErrorEvent) => { throw 'Error in file upload: ' + event.message };
             reader.onload = (event: FileLoaderEvent) => {
-                let quiz = this.fileLoader.decode(event.target.result) as Quiz;
+                let quiz = this.quizHandler.decode(event.target.result);
                 this.loadQuiz(quiz);
             }
             // Start reader
@@ -53,24 +62,24 @@ export class QuizRunnerComponent implements OnInit {
 
     loadQuiz(quiz: Quiz) {
         this.resetQuiz();
-        this.handler.load(quiz);
+        this.quizHandler.load(quiz);
         this.curQuiz = quiz;
     }
 
     onSubmit() : void {
 
         switch(this.quizState){
-            case 'ready':
-                this.quizState = 'started';
+            case this.quizAvailableStates.READY:
+                this.quizState = this.quizAvailableStates.STARTED;
                 this.curQuestionIndex = 0;
                 this.submitButtonIsDisabled = true;
             break;
 
-            case 'started':
+            case this.quizAvailableStates.STARTED:
 
                 if(this.curQuestionIndex + 1 === this.curQuiz.questions.length){
-                    this.curQuizResult = this.handler.getResult(this.givenUserAnswers);
-                    this.quizState = 'finished';
+                    this.curQuizResult = this.quizHandler.getResult(this.givenUserAnswers);
+                    this.quizState = this.quizAvailableStates.FINISHED;
                 } else {
                     this.curQuestionIndex += 1;
                     this.submitButtonIsDisabled = true;
@@ -78,7 +87,7 @@ export class QuizRunnerComponent implements OnInit {
 
             break;
 
-            case 'finished':
+            case this.quizAvailableStates.FINISHED:
                 this.resetQuiz();
             break;
 
@@ -92,7 +101,7 @@ export class QuizRunnerComponent implements OnInit {
     }
 
     resetQuiz() {
-        this.quizState = 'ready';
+        this.quizState = this.quizAvailableStates.READY;
         this.curQuestionIndex = 0;
         this.givenUserAnswers = [];
     }

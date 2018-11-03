@@ -1,4 +1,4 @@
-
+/* Vendor imports */
 import { Component, OnInit } from '@angular/core';
 import { 
     FormBuilder, FormArray, 
@@ -7,12 +7,11 @@ import {
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
-
+/* App imports */
 import { DialogFormComponent } from './dialog-form/dialog-form.component';
-
-import { QuizType, PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../interfaces/quizTypes';
-import { FileLoader } from '../../services/fileLoader.service';
-import { Quiz } from '../../interfaces/quiz';
+import { QuizHandler } from '../../services/quizHandler.service';
+import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../constants';
+import { Quiz, QuizType } from '../../types';
 
 //Quiz errors matcher
 class QuizCreatorErrorStateMatcher implements ErrorStateMatcher {
@@ -75,21 +74,21 @@ export class QuizCreatorComponent implements OnInit {
         }
     }
     //Builders for reactive form
-    quizBuilders = (() => {
+    quizBuilders = {
 
-        const emptyAnswer = () => {
+        emptyAnswer: (): FormGroup => {
             return this.ngFormBuilder.group({
                 text: ['', this.quizValidators.validText()],
                 value: ['', this.quizValidators.validAnswerValue()]
             })
-        }
-        const emptyQuestion = () => {
+        },
+        emptyQuestion: (): FormGroup => {
             return this.ngFormBuilder.group({
                 text: ['', this.quizValidators.validText()],
-                answers: this.ngFormBuilder.array([ emptyAnswer() ], this.quizValidators.validItems())
+                answers: this.ngFormBuilder.array([ this.quizBuilders.emptyAnswer() ], this.quizValidators.validItems())
             })
-        }
-        const emptyResult = () => {
+        },
+        emptyResult: (): FormGroup => {
             return this.ngFormBuilder.group({
                 value: ['', this.quizValidators.validText()],
                 title: ['', this.quizValidators.validText()],
@@ -97,13 +96,7 @@ export class QuizCreatorComponent implements OnInit {
             })
         }
 
-        return {
-            emptyAnswer,
-            emptyQuestion,
-            emptyResult
-        }
-
-    })()
+    }
     //Reactive form to create a new quiz
     quiz = this.ngFormBuilder.group({
         settings: this.ngFormBuilder.group({
@@ -122,7 +115,7 @@ export class QuizCreatorComponent implements OnInit {
     constructor(
         private ngFormBuilder: FormBuilder,
         private ngDialog: MatDialog,
-        private fileLoader: FileLoader
+        private quizHandler: QuizHandler
     ){}
 
     ngOnInit(){
@@ -132,7 +125,7 @@ export class QuizCreatorComponent implements OnInit {
     onSubmit(){
         if (this.quiz.invalid) return;
         // Create JSON to download
-        let encodedJSON = this.fileLoader.encode(this.quiz.value);
+        let encodedJSON = this.quizHandler.encode(this.quiz.value);
         // Create anchor element and attach the JSON to it
         let aEl: HTMLElement = document.createElement('a');
         aEl.setAttribute('href', encodedJSON);
@@ -169,12 +162,10 @@ export class QuizCreatorComponent implements OnInit {
     handleAnswers = {
 
         addNew: () => {
-            let answers = this.quiz.get('answers') as FormArray;
-            answers.push(this.quizBuilders.emptyResult());
+            (this.quiz.get('answers') as FormArray).push(this.quizBuilders.emptyResult());
         },
         remove: (index: number) => {
-            let answers = this.quiz.get('answers') as FormArray;
-            answers.removeAt(index);
+            (this.quiz.get('answers') as FormArray).removeAt(index);
         }
 
     }

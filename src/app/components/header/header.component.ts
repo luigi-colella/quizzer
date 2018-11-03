@@ -1,18 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+/* Vendor imports */
+import { Component } from '@angular/core';
+/* App imports */
+import { APP_TITLE } from '../../constants';
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss']
 })
-export class AppHeader implements OnInit {
+export class AppHeader {
 
-    title = 'Quizzer'
-
-    constructor(){
-
-    }
-
-    ngOnInit(){}
+    title = APP_TITLE
 
 }
