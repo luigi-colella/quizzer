@@ -11,7 +11,7 @@
     <ng-container [ngSwitch]='quizState'>
         <div class="sub-container">
             <!-- Intro Quiz -->
-            <div *ngSwitchCase='"ready"'>
+            <div *ngSwitchCase='"ready"' class="intro">
                 <p>{{curQuiz.settings.description}}</p>
             </div>
     
@@ -28,8 +28,8 @@
             </div>
         
             <!-- Quiz result -->
-            <div *ngSwitchCase='"finished"' id='resultQuiz'>
-                <h4>{{curQuizResult.title}}</h4>
+            <div *ngSwitchCase='"finished"' id='resultQuiz' class="result">
+                <h2>{{curQuizResult.title}}</h2>
                 <p>{{curQuizResult.description}}</p>
             </div>
         </div>

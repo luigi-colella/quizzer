@@ -73,6 +73,8 @@
     .notype-warning {
         width: 100%;
         text-align: center;
+        white-space: nowrap;
+        margin-left: $margin-large;
     }
 
     .form-actions {

@@ -27,7 +27,7 @@
 
                     <mat-form-field>
                         <mat-label>Descrizione</mat-label>
-                        <textarea matInput formControlName="description" [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci una descrizione introduttiva il tuo quiz"></textarea>
+                        <textarea matInput formControlName="description" [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci una descrizione introduttiva per il tuo quiz"></textarea>
                         <mat-error *ngIf="quiz.get('settings').get('description').invalid">{{quiz.get('settings').get('description').errors.validText.text}}</mat-error>
                     </mat-form-field>
                 </div>

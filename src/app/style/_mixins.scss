@@ -1,5 +1,6 @@
 
 @mixin box($background-color, $border-color) {
+    font-family: inherit;
     border: 1px solid $border-color;
     border-radius: $border-radius;
     background-color: $background-color;
@@ -11,6 +12,7 @@
     border-radius: $border-radius-small;
     background-color: $color;
     color: $text;
+    font-family: inherit;
     transition: $transition;
     box-shadow: $box-shadow;
     &[disabled], &:hover[disabled] {

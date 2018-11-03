@@ -9,17 +9,16 @@
 
     h1, h2, h3, h4, h5, h6 {
         color: $color-dark;
-        margin: 0px;
+        margin: $margin-large;
         text-align: center;
     }
 
     .sub-container {
-        padding: $padding-medium 0em;
+        padding: 0em;
         &:last-child {
             border-bottom-width: 0px;
         }
         p {
-            margin-top: 0px;
             text-align: center;
         }
         i {
@@ -27,15 +26,23 @@
             display: block;
             margin-top: $margin-little;
         }
-        mat-radio-button {
-            width: 50%;
-            margin: $margin-little $margin-zero;
+        mat-radio-group {
+            display: flex;
+            flex-flow: wrap;
+            mat-radio-button {
+                flex: 100%;
+            }
         }
+    }
+
+    .intro, .result {
+        padding: $padding-medium;
     }
 
     .buttons {
         display: flex;
         justify-content: space-between;
+        margin: $margin-large * 2 0;
     }
 
 }

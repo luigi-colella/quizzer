@@ -14,26 +14,42 @@ hr {
 }
 
 /* Angular Material style */
-.mat-step-header {
-    .mat-step-label.mat-step-label-active {
-        color: $color-secondary;
-        &.mat-step-label-selected {
-            font-size: 1em;
-            font-weight: bold;
+mat-vertical-stepper {
+    font-family: inherit;
+    .mat-step-header {
+        .mat-step-label.mat-step-label-active {
+            color: $color-secondary;
+            &.mat-step-label-selected {
+                font-size: 1em;
+                font-weight: bold;
+            }
+        }
+        .mat-step-icon {
+            background-color: $color-secondary;
         }
     }
-    .mat-step-icon {
-        background-color: $color-secondary;
-    }
-}
-
-.mat-radio-button.mat-accent {
-    &.mat-radio-checked .mat-radio-outer-circle { border-color: $color-secondary;  }
-    .mat-radio-outer-circle { border-color: $color-secondary; }
-    .mat-radio-inner-circle { background-color: $color-secondary; }
 }
 
 mat-dialog-container.mat-dialog-container {
     @include box($color-primary, $color-ternary);
     background-image: url($texture-2);
+}
+
+mat-radio-button {
+    font-family: inherit;
+    &.mat-radio-button.mat-accent {
+        &.mat-radio-checked .mat-radio-outer-circle { border-color: $color-secondary;  }
+        .mat-radio-ripple .mat-ripple-element { background-color: rgba(0, 0, 0, .1) !important; }
+        .mat-radio-outer-circle { border-color: $color-secondary; }
+        .mat-radio-inner-circle { background-color: $color-secondary; }
+    }
+    .mat-radio-label {
+        width: 100%;
+        box-sizing: border-box;
+        padding: $padding-medium;
+        transition: background-color $transition;
+        &:hover {
+            background-color: $color-gray;
+        }
+    }
 }

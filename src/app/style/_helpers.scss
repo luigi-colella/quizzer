@@ -11,6 +11,7 @@
 
 .buttons {
     margin: $margin-default;
+    display: flex;
     label, button {
         @include button($color-gray-light, $color-ternary, $color-dark);
         margin-right: 5px;
