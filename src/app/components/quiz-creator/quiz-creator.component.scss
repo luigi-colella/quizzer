@@ -1,27 +1,24 @@
-@import '../../style/_style';
+@import '../../style/style';
 
 .container {
 
     @include box($color-primary, $color-secondary);
     border-radius: $border-radius-2;
-    box-shadow: $box-shadow;
 
     mat-vertical-stepper {
         background-color: transparent;
     }
 
     mat-expansion-panel {
-        background-color: transparent;
-        border: 1px solid $color-ternary;
-        margin: $margin-default-large;
-        padding: 0px;
-        box-shadow: $box-shadow;
+        @include box(transparent, $color-ternary);
+        margin: $margin-vertical-medium;
+        padding: $padding-zero;
         mat-expansion-panel-header {
             mat-panel-title {
                 align-items: center;
                 white-space: nowrap;
                 mat-icon {
-                    margin-left: $margin-little
+                    margin-left: $margin-small
                 }
             }
             mat-panel-description {
@@ -35,6 +32,7 @@
     .mat-form-field {
         width: 100%;
     }
+    
     .mat-radio-group {
         display: flex;
         justify-content: space-around;
@@ -45,9 +43,9 @@
         display: flex;
         align-items: baseline;
         mat-form-field, mat-radio-group {
-            margin-left: $margin-little;
+            margin-left: $margin-small;
             mat-radio-button {
-                margin-left: $margin-little;
+                margin-left: $margin-small;
             }
         };
     }
@@ -66,22 +64,22 @@
     }
 
     .alert-box {
-        margin: $margin-default-large;
-        font-size: small;
+        margin: $margin-vertical-medium;
+        font-size: $font-small;
     }
 
     .notype-warning {
         width: 100%;
         text-align: center;
         white-space: nowrap;
-        margin-left: $margin-large;
+        margin-left: $margin-medium;
     }
 
     .form-actions {
         box-shadow: none;
         border-width: 0px;
-        margin: $margin-large * 2;
-        margin-top: $margin-large;
+        margin: $margin-large;
+        margin-top: $margin-medium;
         .buttons {
             display: flex;
             justify-content: flex-end;

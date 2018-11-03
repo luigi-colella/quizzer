@@ -1,0 +1,18 @@
+
+body {
+    margin: 0px;
+    background-color: $color-secondary;
+    background-image: url($texture-1);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: $color-primary;
+}
+
+h1 {
+    font-size: $font-large;
+}
+
+hr {
+    border: .5px solid $color-gray;
+}

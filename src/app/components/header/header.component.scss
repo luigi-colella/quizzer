@@ -1,34 +1,23 @@
-@import '../../style/_style';
+@import '../../style/style';
 
 .container {
     @include box($color-ternary, $color-ternary);
+    color: $color-primary;
     margin-top: 0px;
     width: 100%;
     border-width: 0px;
-    border-radius: 0px;
     border-bottom: 3px solid $color-primary;
-    box-shadow: $box-shadow;
 
     nav {
         width: 80%;
-        padding: 0px $padding-medium;
+        padding: $padding-horizontal-medium;
         margin: auto;
         display: flex;
         align-items: center;
-    
-        div {
-            &:first-child {
-                width: 30%;
-            }
-            &:last-child {
-                width: 70%;
-            }
-        }
+        justify-content: space-between;
 
         h1 {
             margin: 0px;
-            font-size: 2em;
-            color: $color-primary;
             &:hover {
                 cursor: pointer;
             }
@@ -39,23 +28,20 @@
     
         ul {
             list-style: none;
-            display: flex;
-            float: right;
             margin: 0px;
             height: 60px;
+            display: flex;
+            flex-direction: row;
             li {
-                float: left;
                 transition: $transition;
-                padding: 0px $padding-medium;
+                padding: $padding-horizontal-medium;
                 &:hover, &.active {
-                    transition: $transition;
                     background-color: $color-secondary;
                     background-image: url($texture-1);
                 }
                 a {
-                    color: $color-primary;
+                    color: inherit;
                     text-decoration: none;
-                    transition: $transition;
                     height: 100%;
                     display: flex;
                     align-items: center;

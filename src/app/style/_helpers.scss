@@ -2,15 +2,15 @@
 .container {
     width: 80%;
     margin: auto;
-    margin-top: $margin-large * 2;
-    margin-bottom: $margin-large * 2;
+    margin-top: $margin-large;
+    margin-bottom: $margin-large;
     box-shadow: $box-shadow;
     overflow: auto;
     background-image: url($texture-2);
 }
 
 .buttons {
-    margin: $margin-default;
+    margin: $margin-vertical-small;
     display: flex;
     label, button {
         @include button($color-gray-light, $color-ternary, $color-dark);

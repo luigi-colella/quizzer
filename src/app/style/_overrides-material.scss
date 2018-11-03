@@ -1,26 +1,11 @@
 
-body {
-    margin: 0px;
-    background-color: $color-secondary;
-    background-image: url($texture-1);
-}
-
-h1, h2, h3, h4, h5, h6 {
-    color: $color-primary;
-}
-
-hr {
-    border: .5px solid $color-gray;
-}
-
-/* Angular Material style */
 mat-vertical-stepper {
     font-family: inherit;
     .mat-step-header {
         .mat-step-label.mat-step-label-active {
             color: $color-secondary;
             &.mat-step-label-selected {
-                font-size: 1em;
+                font-size: $font-medium;
                 font-weight: bold;
             }
         }

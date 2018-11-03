@@ -4,12 +4,12 @@
     border: 1px solid $border-color;
     border-radius: $border-radius;
     background-color: $background-color;
-    box-shadow: $box-shadow-2;
+    box-shadow: $box-shadow;
 }
 
 @mixin button($color, $border, $text) {
     border: 1px solid $border;
-    border-radius: $border-radius-small;
+    border-radius: $border-radius;
     background-color: $color;
     color: $text;
     font-family: inherit;

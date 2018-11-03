@@ -14,7 +14,9 @@ describe('AppComponent', () => {
 				AppHeader,
 				AppComponent
 			],
-			imports: [RouterModule.forRoot([])],
+			imports: [
+				RouterModule.forRoot([])
+			],
 			providers: [
 				{ provide: APP_BASE_HREF, useValue: '/' }
 			]

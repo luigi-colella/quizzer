@@ -59,7 +59,7 @@ export const quizMusic : Quiz = {
         {
             text: `Quale scarpe indossi di solito`,
             answers: [
-                { text: 'Mocassini', value: 'classica' },
+                { text: 'Stringate classiche', value: 'classica' },
                 { text: 'Converse', value: 'rock' },
                 { text: 'Adidas', value: 'rap' }
             ]
