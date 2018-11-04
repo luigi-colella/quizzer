@@ -15,17 +15,17 @@ export class QuizHandler {
     constructor(){}
 
     /**
-     * Encode the quiz object to JSON format
+     * Encode the quiz object to URL
      * @param {Object} data the quiz object
-     * @return {string} the JSON string
+     * @return {string} the URL string
      */
     encode (data: Quiz): string {
         return this.encodingDeclaration + encodeURIComponent(JSON.stringify(data));
     }
 
     /**
-     * Decode a JSON string to quiz object
-     * @param {string} string the JSON string
+     * Decode a URL to quiz object
+     * @param {string} string the URL string
      * @return {Object} the quiz object
      */
     decode (string: string): Quiz {
@@ -38,15 +38,29 @@ export class QuizHandler {
         )
     }
 
+    /**
+     * Load quiz object into a quizHandler instance to handle it
+     * @param quiz the quiz object
+     * @return {Object} the current quizHandler instance
+     */
     load(quiz: Quiz) : this {
         this.currentQuiz = quiz;
         return this;
     }
 
+    /**
+     * Get the quiz object loaded in quizHandler instance
+     * @return {Object} the quiz object
+     */
     getQuizObject() : Quiz {
         return Object.assign({}, this.currentQuiz);
     }
 
+    /**
+     * Process the provided answers and get result according to loaded quiz object
+     * @param {Array} answers an array of answer's values
+     * @returns {Object} the result object
+     */
     getResult(answers : AnswerValue[]) : Result {
         
         //Results matching with provided answers

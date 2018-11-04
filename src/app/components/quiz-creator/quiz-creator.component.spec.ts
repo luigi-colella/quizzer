@@ -1,6 +1,6 @@
+/* Vendor imports */
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
-/* Vendor imports */
 import { By } from '@angular/platform-browser';
 import { MaterialModule } from '../../modules/material.module';
 import { MatOption } from '@angular/material/core';
@@ -11,7 +11,7 @@ import { QuizCreatorComponent as Component } from './quiz-creator.component';
 import { Quiz, QuizType } from '../../types';
 import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../constants';
 
-describe('Quiz Creator Component', () => {
+describe('QuizCreator Component', () => {
 
     let componentFixture: ComponentFixture<Component>;
     let componentDebug: DebugElement;
@@ -278,7 +278,7 @@ describe('Quiz Creator Component', () => {
         ).toBeTruthy();
     })
 
-    it('should set right answer\'s options for the "True or False" type', () => {
+    it('should set right answer\'s options for the \'True or False\' type', () => {
         // Set type of quiz
         testUtils.selectOption(DOMSelectors.settingsForm.type, TRUEORFALSE_QUIZ);
         testUtils.goNext();
@@ -296,7 +296,7 @@ describe('Quiz Creator Component', () => {
 
     })
 
-    it('should set right answer\'s input for the "Personality" type', async () => {
+    it('should set right answer\'s input for the \'Personality\' type', async () => {
         // Set type of quiz
         testUtils.selectOption(DOMSelectors.settingsForm.type, PERSONALITY_QUIZ);
         testUtils.goNext();

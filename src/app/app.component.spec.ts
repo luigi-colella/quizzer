@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AppHeader } from './components/header/header.component';
 import { AppComponent } from './app.component';
 
-describe('AppComponent', () => {
+describe('App Component', () => {
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
