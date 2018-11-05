@@ -1,5 +1,7 @@
 # Quizzer
 
+[![Build Status](https://travis-ci.org/lgcolella/Quizzer.svg?branch=master)](https://travis-ci.org/lgcolella/Quizzer)
+
 ## Indice dei contenuti
 1. [Presentazione](#presentazione)
 2. [Stack utilizzato](#stack-utilizzato)
