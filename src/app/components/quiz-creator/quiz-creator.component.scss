@@ -25,6 +25,15 @@
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
+                overflow: inherit;
+                .truncate-label {
+                    display: flex;
+                    text-overflow: ellipsis;
+                    justify-content: flex-end;
+                }
+                .panel-description-buttons {
+                    display: flex;
+                }
             }
         }
     }

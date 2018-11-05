@@ -75,16 +75,18 @@
                     <div class="truncate-label">
                       <span class="panel-label">{{question.get('text').value}}</span>
                     </div>
-                    <!-- Button to remove this question -->
-                    <button mat-icon-button (click)="handleQuestions.remove(questionIndex)" matTooltip="Elimina questa domanda">
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                    <!-- /Button to remove this question -->
-                    <!-- Button to add a new answer -->
-                    <button mat-icon-button (click)="$event.stopPropagation(); handleQuestions.addNewAnswer(questionIndex)" matTooltip="Aggiungi una risposta">
-                      <mat-icon>add</mat-icon>
-                    </button>
-                    <!-- /Button to add a new answer -->
+                    <div class="panel-description-buttons">
+                      <!-- Button to remove this question -->
+                      <button mat-icon-button (click)="handleQuestions.remove(questionIndex)" matTooltip="Elimina questa domanda">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                      <!-- /Button to remove this question -->
+                      <!-- Button to add a new answer -->
+                      <button mat-icon-button (click)="$event.stopPropagation(); handleQuestions.addNewAnswer(questionIndex)" matTooltip="Aggiungi una risposta">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                      <!-- /Button to add a new answer -->
+                    </div>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <!-- Expansion panel body -->
