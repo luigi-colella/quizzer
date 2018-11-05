@@ -19,6 +19,7 @@ Quizzer è una web app per creare, salvare e condividere quiz.
 [![Jasmine](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/jasmine.png "Jasmine")](https://jasmine.github.io/)
 [![Karma](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/karma.png "Karma")](http://karma-runner.github.io)
 [![Yarn](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/yarn.png "Yarn")](https://yarnpkg.com)
+[![Travis CI](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/travis.png "Travis CI")](https://travis-ci.org/)
 
 ## Installazione ed utilizzo
 
