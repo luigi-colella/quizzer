@@ -65,14 +65,14 @@
           <!-- Quiz questions -->
           <mat-accordion #questionAccordion="matAccordion" [multi]="true">
             <ng-container *ngFor="let question of quiz.get('questions').controls; let questionIndex = index">
-              <mat-expansion-panel [hideToggle]="true">
+              <mat-expansion-panel [hideToggle]="true" #questionPanel="matExpansionPanel">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     <label>{{questionIndex + 1}}/{{quiz.get('questions').length}}</label>
                     <mat-icon *ngIf="question.valid">check</mat-icon>
                   </mat-panel-title>
                   <mat-panel-description>
-                    <div class="truncate-label">
+                    <div *ngIf="!questionPanel.expanded" class="truncate-label">
                       <span class="panel-label">{{question.get('text').value}}</span>
                     </div>
                     <div class="panel-description-buttons">
@@ -185,14 +185,14 @@
           </div>
           <mat-accordion [multi]="true" #resultsAccordion="matAccordion">
             <ng-container *ngFor="let answer of quiz.get('answers').controls; let i = index">
-              <mat-expansion-panel [expanded]="true" [hideToggle]="true">
+              <mat-expansion-panel [expanded]="true" [hideToggle]="true" #resultPanel="matExpansionPanel">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     <label>{{i+1}}/{{quiz.get('answers').controls.length}}</label>
                     <mat-icon *ngIf="answer.valid">check</mat-icon>
                   </mat-panel-title>
                   <mat-panel-description>
-                    <div class="truncate-label">
+                    <div *ngIf="!resultPanel.expanded" class="truncate-label">
                       <span>{{answer.get('title').value}}</span>
                     </div>
                     <button mat-icon-button (click)="handleAnswers.remove(i)" type="button" matTooltip="Elimina questo risultato">
