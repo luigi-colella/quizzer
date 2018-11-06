@@ -8,8 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "dev": "node ./node_modules/concurrently/src/main.js \"npm run start\" \"npm run test\"",
-    "gh-pages": "npm run build -- --output-path=docs --base-href=\"./\""
+    "dev": "node ./node_modules/concurrently/src/main.js \"npm run start\" \"npm run test\""
   },
   "private": true,
   "dependencies": {

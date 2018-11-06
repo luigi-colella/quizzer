@@ -15,3 +15,12 @@ install:
   - yarn
 script:
   - yarn test
+before_deploy:
+  - npm run build -- --base-href=https://lgcolella.github.io/Quizzer/Quizzer/
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist
+  on:
+    branch: master

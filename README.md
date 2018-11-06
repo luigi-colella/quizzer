@@ -11,6 +11,10 @@
 ## Presentazione
 Quizzer è una web app per creare, salvare e condividere quiz.
 
+Puoi provare direttamente dal tuo browser l'ultima build dell'app al seguente [link](https://lgcolella.github.io/Quizzer/Quizzer/).
+
+Il testing e il deployment della build è gestito tramite il servizio di continuous integration Travis.
+
 ## Stack utilizzato
 [![Angular](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/angular.png "Angular")](https://angular.io/)
 [![Angular Material](https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/material.png "Angular Material")](https://material.angular.io/)
