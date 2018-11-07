@@ -16,7 +16,7 @@ install:
 script:
   - yarn test
 before_deploy:
-  - npm run build -- --base-href=https://lgcolella.github.io/Quizzer/Quizzer/
+  - npm run build -- --base-href=https://lgcolella.github.io/Quizzer/
 deploy:
   provider: pages
   skip_cleanup: true

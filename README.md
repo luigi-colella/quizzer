@@ -11,7 +11,7 @@
 ## Presentazione
 Quizzer è una web app per creare, salvare e condividere quiz.
 
-Puoi provare direttamente dal tuo browser l'ultima build dell'app al seguente [link](https://lgcolella.github.io/Quizzer/Quizzer/).
+Puoi provare direttamente dal tuo browser l'ultima build dell'app al seguente [link](https://lgcolella.github.io/Quizzer/).
 
 Il testing e il deployment della build è gestito tramite il servizio di continuous integration Travis.
 
