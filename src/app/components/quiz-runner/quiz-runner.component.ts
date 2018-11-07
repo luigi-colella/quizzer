@@ -85,7 +85,7 @@ export class QuizRunnerComponent implements OnInit {
             break;
 
             case this.quizAvailableStates.STARTED:
-
+                if (!this.givenUserAnswers[this.curQuestionIndex]) return;
                 if(this.curQuestionIndex + 1 === this.curQuiz.questions.length){
                     this.curQuizResult = this.quizHandler.getResult(this.givenUserAnswers);
                     this.quizState = this.quizAvailableStates.FINISHED;
@@ -93,7 +93,6 @@ export class QuizRunnerComponent implements OnInit {
                     this.curQuestionIndex += 1;
                     this.submitButtonIsDisabled = true;
                 }
-
             break;
 
             case this.quizAvailableStates.FINISHED:
