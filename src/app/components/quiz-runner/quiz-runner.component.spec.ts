@@ -120,6 +120,13 @@ describe('QuizRunner Component', () => {
         )
     })
 
+    it('should be able to submit current view if press Enter key', () => {
+        spyOn(compIstance, 'onSubmit');
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+        fixture.detectChanges();
+        expect(compIstance.onSubmit).toHaveBeenCalledTimes(1);
+    })
+
     it('should finish the quiz after answering all questions', () => {
         testUtils.answerToAllQuestions();
         //If there will not be another choices, test is passed

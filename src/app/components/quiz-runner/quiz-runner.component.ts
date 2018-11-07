@@ -40,6 +40,15 @@ export class QuizRunnerComponent implements OnInit {
 
     ngOnInit(){
         this.loadQuiz(this.quizHandler.load(mockQuiz).getQuizObject());
+        document.addEventListener('keydown', this.onKeyboardEnterEvent);
+    }
+
+    ngOnDestroy () {
+        document.removeEventListener('keydown', this.onKeyboardEnterEvent);
+    }
+
+    onKeyboardEnterEvent = (ev: KeyboardEvent) => {
+        if (ev.key === 'Enter') this.onSubmit();
     }
 
     uploadQuiz(event: FileInputEvent) {
