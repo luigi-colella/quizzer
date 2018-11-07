@@ -92,7 +92,8 @@ export class QuizCreatorComponent implements OnInit {
             return this.ngFormBuilder.group({
                 value: ['', this.quizValidators.validText()],
                 title: ['', this.quizValidators.validText()],
-                description: ['', this.quizValidators.validText()]
+                description: ['', this.quizValidators.validText()],
+                imageUrl: ['', Validators.pattern(/\.(jpeg|jpg|gif|png)$/)]
             })
         }
 
@@ -103,6 +104,7 @@ export class QuizCreatorComponent implements OnInit {
             title: ['', this.quizValidators.validText()],
             description: ['', this.quizValidators.validText()],
             type: ['', this.quizValidators.validQuizType()],
+            imageUrl: ['', Validators.pattern(/\.(jpeg|jpg|gif|png)$/)]
         }),
         questions: this.ngFormBuilder.array([ /*this.quizBuilders.emptyQuestion()*/ ], this.quizValidators.validItems()),
         answers: this.ngFormBuilder.array([ /*this.quizBuilders.emptyResult()*/ ], this.quizValidators.validItems())

@@ -5,7 +5,8 @@ export const quizMusic : Quiz = {
     settings: {
         title: 'Quale musica ti piace',
         description: 'Scopri il tuo genere preferito facendo il nostro quiz!',
-        type: 'personalityQuiz'
+        type: 'personalityQuiz',
+        imageUrl: 'https://images.pexels.com/photos/3104/black-and-white-music-headphones-life.jpg'
     },
 
     answers: [
@@ -13,18 +14,21 @@ export const quizMusic : Quiz = {
             value: 'classica',
             title: 'Classica',
             description: 'Ami il mondo classico',
+            imageUrl: 'https://images.pexels.com/photos/462430/pexels-photo-462430.jpeg'
         },
 
         {
             value: 'rock',
             title: 'Rock',
             description: 'Ami il rock',
+            imageUrl: 'https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg'
         },
 
         {
             value: 'rap',
             title: 'Rap',
             description: 'Viva la musica hip hop',
+            imageUrl: 'https://images.pexels.com/photos/759832/pexels-photo-759832.jpeg'
         }
     ],
 

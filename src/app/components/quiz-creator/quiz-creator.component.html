@@ -29,6 +29,13 @@
             <textarea matInput formControlName="description" [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci una descrizione introduttiva per il tuo quiz"></textarea>
             <mat-error *ngIf="quiz.get('settings').get('description').invalid">{{quiz.get('settings').get('description').errors.validText.text}}</mat-error>
           </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>URL immagine di copertina</mat-label>
+            <input matInput formControlName="imageUrl" [errorStateMatcher]="errorMatcher" matTooltip="Inserisci l'URL di un'immagine per la copertina del tuo quiz. Formati validi: .jpeg, .jpg, .gif, .png">
+            <mat-error *ngIf="quiz.get('settings').get('imageUrl').invalid">URL non valido.</mat-error>
+          </mat-form-field>
+
         </div>
         <!-- /Quiz settings -->
         <!-- Stepper info -->
@@ -242,9 +249,17 @@
                   <mat-form-field>
                     <mat-label>Descrizione</mat-label>
                     <textarea formControlName="description" matInput [errorStateMatcher]="errorMatcher" matTooltip="Fornisci una descrizione del risultato"></textarea>
-                    <mat-error *ngIf="!answer.get('description').valid">{{answer.get('description').errors.validText.text}}</mat-error>
+                    <mat-error *ngIf="answer.get('description').invalid">{{answer.get('description').errors.validText.text}}</mat-error>
                   </mat-form-field>
                   <!-- /Result description -->
+
+                  <!-- Result image -->
+                  <mat-form-field>
+                    <mat-label>URL Immagine</mat-label>
+                    <input formControlName="imageUrl" matInput [errorStateMatcher]="errorMatcher" matTooltip="Inserisci l'URL di un'immagine per rappresentare questo risultato. Formati validi: .jpeg, .jpg, .gif, .png">
+                    <mat-error *ngIf="answer.get('imageUrl').invalid">URL non valido</mat-error>
+                  </mat-form-field>
+                  <!-- /Result image -->
 
                 </div>
               </mat-expansion-panel>

@@ -7,6 +7,7 @@ import { MaterialModule } from '../../modules/material.module';
 /* App imports */
 import { QuizRunnerModule } from './quiz-runner.module'
 import { QuizRunnerComponent } from './quiz-runner.component';
+import { Quiz } from '../../types';
 
 describe('QuizRunner Component', () => {
 
@@ -18,15 +19,20 @@ describe('QuizRunner Component', () => {
     let DOMSelectors = {
         'title': 'h1',
         'quizDescription': 'p',
+        'coverImage': '.intro .thumbnail img',
         'actionButton': '.buttons button:nth-child(2)',
         'radioInputs': 'mat-radio-button',
         'firstRadioInput': 'mat-radio-button:first-child',
         'resultTitle': '#resultQuiz h2',
-        'resultDescription': '#resultQuiz p'
+        'resultDescription': '#resultQuiz p',
+        'resultImage': '.result .thumbnail:not(.hidden) img'
     }
     let testUtils = {
         normalize: (value: string): string => {
             return value.trim().toLowerCase();
+        },
+        getCurQuiz: (): Quiz => {
+            return compIstance.curQuiz;
         },
         getElementText: (selectorCSS: string): string => {
             return compHTML.querySelector(selectorCSS).textContent;
@@ -93,6 +99,12 @@ describe('QuizRunner Component', () => {
         );
     })
 
+    it('should have the quiz cover image', () => {
+        let imgUrl = testUtils.getCurQuiz().settings.imageUrl;
+        let imgDOMElement = compHTML.querySelector(DOMSelectors.coverImage) as HTMLImageElement;
+        expect(imgDOMElement.src).toBe(imgUrl);
+    })
+
     it('should have a button to start the test', () => {
         expect(
             testUtils.getElementsNumber(DOMSelectors.actionButton)
@@ -130,6 +142,13 @@ describe('QuizRunner Component', () => {
         ).toEqual(
             testUtils.normalize(expectedResultDescription)
         )
+    })
+
+    it('should have result image', () => {
+        testUtils.answerToAllQuestions();
+        let imgURL = compIstance.curQuizResult.imageUrl;
+        let imgDOMElement = compHTML.querySelector(DOMSelectors.resultImage) as HTMLImageElement;
+        expect(imgDOMElement.src).toBe(imgURL);
     })
 
     it('should repeat the quiz after having finished it', () => {

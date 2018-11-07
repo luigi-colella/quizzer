@@ -5,6 +5,7 @@ export class Quiz {
         title: string,
         description: string,
         type: 'personalityQuiz' | 'trueorfalseQuiz';
+        imageUrl?: string
     }
 
     questions: Array<{
@@ -18,7 +19,8 @@ export class Quiz {
     answers: Array<{
         value: string,
         title: string,
-        description: string
+        description: string,
+        imageUrl?: string
     }>
 
 }

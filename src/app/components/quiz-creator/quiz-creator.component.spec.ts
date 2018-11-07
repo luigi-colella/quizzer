@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { MaterialModule } from '../../modules/material.module';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { FormControl } from '@angular/forms';
 /* App imports */
 import { QuizCreatorModule } from './quiz-creator.module';
 import { QuizCreatorComponent as Component } from './quiz-creator.component';
@@ -24,7 +25,8 @@ describe('QuizCreator Component', () => {
         settingsForm: {
             title: 'input[matInput][formControlName="title"]',
             type: 'mat-select[formcontrolname="type"]',
-            description: 'textarea[matinput][formcontrolname="description"]'
+            description: 'textarea[matinput][formcontrolname="description"]',
+            imageUrl: 'input[matInput][formcontrolname="imageUrl"]'
         },
         dialog: {
             textInput: 'mat-dialog-container input[matInput]'
@@ -49,7 +51,8 @@ describe('QuizCreator Component', () => {
             titleInput: '[formarrayname="answers"] [formcontrolname="title"]',
             valueInput: '[formarrayname="answers"] [formcontrolname="value"]',
             answerValueSelect: '[formarrayname="answers"] mat-select',
-            descriptionInput: '[formarrayname="answers"] [formcontrolname="description"]'
+            descriptionInput: '[formarrayname="answers"] [formcontrolname="description"]',
+            imageUrl: '[formarrayname="answers"] [formControlName="imageUrl"]'
         }
     };
     let testUtils = {
@@ -186,6 +189,19 @@ describe('QuizCreator Component', () => {
         expect(quizSettings.title).toBe(quizValues.title);
         expect(quizSettings.type).toBe(quizValues.type);
         expect(quizSettings.description).toBe(quizValues.description);
+    })
+
+    it('should let add a valid image url as quiz cover', () => {
+        let imageUrlForm = () => { return componentInstance.quiz.get('settings').get('imageUrl') as FormControl; };
+        expect(imageUrlForm().valid).toBeTruthy(); // This field is optional so as default the related form shoudl be valid
+        testUtils.fillInput(DOMSelectors.settingsForm.imageUrl, testUtils.getRandomValue());
+        expect(imageUrlForm().valid).toBeFalsy();
+        let validValue = testUtils.getRandomValue() + '.png';
+        testUtils.fillInput(DOMSelectors.settingsForm.imageUrl, validValue);
+        // Check that form is valid and that quiz object is updated
+        let quizSettings = testUtils.getQuizObj().settings;
+        expect(imageUrlForm().valid).toBeTruthy();
+        expect(quizSettings.imageUrl).toBe(validValue);
     })
 
     it('should have only default types of avaible quiz', () => {
@@ -397,5 +413,20 @@ describe('QuizCreator Component', () => {
         expect(testUtils.getQuizObj().answers[0].description).toBe(quizValues.description);
         // After test remove modal input to avoid conflicts with other tests that use it
         document.querySelector(DOMSelectors.dialog.textInput).remove();
+    })
+
+    it('should let add a valid image url for a quiz result', () => {
+        testUtils.goNext();
+        testUtils.goNext();
+        testUtils.addResult();
+        let imageUrlForm = () => { return componentInstance.quiz.get('answers').at(0).get('imageUrl') as FormControl; };
+        expect(imageUrlForm().valid).toBeTruthy(); // This field is optional so as default the related form shoudl be valid
+        testUtils.fillInput(DOMSelectors.answerForm.imageUrl, testUtils.getRandomValue());
+        expect(imageUrlForm().valid).toBeFalsy();
+        let validValue = testUtils.getRandomValue() + '.png';
+        testUtils.fillInput(DOMSelectors.answerForm.imageUrl, validValue);
+        // Check that form is valid and that quiz object is updated
+        expect(imageUrlForm().valid).toBeTruthy();
+        expect(testUtils.getQuizObj().answers[0].imageUrl).toBe(validValue);
     })
 })
