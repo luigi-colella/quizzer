@@ -28,13 +28,15 @@
     
         ul {
             list-style: none;
-            margin: 0px;
-            height: 60px;
+            margin: $margin-medium 0px;
+            height: 40px;
             display: flex;
             flex-direction: row;
             li {
-                transition: $transition;
+                margin: $margin-zero $margin-small / 2;
                 padding: $padding-horizontal-medium;
+                border-radius: $border-radius-3;
+                transition: $transition;
                 &:hover, &.active {
                     background-color: $color-secondary;
                     background-image: url($texture-1);

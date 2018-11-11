@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { QuizRunnerModule } from './components/quiz-runner/quiz-runner.module';
 import { QuizCreatorModule } from './components/quiz-creator/quiz-creator.module';
+import { QuizListModule } from './components/quiz-list/quiz-list.module';
 import { AppHeader } from './components/header/header.component';
 import { AppComponent } from './app.component';
 
@@ -15,9 +16,10 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     QuizRunnerModule,
     QuizCreatorModule,
-    AppRoutingModule
+    QuizListModule
   ],
   bootstrap: [
     AppComponent

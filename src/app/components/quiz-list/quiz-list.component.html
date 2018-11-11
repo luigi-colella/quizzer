@@ -1,0 +1,23 @@
+
+<div class="container">
+
+    <div class="quiz-list">
+        <div *ngFor="let quiz of quizzes; let i = index" class="quiz-item">
+            <!-- Quiz card -->
+            <mat-card routerLink="/launch/{{i}}">
+                <mat-card-header>
+                    <mat-card-title>{{quiz.settings.title}}</mat-card-title>
+                    <mat-card-subtitle>{{quizTypes[quiz.settings.type]}}</mat-card-subtitle>
+                </mat-card-header>
+                <div *ngIf="quiz.settings.imageUrl">
+                    <img mat-card-image [src]="quiz.settings.imageUrl" alt="Image of the quiz">
+                </div>
+                <mat-card-content>
+                    <p>{{quiz.settings.description}}</p>
+                </mat-card-content>
+            </mat-card>
+            <!-- /Quiz card -->
+        </div>
+    </div>
+
+</div>

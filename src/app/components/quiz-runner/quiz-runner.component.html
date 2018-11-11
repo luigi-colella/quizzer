@@ -1,5 +1,5 @@
 
-<div class="container">
+<div class="container" *ngIf="curQuiz">
 
     <div class="sub-container">
         <h1>{{curQuiz.settings.title}}</h1>
@@ -24,7 +24,7 @@
                 <p>{{curQuiz.questions[curQuestionIndex].text}}</p>
                 <mat-radio-group [value]="givenUserAnswers[curQuestionIndex]">
                     <ng-container *ngFor='let obj of curQuiz.questions[curQuestionIndex].answers'>
-                        <mat-radio-button [name]='curQuiz.title' (click)='selectAnswer(obj.value)' selected="false">
+                        <mat-radio-button [name]='curQuiz.title' (change)='selectAnswer(obj.value)' [value]="obj.value">
                             {{obj.text}}
                         </mat-radio-button>
                     </ng-container>

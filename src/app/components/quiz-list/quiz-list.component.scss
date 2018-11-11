@@ -1,0 +1,46 @@
+@import '../../style/style.scss';
+
+h1 {
+    text-align: center;
+}
+
+.container {
+    box-shadow: none;
+    background-image: none;
+    width: 90%;
+    padding: $padding-small $padding-medium;
+}
+
+.quiz-list {
+    display: flex;
+    flex-wrap: wrap;
+    .quiz-item {
+        display: flex;
+        width: 50%;
+        box-sizing: border-box;
+        padding: $padding-medium;
+        @include breakpoint-desktop() {
+            width: 33%;
+            padding: $padding-medium;
+        }
+        mat-card {
+            text-align: center;
+            border: 4px solid $color-primary;
+            color: $color-primary;
+            background-color: $color-ternary;
+            box-shadow: 10px 10px 0 0 $color-dark;
+            transition: $transition;
+            &:hover {
+                cursor: pointer;
+                box-shadow: none;
+                transform: rotate(5deg);
+            }
+            mat-card-header {
+                margin-bottom: $margin-medium;
+                mat-card-subtitle {
+                    color: $color-primary;
+                }
+            }
+        }
+    }
+}

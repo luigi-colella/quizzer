@@ -61,10 +61,10 @@
               <mat-icon>add</mat-icon>Aggiungi domanda
             </button>
             <button mat-button (click)="questionAccordion.openAll()" *ngIf="quiz.get('questions').length > 0" type="button">
-              <mat-icon>expand_more</mat-icon>Espandi tutto
+              <mat-icon>expand_more</mat-icon>Espandi
             </button>
             <button mat-button (click)="questionAccordion.closeAll()" *ngIf="quiz.get('questions').length > 0" type="button" class="red">
-              <mat-icon>expand_less</mat-icon>Chiudi tutto
+              <mat-icon>expand_less</mat-icon>Chiudi
             </button>
           </div>
           <!-- /Questions main buttons -->
@@ -186,9 +186,9 @@
             <button mat-button (click)="handleAnswers.addNew()" type="button">
               <mat-icon>add</mat-icon>Aggiungi risultato</button>
             <button *ngIf="quiz.get('answers').length > 0" mat-button (click)="resultsAccordion.openAll()" type="button">
-              <mat-icon>expand_more</mat-icon>Espandi tutto</button>
+              <mat-icon>expand_more</mat-icon>Espandi</button>
             <button *ngIf="quiz.get('answers').length > 0" mat-button (click)="resultsAccordion.closeAll()" type="button" class="red">
-              <mat-icon>expand_less</mat-icon>Chiudi tutto</button>
+              <mat-icon>expand_less</mat-icon>Chiudi</button>
           </div>
           <mat-accordion [multi]="true" #resultsAccordion="matAccordion">
             <ng-container *ngFor="let answer of quiz.get('answers').controls; let i = index">

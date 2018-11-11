@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 //Material modules
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule, MatCardModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule, MatTab } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -24,7 +24,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatRadioModule,
         MatSelectModule,
         MatStepperModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatCardModule
     ]
 })
 export class MaterialModule {}

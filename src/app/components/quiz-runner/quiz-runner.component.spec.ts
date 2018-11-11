@@ -21,8 +21,8 @@ describe('QuizRunner Component', () => {
         'quizDescription': 'p',
         'coverImage': '.intro .thumbnail img',
         'actionButton': '.buttons button:nth-child(2)',
-        'radioInputs': 'mat-radio-button',
-        'firstRadioInput': 'mat-radio-button:first-child',
+        'radioInputs': 'mat-radio-button input[type="radio"]',
+        'firstRadioInput': 'mat-radio-button:first-child input[type="radio"]',
         'resultTitle': '#resultQuiz h2',
         'resultDescription': '#resultQuiz p',
         'resultImage': '.result .thumbnail:not(.hidden) img'

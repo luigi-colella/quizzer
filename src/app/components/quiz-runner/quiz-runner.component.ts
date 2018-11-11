@@ -1,8 +1,10 @@
 /* Vendor imports */
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 /* App imports */
 import { Quiz, AnswerValue } from '../../types';
 import { QuizHandler } from '../../services/quizHandler.service';
+import { QuizDatabase } from '../../services/quizDatabase.service';
 /* Quiz sample imports */
 import { quizMusic as mockQuiz } from '../../mocks/quiz.music';
 
@@ -35,11 +37,22 @@ export class QuizRunnerComponent implements OnInit {
     submitButtonIsDisabled: boolean = false;
 
     constructor(
-        private quizHandler : QuizHandler
+        private route: ActivatedRoute,
+        private quizHandler: QuizHandler,
+        private quizDatabase: QuizDatabase
     ){}
 
     ngOnInit(){
-        this.loadQuiz(this.quizHandler.load(mockQuiz).getQuizObject());
+        const id = this.route.snapshot.paramMap.get('id');
+        if (id) {
+            this.quizDatabase.get(Number(id)).subscribe({
+                next: (quiz) => {
+                    this.loadQuiz(this.quizHandler.load(quiz).getQuizObject());
+                }
+            })
+        } else {
+            this.loadQuiz(this.quizHandler.load(mockQuiz).getQuizObject());
+        }
         document.addEventListener('keydown', this.onKeyboardEnterEvent);
     }
 
@@ -85,8 +98,8 @@ export class QuizRunnerComponent implements OnInit {
             break;
 
             case this.quizAvailableStates.STARTED:
-                if (!this.givenUserAnswers[this.curQuestionIndex]) return;
-                if(this.curQuestionIndex + 1 === this.curQuiz.questions.length){
+                if (this.givenUserAnswers[this.curQuestionIndex] === undefined) return;
+                if (this.curQuestionIndex + 1 === this.curQuiz.questions.length) {
                     this.curQuizResult = this.quizHandler.getResult(this.givenUserAnswers);
                     this.quizState = this.quizAvailableStates.FINISHED;
                 } else {

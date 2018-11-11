@@ -32,9 +32,16 @@ mat-radio-button {
         width: 100%;
         box-sizing: border-box;
         padding: $padding-medium;
-        transition: background-color $transition;
+        transition: background-color $transition, border-radius $transition;
         &:hover {
             background-color: $color-gray;
+            border-radius: $border-radius-3;
         }
+    }
+}
+
+mat-card {
+    .mat-card-header-text {
+        width: 100%;
     }
 }

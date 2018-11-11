@@ -4,24 +4,22 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from '../../modules/material.module';
 /* App imports */
-import { QuizRunnerComponent } from './quiz-runner.component';
-import { QuizRunnerRoutingModule } from './quiz-runner-routing.module';
-import { QuizHandler } from '../../services/quizHandler.service';
+import { QuizListComponent as Component } from './quiz-list.component';
+import { QuizListRoutingModule as RoutingModule } from './quiz-list-routing.module';
 import { QuizDatabase } from '../../services/quizDatabase.service';
 
 @NgModule({
     declarations: [
-        QuizRunnerComponent
+        Component
     ],
     imports: [
         CommonModule,
         HttpClientModule,
-        QuizRunnerRoutingModule,
-        MaterialModule
+        MaterialModule,
+        RoutingModule
     ],
     providers: [
-        QuizHandler,
         QuizDatabase
     ]
 })
-export class QuizRunnerModule {};
+export class QuizListModule {}
