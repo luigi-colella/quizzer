@@ -1,4 +1,12 @@
-# Quizzer
+<p align="center">
+    <a href="https://lgcolella.github.io/Quizzer/">
+        <img src="https://github.com/lgcolella/Quizzer/raw/master/repository/img/96x96/logo.png" alt="Quizzer logo">
+    </a>
+    <h3 align="center">Quizzer</h3>
+    <p align="center">Una web app per creare, giocare, condividere quiz in maniera veloce e piacevole.</p>
+    
+</p>
+
 
 [![Build Status](https://travis-ci.org/lgcolella/Quizzer.svg?branch=master)](https://travis-ci.org/lgcolella/Quizzer)
 
@@ -9,7 +17,7 @@
 4. [Come contribuire](#come-contribuire)
 
 ## Presentazione
-Quizzer è una web app per creare, salvare e condividere quiz.
+I quiz sono un utilissimo strumento adatto a molteplici scopi: divertimento, didattica, competizioni, indagini di marketing ecc. Questa applicazione vuole essere una soluzione intuitiva, rapida e piacevole sia per sviluppare e condividere i propri quiz con gli altri sia per giocarci.
 
 Puoi provare direttamente dal tuo browser l'ultima build dell'app al seguente [link](https://lgcolella.github.io/Quizzer/).
 
