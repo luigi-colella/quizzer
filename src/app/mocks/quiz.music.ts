@@ -6,7 +6,7 @@ export const quizMusic : Quiz = {
         title: 'Quale musica ti piace',
         description: 'Scopri il tuo genere preferito facendo il nostro quiz!',
         type: 'personalityQuiz',
-        imageUrl: 'https://images.pexels.com/photos/3104/black-and-white-music-headphones-life.jpg'
+        imageUrl: 'https://images.pexels.com/photos/3104/black-and-white-music-headphones-life.jpg?auto=compress&cs=tinysrgb&h=400'
     },
 
     answers: [
@@ -14,21 +14,21 @@ export const quizMusic : Quiz = {
             value: 'classica',
             title: 'Classica',
             description: 'Ami il mondo classico',
-            imageUrl: 'https://images.pexels.com/photos/462430/pexels-photo-462430.jpeg'
+            imageUrl: 'https://images.pexels.com/photos/462430/pexels-photo-462430.jpeg?auto=compress&cs=tinysrgb&h=400'
         },
 
         {
             value: 'rock',
             title: 'Rock',
             description: 'Ami il rock',
-            imageUrl: 'https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg'
+            imageUrl: 'https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&h=400'
         },
 
         {
             value: 'rap',
             title: 'Rap',
             description: 'Viva la musica hip hop',
-            imageUrl: 'https://images.pexels.com/photos/759832/pexels-photo-759832.jpeg'
+            imageUrl: 'https://images.pexels.com/photos/759832/pexels-photo-759832.jpeg?auto=compress&cs=tinysrgb&h=400'
         }
     ],
 

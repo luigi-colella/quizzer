@@ -1,26 +1,13 @@
 /* Vendor imports */
 import { Component, OnInit } from '@angular/core';
-import { 
-    FormBuilder, FormArray, 
-    Validators, AbstractControl, ValidatorFn, ValidationErrors, FormControl,
-    FormGroupDirective, NgForm, FormGroup
-} from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { FormBuilder, FormArray, AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 /* App imports */
 import { DialogFormComponent } from './dialog-form/dialog-form.component';
 import { QuizHandler } from '../../services/quizHandler.service';
 import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../constants';
 import { Quiz, QuizType } from '../../types';
-
-//Quiz errors matcher
-class QuizCreatorErrorStateMatcher implements ErrorStateMatcher {
-    isErrorState (control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-        const isFormSubmitted = form && form.submitted;
-        const isControlUsed = control.dirty || control.touched || isFormSubmitted;
-        return !!(control && isControlUsed && control.invalid);
-    }
-}
+import { validators as customValidators, QuizCreatorErrorStateMatcher as customErrorMatcher } from './quiz-creator-validators';
 
 @Component({
     selector: 'app-quiz-creator',
@@ -34,66 +21,27 @@ export class QuizCreatorComponent implements OnInit {
         'trueorfalseQuiz': TRUEORFALSE_QUIZ,
         'personalityQuiz': PERSONALITY_QUIZ
     }
-    //Validators for input
-    quizValidators = {
-        validText: (): ValidatorFn => {
-            return (control: AbstractControl) : {[key: string]: any} | null => {
-                let errorMsg: string;
-                let inputValue = control.value;
-                if (inputValue === '') errorMsg = 'campo mancante'
-                else if (typeof inputValue === 'string' && inputValue.trim() === '') errorMsg = 'testo non valido'
-                else return null;
-                return { 'validText': { text: errorMsg } };
-            }
-        },
-        validItems: (): ValidatorFn => {
-            return (control: FormArray) : {[key: string] : any} | null => {
-                let valid = control.valid && control.length > 0;
-                return !valid ? { 'validItems': true } : null;
-            }
-        },
-        validQuizType: (): ValidatorFn => {
-            return (control: AbstractControl) : ValidationErrors | null => {
-                let valid = control.value === PERSONALITY_QUIZ || control.value === TRUEORFALSE_QUIZ;
-                return !valid ? { 'validQuizType': { text: 'tipo di quiz non riconosciuto' } } : null
-            }
-        },
-        validAnswerValue: (): ValidatorFn => {
-            return (control: AbstractControl) : ValidationErrors | null => {
-                if (typeof this.quiz === 'undefined') return null; //To prevent errors during bootstrapp
-                let quizType = this.quiz.get('settings').get('type').value;
-                let inputValue = control.value;
-                if (quizType === PERSONALITY_QUIZ){
-                    return !inputValue ? { 'validAnswerValue' : { text: 'testo vuoto' } } : null
-                } else if (quizType === TRUEORFALSE_QUIZ) {
-                    return typeof inputValue !== 'boolean' ? { 'validAnswerValue' : { text: 'formato vero o falso non corretto' } } : null
-                } else {
-                    return { 'validAnswerValue' : { text: 'tipo di quiz non valido' } }
-                }
-            }
-        }
-    }
     //Builders for reactive form
     quizBuilders = {
 
         emptyAnswer: (): FormGroup => {
             return this.ngFormBuilder.group({
-                text: ['', this.quizValidators.validText()],
-                value: ['', this.quizValidators.validAnswerValue()]
+                text: ['', customValidators.validText()],
+                value: ['', customValidators.validAnswerValue(this.quiz)]
             })
         },
         emptyQuestion: (): FormGroup => {
             return this.ngFormBuilder.group({
-                text: ['', this.quizValidators.validText()],
-                answers: this.ngFormBuilder.array([ this.quizBuilders.emptyAnswer() ], this.quizValidators.validItems())
+                text: ['', customValidators.validText()],
+                answers: this.ngFormBuilder.array([ this.quizBuilders.emptyAnswer() ], customValidators.validItems())
             })
         },
         emptyResult: (): FormGroup => {
             return this.ngFormBuilder.group({
-                value: ['', this.quizValidators.validText()],
-                title: ['', this.quizValidators.validText()],
-                description: ['', this.quizValidators.validText()],
-                imageUrl: ['', Validators.pattern(/\.(jpeg|jpg|gif|png)$/)]
+                value: ['', customValidators.validText()],
+                title: ['', customValidators.validText()],
+                description: ['', customValidators.validText()],
+                imageUrl: ['', customValidators.validImageUrl]
             })
         }
 
@@ -101,16 +49,16 @@ export class QuizCreatorComponent implements OnInit {
     //Reactive form to create a new quiz
     quiz = this.ngFormBuilder.group({
         settings: this.ngFormBuilder.group({
-            title: ['', this.quizValidators.validText()],
-            description: ['', this.quizValidators.validText()],
-            type: ['', this.quizValidators.validQuizType()],
-            imageUrl: ['', Validators.pattern(/\.(jpeg|jpg|gif|png)$/)]
+            title: ['', customValidators.validText()],
+            description: ['', customValidators.validText()],
+            type: ['', customValidators.validQuizType()],
+            imageUrl: ['', customValidators.validImageUrl]
         }),
-        questions: this.ngFormBuilder.array([ /*this.quizBuilders.emptyQuestion()*/ ], this.quizValidators.validItems()),
-        answers: this.ngFormBuilder.array([ /*this.quizBuilders.emptyResult()*/ ], this.quizValidators.validItems())
+        questions: this.ngFormBuilder.array([ /*this.quizBuilders.emptyQuestion()*/ ], customValidators.validItems()),
+        answers: this.ngFormBuilder.array([ /*this.quizBuilders.emptyResult()*/ ], customValidators.validItems())
     })
     // Errors state matcher
-    errorMatcher = new QuizCreatorErrorStateMatcher();
+    errorMatcher = new customErrorMatcher();
     // Input dialog reference
     dialogFormRef: MatDialogRef<DialogFormComponent>
 
