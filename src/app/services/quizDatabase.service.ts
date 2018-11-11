@@ -1,5 +1,6 @@
 /* Vendor imports */
 import { Injectable } from '@angular/core';
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable, zip } from 'rxjs';
 /* App imports */
@@ -10,7 +11,8 @@ import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../constants';
 export class QuizDatabase {
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private location: Location
     ) {}
 
     private data = [
@@ -35,8 +37,9 @@ export class QuizDatabase {
      */
     get (id: number): Observable<Quiz> {
         if (id > this.data.length - 1) throw 'Provided invalid id';
-        let path = '../../assets/quizzes/' + this.data[id] + '.json';
-        return this.http.get<Quiz>(path);
+        let path = 'assets/quizzes/' + this.data[id] + '.json';
+        let quizUrl = this.location.prepareExternalUrl(path);
+        return this.http.get<Quiz>(quizUrl);
     }
 
 }

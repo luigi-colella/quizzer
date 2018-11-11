@@ -1,5 +1,6 @@
 /* Vendor imports */
 import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 /* App imports */
 import { QuizDatabase } from './quizDatabase.service';
@@ -10,7 +11,7 @@ describe('QuizDatabase Service', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [ HttpClientModule ],
+            imports: [ HttpClientModule, RouterTestingModule ],
             providers: [ QuizDatabase ]
         });
         service = TestBed.get(QuizDatabase);
