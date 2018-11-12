@@ -70,7 +70,7 @@ export class QuizRunnerComponent implements OnInit {
             let file: File = uploadedFiles[0];
             let reader: FileReader = new FileReader();
             // Reader's events
-            reader.onerror = (event: ErrorEvent) => { throw 'Error in file upload: ' + event.message };
+            reader.onerror = (event) => { throw 'Error in file upload: ' + event };
             reader.onload = (event: FileLoaderEvent) => {
                 let quiz = this.quizHandler.decode(event.target.result);
                 this.loadQuiz(quiz);

@@ -9,6 +9,7 @@
 
 
 [![Build Status](https://travis-ci.org/lgcolella/Quizzer.svg?branch=master)](https://travis-ci.org/lgcolella/Quizzer)
+[![Coverage Status](https://coveralls.io/repos/github/lgcolella/Quizzer/badge.svg?branch=master)](https://coveralls.io/github/lgcolella/Quizzer?branch=master)
 
 ## Indice dei contenuti
 1. [Presentazione](#presentazione)
