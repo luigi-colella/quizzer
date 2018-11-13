@@ -67,7 +67,6 @@ export class QuizRunnerComponent implements OnInit {
     uploadQuiz(event: FileInputEvent) {
         let uploadedFiles = event.target.files;
         if (uploadedFiles.length === 1) {
-            let file: File = uploadedFiles[0];
             let reader: FileReader = new FileReader();
             // Reader's events
             reader.onerror = (event) => { throw 'Error in file upload: ' + event };
@@ -76,7 +75,7 @@ export class QuizRunnerComponent implements OnInit {
                 this.loadQuiz(quiz);
             }
             // Start reader
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(uploadedFiles[0]);
         } else {
             throw 'Number of uploaded files not correct: ' + uploadedFiles.length;
         }
@@ -90,28 +89,20 @@ export class QuizRunnerComponent implements OnInit {
 
     onSubmit() : void {
 
-        switch(this.quizState){
-            case this.quizAvailableStates.READY:
-                this.quizState = this.quizAvailableStates.STARTED;
-                this.curQuestionIndex = 0;
+        if (this.quizState === this.quizAvailableStates.READY) {
+            this.quizState = this.quizAvailableStates.STARTED;
+            this.curQuestionIndex = 0;
+            this.submitButtonIsDisabled = true;
+        } else if (this.quizState === this.quizAvailableStates.STARTED && this.givenUserAnswers[this.curQuestionIndex] !== undefined) {
+            if (this.curQuestionIndex + 1 === this.curQuiz.questions.length) {
+                this.curQuizResult = this.quizHandler.getResult(this.givenUserAnswers);
+                this.quizState = this.quizAvailableStates.FINISHED;
+            } else {
+                this.curQuestionIndex += 1;
                 this.submitButtonIsDisabled = true;
-            break;
-
-            case this.quizAvailableStates.STARTED:
-                if (this.givenUserAnswers[this.curQuestionIndex] === undefined) return;
-                if (this.curQuestionIndex + 1 === this.curQuiz.questions.length) {
-                    this.curQuizResult = this.quizHandler.getResult(this.givenUserAnswers);
-                    this.quizState = this.quizAvailableStates.FINISHED;
-                } else {
-                    this.curQuestionIndex += 1;
-                    this.submitButtonIsDisabled = true;
-                }
-            break;
-
-            case this.quizAvailableStates.FINISHED:
-                this.resetQuiz();
-            break;
-
+            }
+        } else if (this.quizState === this.quizAvailableStates.FINISHED) {
+            this.resetQuiz();
         }
 
     }
