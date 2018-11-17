@@ -9,9 +9,12 @@ body {
 }
 
 mat-expansion-panel-header, .mat-expansion-panel-content,
+mat-vertical-stepper.mat-stepper-vertical, .mat-vertical-content-container .mat-vertical-stepper-content,
 mat-select.mat-select, mat-option.mat-option,
 mat-form-field.mat-form-field,
 mat-tooltip-component .mat-tooltip,
+mat-radio-group mat-radio-button.mat-radio-button,
+mat-card.mat-card,
 .mat-button, button.mat-menu-item {
     font-family: inherit;
 }

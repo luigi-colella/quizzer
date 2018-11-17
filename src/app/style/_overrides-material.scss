@@ -40,6 +40,10 @@ mat-radio-button {
     }
 }
 
+.mat-form-field-flex .mat-form-field-infix {
+    width: 100%;
+}
+
 mat-card {
     .mat-card-header-text {
         width: 100%;

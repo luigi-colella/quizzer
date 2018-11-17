@@ -1,4 +1,6 @@
-@import '../../style/style';
+@import '../../style/_variables';
+@import '../../style/_mixins';
+@import '../../style/_breakpoints';
 
 .container {
 
@@ -44,8 +46,7 @@
     
     .mat-radio-group {
         display: flex;
-        justify-content: space-around;
-        
+        justify-content: space-around;   
     }
 
     .question-answer-box {
@@ -53,9 +54,6 @@
         align-items: baseline;
         mat-form-field, mat-radio-group {
             margin-left: $margin-small;
-            mat-radio-button {
-                margin-left: $margin-small;
-            }
         };
     }
 

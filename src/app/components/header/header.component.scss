@@ -1,4 +1,6 @@
-@import '../../style/style';
+@import '../../style/_variables';
+@import '../../style/_mixins';
+@import '../../style/_breakpoints';
 
 .container {
     @include box($color-ternary, $color-ternary);

@@ -82,7 +82,6 @@ describe('QuizCreator Component', () => {
          * @param {string} value value to set
          */
         fillInput (inputSelector: string, value: string) {
-            // TODO
             let input = this.dom.getElement(inputSelector) as HTMLInputElement;
             if (!input) input = document.querySelector(inputSelector);
             if (!input) throw 'Element not found: ' + inputSelector
