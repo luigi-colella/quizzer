@@ -7,10 +7,36 @@
         
         <div>
             <ul>
-                <li routerLinkActive="active"><a routerLink='create'>Crea quiz</a></li>
-                <li routerLinkActive="active"><a routerLink='list'>Lista quiz</a></li>
-                <li routerLinkActive="active"><a routerLink='launch'>Carica quiz</a></li>
+                <li routerLinkActive="active">
+                    <mat-icon>details</mat-icon>
+                    <a routerLink='create'>{{'quizCreate' | i18nSelect: langMap }}</a>
+                </li>
+                <li routerLinkActive="active">
+                    <mat-icon>details</mat-icon>
+                    <a routerLink='list'>{{'quizList' | i18nSelect: langMap }}</a>
+                </li>
+                <li routerLinkActive="active">
+                    <mat-icon>details</mat-icon>
+                    <a routerLink='launch'>{{'quizLoad' | i18nSelect: langMap }}</a>
+                </li>
             </ul>
         </div>
+
+        <div>
+            <button mat-button [matMenuTriggerFor]="menu">{{'language' | i18nSelect: langMap }}...</button>
+            <mat-menu #menu="matMenu">
+                <button *ngFor="let lang of availableLangs" (click)="changeLanguage(lang.value)" mat-menu-item>
+                    {{lang.name}}
+                </button>
+            </mat-menu>
+        </div>
+    </nav>
+
+    <nav class="links">
+        <ul>
+            <li routerLinkActive="active"><a routerLink='create'>{{'quizCreate' | i18nSelect: langMap }}</a></li>
+            <li routerLinkActive="active"><a routerLink='list'>{{'quizList' | i18nSelect: langMap }}</a></li>
+            <li routerLinkActive="active"><a routerLink='launch'>{{'quizLoad' | i18nSelect: langMap }}</a></li>
+        </ul>
     </nav>
 </div>

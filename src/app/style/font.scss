@@ -11,6 +11,7 @@ body {
 mat-expansion-panel-header, .mat-expansion-panel-content,
 mat-select.mat-select, mat-option.mat-option,
 mat-form-field.mat-form-field,
-mat-tooltip-component .mat-tooltip {
+mat-tooltip-component .mat-tooltip,
+.mat-button, button.mat-menu-item {
     font-family: inherit;
 }

@@ -1,3 +1,4 @@
+import { LanguageMap } from './langMapType'
 
 export class Quiz {
 
@@ -30,3 +31,6 @@ export type QuizType = Quiz['settings']['type'];
 export type AnswerValue = Quiz['questions'][0]['answers'][0]['value'];
 
 export type Result = Quiz['answers'][0];
+
+export type AppLanguage = 'en' | 'it';
+export type AppLanguageMap =  LanguageMap;

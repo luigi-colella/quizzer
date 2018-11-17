@@ -10,7 +10,7 @@
 
     nav {
         width: 80%;
-        padding: $padding-horizontal-medium;
+        padding: $padding-vertical-small;
         margin: auto;
         display: flex;
         align-items: center;
@@ -27,29 +27,65 @@
         }
     
         ul {
+            @include breakpoint-desktop(){
+                display: flex;
+            };
+            display: none;
             list-style: none;
-            margin: $margin-medium 0px;
-            height: 40px;
-            display: flex;
+            margin: $margin-zero;
             flex-direction: row;
+            padding: $padding-horizontal-medium;
             li {
-                margin: $margin-zero $margin-small / 2;
-                padding: $padding-horizontal-medium;
-                border-radius: $border-radius-3;
-                transition: $transition;
-                &:hover, &.active {
-                    background-color: $color-secondary;
-                    background-image: url($texture-1);
+                padding-right: $padding-medium;
+                display: flex;
+                align-self: center;
+                align-items: center;
+                justify-content: center;
+                mat-icon {
+                    visibility: hidden;
+                    margin: $margin-zero $margin-small / 2;
+                    transform: rotate(270deg);
                 }
                 a {
+                    height: 100%;
+                    width: 100%;
+                    padding: $padding-vertical-small;
                     color: inherit;
                     text-decoration: none;
-                    height: 100%;
-                    display: flex;
-                    align-items: center;
+                    text-align: center;
+                    white-space: nowrap;
+                }
+                &:hover mat-icon, &.active mat-icon {
+                    display: inline-block;
+                    visibility: visible;
                 }
             }
         }
         
+    }
+
+    nav.links {
+        @include breakpoint-desktop(){
+            display: none;
+        };
+        width: 100%;
+        justify-content: center;
+        padding: $padding-zero;
+        ul {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            padding: $padding-zero;
+            li {
+                width: 100%;
+                margin: $margin-zero;
+                border-radius: $border-radius;
+                transition: background $transition;
+                &:hover, &.active {
+                    background-color: $color-secondary;
+                    background-image: url($texture-1);
+                }
+            }
+        }
     }
 }

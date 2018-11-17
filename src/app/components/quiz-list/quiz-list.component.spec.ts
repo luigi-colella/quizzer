@@ -3,7 +3,7 @@ import { DebugElement } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 /* App imports */
 import { QuizListModule } from './quiz-list.module';
 import { QuizListComponent } from './quiz-list.component';
@@ -31,11 +31,7 @@ describe('QuizList Component', () => {
          * @param {Object} mockData
          */
         mockGetAll: (mockData) => {
-            spyOn(quizDatabase, 'getAll').and.callFake(() => {
-                return Observable.create((observer) => {
-                    observer.next(mockData)
-                })
-            });
+            spyOn(quizDatabase, 'getAll').and.returnValue(of(mockData));
         },
         /**
          * Get text of a DOM Element
