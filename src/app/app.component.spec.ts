@@ -1,27 +1,27 @@
 /* Vendor imports */
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
 import { RouterModule } from '@angular/router';
 /* App imports */
 import { AppComponent } from './app.component';
 import { AppModule } from './app.module';
+import { TestUtils } from './test-utils';
 
 describe('App Component', () => {
 
-	beforeEach(async(() => {
-		TestBed.configureTestingModule({
-			imports: [ AppModule, RouterModule.forRoot([]) ],
-			providers: [
-				{ provide: APP_BASE_HREF, useValue: '/' }
-			]
-		}).compileComponents();
-	}));
+	let testUtils: TestUtils<AppComponent>;
 
-	it('should exists', async(() => {
-		const fixture = TestBed.createComponent(AppComponent);
-		fixture.detectChanges();
-		const app = fixture.debugElement.componentInstance;
-		expect(app).toBeTruthy();
-	}));
+	beforeEach(() => {
+		TestBed.configureTestingModule({
+			imports:   [ AppModule, RouterModule.forRoot([]) ],
+			providers: [ { provide: APP_BASE_HREF, useValue: '/' } ]
+		}).compileComponents();
+		let fixture = TestBed.createComponent(AppComponent);
+		testUtils = new TestUtils(fixture);
+	});
+
+	it('should exists', () => {
+		expect(testUtils.getInstance()).toBeTruthy();
+	});
 
 });

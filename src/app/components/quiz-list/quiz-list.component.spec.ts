@@ -1,6 +1,6 @@
 /* Vendor imports */
 import { DebugElement } from '@angular/core';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import { of } from 'rxjs';
@@ -9,12 +9,11 @@ import { QuizListModule } from './quiz-list.module';
 import { QuizListComponent } from './quiz-list.component';
 import { QuizDatabase } from '../../services/quizDatabase.service';
 import { quizMusic as mockQuiz } from '../../mocks/quiz.music';
+import { TestUtils as BaseTestUtils } from '../../test-utils';
 
 describe('QuizList Component', () => {
 
-    let componentFixture: ComponentFixture<QuizListComponent>
-    let componentInstance: QuizListComponent;
-    let componentHTML: HTMLDocument;
+    let testUtils: TestUtils<QuizListComponent>;
     let quizDatabase: QuizDatabase;
 
     const DOMSelectors = {
@@ -23,24 +22,15 @@ describe('QuizList Component', () => {
         quizItemSubtitle: '.quiz-item mat-card mat-card-subtitle',
         quizItemImage: '.quiz-item mat-card img[mat-card-image]',
         quizItemDescription: '.quiz-item mat-card mat-card-content p'
-    }
+    };
 
-    const testUtils = {
+    class TestUtils<QuizListComponent> extends BaseTestUtils<QuizListComponent> {
         /**
          * Mock the function `getAll` of the database service in order to get the mockData as function's return value
          * @param {Object} mockData
          */
-        mockGetAll: (mockData) => {
+        mockGetAll (mockData) {
             spyOn(quizDatabase, 'getAll').and.returnValue(of(mockData));
-        },
-        /**
-         * Get text of a DOM Element
-         * @param {string} selector CSS selector of element.
-         * @param {number} [index] index of the element. Default 0.
-         * @return {string} text of the element.
-         */
-        getElementText: (selector: string, index = 0): string => {
-            return (componentHTML.querySelectorAll(selector)[index] as HTMLElement).textContent;
         }
     }
 
@@ -52,51 +42,53 @@ describe('QuizList Component', () => {
             })
             .compileComponents();
         
-        componentFixture = TestBed.createComponent(QuizListComponent);
-        componentInstance = componentFixture.debugElement.componentInstance;
-        componentHTML = componentFixture.debugElement.nativeElement;
+        let componentFixture = TestBed.createComponent(QuizListComponent);
         quizDatabase = TestBed.get(QuizDatabase);
-        componentFixture.detectChanges();
+        testUtils = new TestUtils(componentFixture);
     })
 
     it('should exists', () => {
-        expect(componentInstance).toBeDefined();
+        expect(testUtils.getInstance()).toBeDefined();
     })
 
     it('should fetch all quizzes', () => {
         const mockData = [mockQuiz, mockQuiz];
         testUtils.mockGetAll(mockData);
-        componentInstance.fetchAllQuizzes();
+        testUtils.getInstance().fetchAllQuizzes();
         expect(quizDatabase.getAll).toHaveBeenCalled();
-        expect(componentInstance.quizzes).toBe(mockData);
+        expect(testUtils.getInstance().quizzes).toBe(mockData);
     })
 
     it('should show all quizzes', () => {
         const mockData = [mockQuiz, mockQuiz];
         testUtils.mockGetAll(mockData);
-        componentInstance.fetchAllQuizzes();
-        componentFixture.detectChanges();
-        let quizItemsNumber = componentHTML.querySelectorAll(DOMSelectors.quizItem).length;
+        testUtils.getInstance().fetchAllQuizzes();
+        testUtils.detectChanges();
+        let quizItemsNumber = testUtils.dom.getElementsNumber(DOMSelectors.quizItem);
         expect(quizItemsNumber).toBe(mockData.length);
     })
 
     it('should show right info of a quiz', () => {
         const mockData = [mockQuiz, mockQuiz];
         testUtils.mockGetAll(mockData);
-        componentInstance.fetchAllQuizzes();
-        componentFixture.detectChanges();
+        testUtils.getInstance().fetchAllQuizzes();
+        testUtils.detectChanges();
         // Check title
-        let quizTitle = testUtils.getElementText(DOMSelectors.quizItemTitle);
-        expect(quizTitle).toBe(mockQuiz.settings.title);
+        let quizTitle = mockQuiz.settings.title;
+        let domQuizTitle = testUtils.dom.getElementText(DOMSelectors.quizItemTitle);
+        expect(domQuizTitle).toBe(quizTitle);
         // Check type
-        let quizType = testUtils.getElementText(DOMSelectors.quizItemSubtitle);
-        expect(quizType).toBe(componentInstance.quizTypes[mockQuiz.settings.type]);
+        let quizType = testUtils.getInstance().quizTypes[mockQuiz.settings.type];
+        let domQuizType = testUtils.dom.getElementText(DOMSelectors.quizItemSubtitle);
+        expect(domQuizType).toBe(quizType);
         // Check image
-        let quizImage = (componentHTML.querySelector(DOMSelectors.quizItemImage) as HTMLImageElement).src;
-        expect(quizImage).toBe(mockQuiz.settings.imageUrl);
+        let quizImage = mockQuiz.settings.imageUrl;
+        let domQuizImage = testUtils.dom.getElementAttribute(DOMSelectors.quizItemImage, 'src');
+        expect(domQuizImage).toBe(quizImage);
         // Check description
-        let quizDescription = testUtils.getElementText(DOMSelectors.quizItemDescription);
-        expect(quizDescription).toBe(mockQuiz.settings.description);
+        let quizDescription = mockQuiz.settings.description;
+        let domQuizDescription = testUtils.dom.getElementText(DOMSelectors.quizItemDescription);
+        expect(domQuizDescription).toBe(quizDescription);
     })
 
 })

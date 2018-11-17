@@ -12,7 +12,7 @@ import { LanguageMap } from '../../langMapType';
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss']
 })
-export class AppHeader implements OnInit, OnDestroy {
+export class AppHeaderComponent implements OnInit, OnDestroy {
 
     title = APP_TITLE
     langMap: AppLanguageMap

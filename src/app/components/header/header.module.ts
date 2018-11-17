@@ -4,12 +4,12 @@ import { AppRoutingModule } from '../../app-routing.module';
 import { AppLocalization } from '../../services/appLocalization.service';
 import { MaterialModule } from '../../modules/material.module';
 /* App imports */
-import { AppHeader } from './header.component';
+import { AppHeaderComponent } from './header.component';
 
 @NgModule({
-    declarations: [ AppHeader ],
+    declarations: [ AppHeaderComponent ],
     imports:      [ MaterialModule, AppRoutingModule ],
-    exports:      [ AppHeader, AppRoutingModule ],
+    exports:      [ AppHeaderComponent, AppRoutingModule ],
     providers:    [ AppLocalization ]
 })
 export class HeaderModule {}

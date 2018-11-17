@@ -1,22 +1,22 @@
 /* Vendor imports */
 import { DebugElement } from '@angular/core';
 import { APP_BASE_HREF, I18nSelectPipe } from '@angular/common';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { of } from 'rxjs';
 /* App imports */
 import { HeaderModule } from './header.module';
-import { AppHeader } from './header.component';
+import { AppHeaderComponent } from './header.component';
 import { AppLocalization } from '../../services/appLocalization.service';
 import { APP_LANG_EN, APP_LANG_IT } from '../../constants';
+import { TestUtils } from '../../test-utils';
 
 describe('Header Component', () => {
 
-    let component = AppHeader;
-    let fixture: ComponentFixture<AppHeader>;
-    let componentInstance: AppHeader;
-    let componentHTML: HTMLDocument;
+    let testUtils: TestUtils<AppHeaderComponent>
+
     const DOMSelectors = {
+        appTitle: 'h1',
         linkCreateQuiz: 'li a[href="/create"]',
         linkQuizList: 'li a[href="/list"]',
         linkLoadQuiz: 'li a[href="/launch"]',
@@ -37,13 +37,10 @@ describe('Header Component', () => {
     }
 
     beforeEach(() => {
-
         TestBed
             .configureTestingModule({
-                imports: [ HeaderModule, HttpClientModule ],
-                providers: [
-                    { provide: APP_BASE_HREF, useValue: '/' },
-                ]
+                imports:   [ HeaderModule, HttpClientModule ],
+                providers: [ { provide: APP_BASE_HREF, useValue: '/' } ]
             })
             .compileComponents();
         // Create a fake method to fetch language files.
@@ -51,45 +48,40 @@ describe('Header Component', () => {
             if (lang === APP_LANG_EN) return of(mockLanguageMap.en);
             if (lang === APP_LANG_IT) return of(mockLanguageMap.it);
         });
-        fixture = TestBed.createComponent(component);
-        fixture.autoDetectChanges();
-        componentInstance = fixture.debugElement.componentInstance;
-        componentHTML = fixture.debugElement.nativeElement;
-
+        let fixture = TestBed.createComponent(AppHeaderComponent);
+        testUtils = new TestUtils(fixture);
     })
 
     it('should exists', () => {
-        expect(componentInstance).toBeDefined();
+        expect(testUtils.getInstance()).toBeDefined();
     })
 
     it('should have title', () => {
-        let expectedTitle = componentInstance.title;
-        let currentTitle = componentHTML.querySelector('h1').innerText;
+        let expectedTitle = testUtils.getInstance().title;
+        let currentTitle = testUtils.dom.getElementText(DOMSelectors.appTitle);
         expect(expectedTitle).toBeTruthy();
         expect(currentTitle).toBe(expectedTitle);
     })
 
     it('should have links', () => {
-        let buttonQuizCreate = componentHTML.querySelector(DOMSelectors.linkCreateQuiz).textContent;
-        let buttonQuizList = componentHTML.querySelector(DOMSelectors.linkQuizList).textContent;
-        let buttonQuizLoad = componentHTML.querySelector(DOMSelectors.linkLoadQuiz).textContent;
-        expect(buttonQuizCreate).toBe(componentInstance.langMap.quizCreate);
-        expect(buttonQuizList).toBe(componentInstance.langMap.quizList);
-        expect(buttonQuizLoad).toBe(componentInstance.langMap.quizLoad);
+        let buttonQuizCreate = testUtils.dom.getElementText(DOMSelectors.linkCreateQuiz);
+        let buttonQuizList = testUtils.dom.getElementText(DOMSelectors.linkQuizList);
+        let buttonQuizLoad = testUtils.dom.getElementText(DOMSelectors.linkLoadQuiz);
+        expect(buttonQuizCreate).toBe(testUtils.getInstance().langMap.quizCreate);
+        expect(buttonQuizList).toBe(testUtils.getInstance().langMap.quizList);
+        expect(buttonQuizLoad).toBe(testUtils.getInstance().langMap.quizLoad);
     })
 
     it('should changes the language', () => {
         // Function to get text of quiz create button
-        let getBtnQuizCreateText = () => componentHTML.querySelector(DOMSelectors.linkCreateQuiz).textContent;
+        let getBtnQuizCreateText = () => testUtils.dom.getElementText(DOMSelectors.linkCreateQuiz);
         // Set the english language
-        (componentHTML.querySelector(DOMSelectors.languageMenuButton) as HTMLButtonElement).click();
-        fixture.detectChanges();
-        (document.querySelectorAll(DOMSelectors.languageMenuItem)[0] as HTMLButtonElement).click();
+        testUtils.dom.click(DOMSelectors.languageMenuButton);
+        testUtils.dom.click(DOMSelectors.languageMenuItem, 0);
         expect(getBtnQuizCreateText()).toBe(mockLanguageMap.en.quizCreate);
         // Set the italian language
-        (componentHTML.querySelector(DOMSelectors.languageMenuButton) as HTMLButtonElement).click();
-        fixture.detectChanges();
-        (document.querySelectorAll(DOMSelectors.languageMenuItem)[1] as HTMLButtonElement).click();
+        testUtils.dom.click(DOMSelectors.languageMenuButton);
+        testUtils.dom.click(DOMSelectors.languageMenuItem, 1);
         expect(getBtnQuizCreateText()).toBe(mockLanguageMap.it.quizCreate);
     })
 
