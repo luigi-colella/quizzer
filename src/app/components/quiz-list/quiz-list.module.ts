@@ -1,25 +1,17 @@
 /* Vendor imports */
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { MaterialModule } from '../../modules/material.module';
 /* App imports */
-import { QuizListComponent as Component } from './quiz-list.component';
-import { QuizListRoutingModule as RoutingModule } from './quiz-list-routing.module';
-import { QuizDatabase } from '../../services/quizDatabase.service';
+import { QuizListComponent } from './quiz-list.component';
+import { QuizListRoutingModule } from './quiz-list-routing.module';
+import { SharedModule } from '../../modules/shared.module';
 
 @NgModule({
     declarations: [
-        Component
+        QuizListComponent
     ],
     imports: [
-        CommonModule,
-        HttpClientModule,
-        MaterialModule,
-        RoutingModule
-    ],
-    providers: [
-        QuizDatabase
+        QuizListRoutingModule,
+        SharedModule
     ]
 })
 export class QuizListModule {}
