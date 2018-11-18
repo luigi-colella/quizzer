@@ -53,3 +53,11 @@ mat-card {
 .mat-menu-panel {
     background-color: $color-primary;
 }
+
+button.mat-menu-item > span {
+    display: flex;
+    align-items: center;
+    img {
+        margin-right: $margin-small;
+    }
+}
