@@ -5,66 +5,66 @@
     <mat-vertical-stepper linear>
       <mat-step>
         <!-- Stepper label -->
-        <ng-template matStepLabel>Impostazioni</ng-template>
+        <ng-template matStepLabel>{{languageMap['settings']}}</ng-template>
         <!-- /Stepper label -->
         <!-- Quiz settings -->
         <div [formGroup]="quiz.get('settings')" class="settingsBox">
           <mat-form-field>
-            <mat-label>Titolo</mat-label>
-            <input matInput formControlName="title" [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci il titolo che avrà il tuo quiz">
-            <mat-error *ngIf="quiz.get('settings').get('title').invalid">{{quiz.get('settings').get('title').errors.validText.text}}</mat-error>
+            <mat-label>{{languageMap['inputTitleLabel']}}</mat-label>
+            <input matInput formControlName="title" [errorStateMatcher]="errorMatcher" required [matTooltip]="languageMap['inputTitleTooltip']">
+            <mat-error *ngIf="quiz.get('settings').get('title').invalid">{{languageMap[quiz.get('settings').get('title').errors.validText.text]}}.</mat-error>
           </mat-form-field>
 
           <mat-form-field>
-            <mat-label>Tipologia</mat-label>
-            <mat-select formControlName="type" (selectionChange)="onChangeQuizType()" [errorStateMatcher]="errorMatcher" required matTooltip="Scegli il tipo di quiz che vuoi creare">
-              <mat-option [value]="quizTypes.personalityQuiz">Quiz della personalità</mat-option>
-              <mat-option [value]="quizTypes.trueorfalseQuiz">Vero o Falso</mat-option>
+            <mat-label>{{languageMap['inputTypeLabel']}}</mat-label>
+            <mat-select formControlName="type" (selectionChange)="onChangeQuizType()" [errorStateMatcher]="errorMatcher" required [matTooltip]="languageMap['inputTypeTooltip']">
+              <mat-option [value]="quizTypes.personalityQuiz">{{languageMap[quizTypes.personalityQuiz]}}</mat-option>
+              <mat-option [value]="quizTypes.trueorfalseQuiz">{{languageMap[quizTypes.trueorfalseQuiz]}}</mat-option>
             </mat-select>
-            <mat-error *ngIf="quiz.get('settings').get('type').invalid">{{quiz.get('settings').get('type').errors.validQuizType.text}}</mat-error>
+            <mat-error *ngIf="quiz.get('settings').get('type').invalid">{{languageMap[quiz.get('settings').get('type').errors.validQuizType.text]}}.</mat-error>
           </mat-form-field>
 
           <mat-form-field>
-            <mat-label>Descrizione</mat-label>
-            <textarea matInput formControlName="description" [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci una descrizione introduttiva per il tuo quiz"></textarea>
-            <mat-error *ngIf="quiz.get('settings').get('description').invalid">{{quiz.get('settings').get('description').errors.validText.text}}</mat-error>
+            <mat-label>{{languageMap['inputDescriptionLabel']}}</mat-label>
+            <textarea matInput formControlName="description" [errorStateMatcher]="errorMatcher" required [matTooltip]="languageMap['inputDescriptionTooltip']"></textarea>
+            <mat-error *ngIf="quiz.get('settings').get('description').invalid">{{languageMap[quiz.get('settings').get('description').errors.validText.text]}}.</mat-error>
           </mat-form-field>
 
           <mat-form-field>
-            <mat-label>URL immagine di copertina</mat-label>
-            <input matInput formControlName="imageUrl" [errorStateMatcher]="errorMatcher" matTooltip="Inserisci l'URL di un'immagine per la copertina del tuo quiz. Formati validi: .jpeg, .jpg, .gif, .png">
-            <mat-error *ngIf="quiz.get('settings').get('imageUrl').invalid">URL non valido.</mat-error>
+            <mat-label>{{languageMap['inputCoverUrlLabel']}}</mat-label>
+            <input matInput formControlName="imageUrl" [errorStateMatcher]="errorMatcher" [matTooltip]="languageMap['inputCoverUrlTooltip']">
+            <mat-error *ngIf="quiz.get('settings').get('imageUrl').invalid">{{languageMap['errorImageUrl']}}.</mat-error>
           </mat-form-field>
 
         </div>
         <!-- /Quiz settings -->
         <!-- Stepper info -->
         <div class="alert-box">
-          <i *ngIf="quiz.get('settings').invalid">Inserisci le informazioni necessarie per il quiz prima di continuare.</i>
+          <i *ngIf="quiz.get('settings').invalid">{{languageMap['errorInvalidQuizType']}}.</i>
         </div>
         <!-- /Stepper info -->
         <!-- Stepper buttons -->
         <div class="buttons">
           <button mat-button matStepperNext type="button" [disabled]="false && quiz.get('settings').invalid">
-            <mat-icon>navigate_next</mat-icon>Avanti</button>
+            <mat-icon>navigate_next</mat-icon>{{languageMap['nextButton']}}</button>
         </div>
         <!-- /Stepper buttons -->
       </mat-step>
       <mat-step>
         <!-- Stepper label -->
-        <ng-template matStepLabel>Domande</ng-template>
+        <ng-template matStepLabel>{{languageMap['questions']}}</ng-template>
         <!-- /Stepper label -->
         <div formArrayName="questions">
           <!-- Questions main buttons -->
           <div class="buttons">
             <button mat-button (click)="handleQuestions.addNew()" type="button">
-              <mat-icon>add</mat-icon>Aggiungi domanda
+              <mat-icon>add</mat-icon>{{languageMap['addQuestion']}}
             </button>
             <button mat-button (click)="questionAccordion.openAll()" *ngIf="quiz.get('questions').length > 0" type="button">
-              <mat-icon>expand_more</mat-icon>Espandi
+              <mat-icon>expand_more</mat-icon>{{languageMap['expandButton']}}
             </button>
             <button mat-button (click)="questionAccordion.closeAll()" *ngIf="quiz.get('questions').length > 0" type="button" class="red">
-              <mat-icon>expand_less</mat-icon>Chiudi
+              <mat-icon>expand_less</mat-icon>{{languageMap['collapseButton']}}
             </button>
           </div>
           <!-- /Questions main buttons -->
@@ -84,12 +84,12 @@
                     </div>
                     <div class="panel-description-buttons">
                       <!-- Button to remove this question -->
-                      <button mat-icon-button (click)="handleQuestions.remove(questionIndex)" matTooltip="Elimina questa domanda">
+                      <button mat-icon-button (click)="handleQuestions.remove(questionIndex)" [matTooltip]="languageMap['deleteQuestion']">
                         <mat-icon>delete</mat-icon>
                       </button>
                       <!-- /Button to remove this question -->
                       <!-- Button to add a new answer -->
-                      <button mat-icon-button (click)="$event.stopPropagation(); handleQuestions.addNewAnswer(questionIndex)" matTooltip="Aggiungi una risposta">
+                      <button mat-icon-button (click)="$event.stopPropagation(); handleQuestions.addNewAnswer(questionIndex)" [matTooltip]="languageMap['addAnswerForQuestion']">
                         <mat-icon>add</mat-icon>
                       </button>
                       <!-- /Button to add a new answer -->
@@ -100,10 +100,10 @@
                 <div [formGroup]="question">
                   <!-- Question text -->
                   <mat-form-field>
-                    <mat-label>Domanda</mat-label>
-                    <input matInput formControlName="text" matTooltip="Inserisci il testo della tua domanda" [errorStateMatcher]="errorMatcher"
+                    <mat-label>{{languageMap['inputQuestionTextLabel']}}</mat-label>
+                    <input matInput formControlName="text" [matTooltip]="languageMap['inputQuestionTextTooltip']" [errorStateMatcher]="errorMatcher"
                       required>
-                    <mat-error *ngIf="question.get('text').invalid">{{question.get('text').errors.validText.text}}</mat-error>
+                    <mat-error *ngIf="question.get('text').invalid">{{languageMap[question.get('text').errors.validText.text]}}.</mat-error>
                   </mat-form-field>
                   <!-- /Question text -->
                   <!-- Question answers -->
@@ -112,9 +112,9 @@
 
                       <!-- Answer text -->
                       <mat-form-field>
-                        <mat-label>Risposta</mat-label>
-                        <input matInput formControlName="text" matTooltip="Inserisci una possibile risposta" [errorStateMatcher]="errorMatcher" required>
-                        <mat-error *ngIf="answer.get('text').invalid">{{answer.get('text').errors.validText.text}}</mat-error>
+                        <mat-label>{{languageMap['inputQuestionAnswerTextLabel']}}</mat-label>
+                        <input matInput formControlName="text" [matTooltip]="languageMap['inputQuestionAnswerTextTooltip']" [errorStateMatcher]="errorMatcher" required>
+                        <mat-error *ngIf="answer.get('text').invalid">{{languageMap[answer.get('text').errors.validText.text]}}.</mat-error>
                       </mat-form-field>
                       <!-- /Answer text -->
 
@@ -122,30 +122,30 @@
                       <ng-container [ngSwitch]="quiz.get('settings').get('type').value">
 
                         <mat-form-field *ngSwitchCase="quizTypes.personalityQuiz">
-                          <mat-label>Valore</mat-label>
-                          <mat-select [formControl]="answer.get('value')" [errorStateMatcher]="errorMatcher" matTooltip="Scegli il tipo di quiz che vuoi creare">
+                          <mat-label>{{languageMap['inputQuestionAnswerValueLabel']}}</mat-label>
+                          <mat-select [formControl]="answer.get('value')" [errorStateMatcher]="errorMatcher" [matTooltip]="languageMap['inputQuestionAnswerValueTooltip']">
                             <ng-container *ngFor="let option of handleAnswersValue.getSuggestedValues()">
                               <mat-option [value]="option">{{option}}</mat-option>
                             </ng-container>
-                            <mat-option (click)="handleAnswersValue.addSuggestedValue(answer.get('value'))" style="color:inherit; cursor: pointer;" disabled>Nuovo...</mat-option>
+                            <mat-option (click)="handleAnswersValue.addSuggestedValue(answer.get('value'), languageMap['inputQuestionAnswerValueTooltip'])" style="color:inherit; cursor: pointer;" disabled>{{languageMap['inputQuestionAnswerValueNew']}}</mat-option>
                           </mat-select>
-                          <mat-error *ngIf="answer.get('value').invalid">{{answer.get('value').errors.validAnswerValue && answer.get('value').errors.validAnswerValue.text}}</mat-error>
+                          <mat-error *ngIf="answer.get('value').invalid">{{answer.get('value').errors.validAnswerValue && languageMap[answer.get('value').errors.validAnswerValue.text]}}.</mat-error>
                         </mat-form-field>
 
-                        <mat-radio-group *ngSwitchCase="quizTypes.trueorfalseQuiz" matInput [formControl]="answer.get('value')" matTooltip="Indica se la risposta è vera o falsa">
-                          <mat-radio-button [value]="true">VERO</mat-radio-button>
-                          <mat-radio-button [value]="false">FALSO</mat-radio-button>
+                        <mat-radio-group *ngSwitchCase="quizTypes.trueorfalseQuiz" matInput [formControl]="answer.get('value')" [matTooltip]="languageMap['inputQuestionAnswerValueTrueOrFalseTooltip']">
+                          <mat-radio-button [value]="true">{{languageMap['true'] | uppercase}}</mat-radio-button>
+                          <mat-radio-button [value]="false">{{languageMap['false'] | uppercase}}</mat-radio-button>
                         </mat-radio-group>
 
                         <div *ngSwitchDefault class="alert-box notype-warning">
-                          <i>Seleziona un tipo di quiz prima.</i>
+                          <i>{{languageMap['selectQuizTypeBeforeAlert']}}.</i>
                         </div>
 
                       </ng-container>
                       <!-- /Answer value -->
 
                       <!-- Button to remove this question -->
-                      <button mat-icon-button (click)="handleQuestions.removeAnswer(answerIndex, questionIndex)" matTooltip="Elimina questa risposta">
+                      <button mat-icon-button (click)="handleQuestions.removeAnswer(answerIndex, questionIndex)" [matTooltip]="languageMap['removeAnswerForQuestion']">
                         <mat-icon>delete</mat-icon>
                       </button>
                       <!-- /Button to remove this question -->
@@ -160,17 +160,16 @@
           <!-- /Quiz questions -->
           <!-- Stepper info -->
           <div class="alert-box">
-            <i *ngIf="quiz.get('questions').invalid && quiz.get('questions').length === 0">Aggiungi delle domande al quiz prima di continuare.</i>
-            <i *ngIf="quiz.get('questions').invalid && quiz.get('questions').length > 0">Hai ancora {{getInvalidFormControlsNumber(quiz.get('questions'))}} su {{quiz.get('questions').length}} domande
-              da completare prima di continuare.</i>
+            <i *ngIf="quiz.get('questions').invalid && quiz.get('questions').length === 0">{{languageMap['noQuestionsAlert']}}.</i>
+            <i *ngIf="quiz.get('questions').invalid && quiz.get('questions').length > 0">{{languageMap['youHave']}} {{getInvalidFormControlsNumber(quiz.get('questions'))}} {{languageMap['prepositionOn']}} {{quiz.get('questions').length}} {{languageMap['questionsToComplete']}}.</i>
           </div>
           <!-- /Stepper info -->
           <!-- Stepper buttons -->
           <div class="buttons">
             <button mat-button matStepperPrevious type="button">
-              <mat-icon>navigate_before</mat-icon>Indietro</button>
+              <mat-icon>navigate_before</mat-icon>{{languageMap['previousButton']}}</button>
             <button mat-button matStepperNext type="button">
-              <mat-icon>navigate_next</mat-icon>Avanti</button>
+              <mat-icon>navigate_next</mat-icon>{{languageMap['nextButton']}}</button>
           </div>
           <!-- /Stepper buttons -->
         </div>
@@ -178,17 +177,17 @@
 
       <mat-step>
         <!-- Stepper label -->
-        <ng-template matStepLabel>Risultati</ng-template>
+        <ng-template matStepLabel>{{languageMap['results']}}</ng-template>
         <!-- /Stepper label -->
         <!-- Quiz results -->
         <div formArrayName="answers" class="answerBox">
           <div class="buttons">
             <button mat-button (click)="handleAnswers.addNew()" type="button">
-              <mat-icon>add</mat-icon>Aggiungi risultato</button>
+              <mat-icon>add</mat-icon>{{languageMap['addResult']}}</button>
             <button *ngIf="quiz.get('answers').length > 0" mat-button (click)="resultsAccordion.openAll()" type="button">
-              <mat-icon>expand_more</mat-icon>Espandi</button>
+              <mat-icon>expand_more</mat-icon>{{languageMap['expandButton']}}</button>
             <button *ngIf="quiz.get('answers').length > 0" mat-button (click)="resultsAccordion.closeAll()" type="button" class="red">
-              <mat-icon>expand_less</mat-icon>Chiudi</button>
+              <mat-icon>expand_less</mat-icon>{{languageMap['collapseButton']}}</button>
           </div>
           <mat-accordion [multi]="true" #resultsAccordion="matAccordion">
             <ng-container *ngFor="let answer of quiz.get('answers').controls; let i = index">
@@ -202,7 +201,7 @@
                     <div *ngIf="!resultPanel.expanded" class="truncate-label">
                       <span>{{answer.get('title').value}}</span>
                     </div>
-                    <button mat-icon-button (click)="handleAnswers.remove(i)" type="button" matTooltip="Elimina questo risultato">
+                    <button mat-icon-button (click)="handleAnswers.remove(i)" type="button" [matTooltip]="languageMap['removeResult']">
                       <mat-icon>delete</mat-icon>
                     </button>
                   </mat-panel-description>
@@ -211,9 +210,9 @@
 
                   <!-- Result title -->
                   <mat-form-field>
-                    <mat-label>Titolo</mat-label>
-                    <input type="text" formControlName="title" matInput [errorStateMatcher]="errorMatcher" required matTooltip="Dai un titolo a questo risultato">
-                    <mat-error *ngIf="!answer.get('title').valid">{{answer.get('title').errors.validText.text}}</mat-error>
+                    <mat-label>{{languageMap['inputResultTitleLabel']}}</mat-label>
+                    <input type="text" formControlName="title" matInput [errorStateMatcher]="errorMatcher" required [matTooltip]="languageMap['inputResultTitleTooltip']">
+                    <mat-error *ngIf="!answer.get('title').valid">{{languageMap[answer.get('title').errors.validText.text]}}.</mat-error>
                   </mat-form-field>
                   <!-- /Result title -->
 
@@ -221,25 +220,24 @@
                   <ng-container [ngSwitch]="quiz.get('settings').get('type').value">
 
                     <mat-form-field *ngSwitchCase="quizTypes.personalityQuiz">
-                      <mat-label>Valore</mat-label>
-                      <mat-select [formControl]="answer.get('value')" [errorStateMatcher]="errorMatcher" required matTooltip="Scegli il tipo di quiz che vuoi creare">
+                      <mat-label>{{languageMap['inputResultValueLabel']}}</mat-label>
+                      <mat-select [formControl]="answer.get('value')" [errorStateMatcher]="errorMatcher" required [matTooltip]="languageMap['inputResultValueTooltip']">
                         <ng-container *ngFor="let option of handleAnswersValue.getSuggestedValues()">
                           <mat-option [value]="option">{{option}}</mat-option>
                         </ng-container>
-                        <mat-option (click)="handleAnswersValue.addSuggestedValue(answer.get('value'))" style="color:inherit; cursor: pointer;" disabled>Nuovo...</mat-option>
+                        <mat-option (click)="handleAnswersValue.addSuggestedValue(answer.get('value'), languageMap['inputResultValueTooltip'])" style="color:inherit; cursor: pointer;" disabled>{{languageMap['inputResultValueNew']}}</mat-option>
                       </mat-select>
-                      <mat-error *ngIf="answer.get('value').invalid">{{answer.get('value').errors.validText && answer.get('value').errors.validText.text}}</mat-error>
+                      <mat-error *ngIf="answer.get('value').invalid">{{answer.get('value').errors.validText && languageMap[answer.get('value').errors.validText.text]}}.</mat-error>
                     </mat-form-field>
 
                     <mat-form-field *ngSwitchCase="quizTypes.trueorfalseQuiz">
-                      <mat-label>Valore</mat-label>
-                      <input type="text" formControlName="value" matInput (keyup)="handleAnswersValue.updateSuggestedValues(answer.get('value').value)"
-                        [errorStateMatcher]="errorMatcher" required matTooltip="Inserisci il valore corrispondente a questo risultato">
-                      <mat-error *ngIf="answer.get('value').invalid">{{answer.get('value').errors.validText.text}}</mat-error>
+                      <mat-label>{{languageMap['inputResultValueLabel']}}</mat-label>
+                      <input type="text" formControlName="value" matInput [errorStateMatcher]="errorMatcher" required [matTooltip]="languageMap['inputResultValueTrueOrFalseTooltip']">
+                      <mat-error *ngIf="answer.get('value').invalid">{{languageMap[answer.get('value').errors.validText.text]}}.</mat-error>
                     </mat-form-field>
 
                     <div *ngSwitchDefault class="alert-box notype-warning">
-                      <i>Seleziona un tipo di quiz prima.</i>
+                      <i>{{languageMap['selectQuizTypeBeforeAlert']}}.</i>
                     </div>
 
                   </ng-container>
@@ -247,17 +245,17 @@
 
                   <!-- Result description -->
                   <mat-form-field>
-                    <mat-label>Descrizione</mat-label>
-                    <textarea formControlName="description" matInput [errorStateMatcher]="errorMatcher" matTooltip="Fornisci una descrizione del risultato"></textarea>
-                    <mat-error *ngIf="answer.get('description').invalid">{{answer.get('description').errors.validText.text}}</mat-error>
+                    <mat-label>{{languageMap['inputResultDescriptionLabel']}}</mat-label>
+                    <textarea formControlName="description" matInput [errorStateMatcher]="errorMatcher" [matTooltip]="languageMap['inputResultDescriptionTooltip']"></textarea>
+                    <mat-error *ngIf="answer.get('description').invalid">{{languageMap[answer.get('description').errors.validText.text]}}.</mat-error>
                   </mat-form-field>
                   <!-- /Result description -->
 
                   <!-- Result image -->
                   <mat-form-field>
-                    <mat-label>URL Immagine</mat-label>
-                    <input formControlName="imageUrl" matInput [errorStateMatcher]="errorMatcher" matTooltip="Inserisci l'URL di un'immagine per rappresentare questo risultato. Formati validi: .jpeg, .jpg, .gif, .png">
-                    <mat-error *ngIf="answer.get('imageUrl').invalid">URL non valido</mat-error>
+                    <mat-label>{{languageMap['inputResultImageUrlLabel']}}</mat-label>
+                    <input formControlName="imageUrl" matInput [errorStateMatcher]="errorMatcher" [matTooltip]="languageMap['inputResultImageUrlTooltip']">
+                    <mat-error *ngIf="answer.get('imageUrl').invalid">{{languageMap['errorImageUrl']}}.</mat-error>
                   </mat-form-field>
                   <!-- /Result image -->
 
@@ -269,15 +267,14 @@
         <!-- /Quiz results -->
         <!-- Stepper info -->
         <div class="alert-box">
-          <i *ngIf="quiz.get('answers').invalid && quiz.get('answers').length === 0">Aggiungi dei risultati al quiz prima di continuare.</i>
-          <i *ngIf="quiz.get('answers').invalid && quiz.get('answers').length > 0">Hai ancora {{getInvalidFormControlsNumber(quiz.get('answers'))}} su {{quiz.get('answers').length}} risultati da
-            completare prima di continuare.</i>
+          <i *ngIf="quiz.get('answers').invalid && quiz.get('answers').length === 0">{{languageMap['noResultsAlert']}}.</i>
+          <i *ngIf="quiz.get('answers').invalid && quiz.get('answers').length > 0">{{languageMap['youHave']}} {{getInvalidFormControlsNumber(quiz.get('answers'))}} {{languageMap['prepositionOn']}} {{quiz.get('answers').length}} {{languageMap['resultsToComplete']}}.</i>
         </div>
         <!-- /Stepper info -->
         <!-- Stepper buttons -->
         <div class="buttons">
           <button mat-button matStepperPrevious type="button">
-            <mat-icon>navigate_before</mat-icon>Indietro</button>
+            <mat-icon>navigate_before</mat-icon>{{languageMap['previousButton']}}</button>
         </div>
         <!-- Stepper buttons -->
       </mat-step>
@@ -288,7 +285,7 @@
   <div class="form-actions">
     <div class="buttons">
       <button mat-button (click)="onSubmit()" color="primary" [disabled]="quiz.invalid">
-        <mat-icon>get_app</mat-icon>Salva
+        <mat-icon>get_app</mat-icon>{{languageMap['saveButton']}}
       </button>
     </div>
   </div>

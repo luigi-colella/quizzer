@@ -1,5 +1,5 @@
 /* Vendor imports */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormArray, AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 /* App imports */
@@ -8,13 +8,16 @@ import { QuizHandler } from '../../services/quizHandler.service';
 import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../constants';
 import { Quiz, QuizType } from '../../types';
 import { validators as customValidators, QuizCreatorErrorStateMatcher as customErrorMatcher } from './quiz-creator-validators';
+import { LanguageMap } from '../../langMapType';
+import { AppLocalization } from '../../services/appLocalization.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-quiz-creator',
     templateUrl: './quiz-creator.component.html',
     styleUrls: ['./quiz-creator.component.scss'],
 })
-export class QuizCreatorComponent implements OnInit {
+export class QuizCreatorComponent implements OnInit, OnDestroy {
 
     //Object of quiz types for template;
     quizTypes = {
@@ -61,15 +64,27 @@ export class QuizCreatorComponent implements OnInit {
     errorMatcher = new customErrorMatcher();
     // Input dialog reference
     dialogFormRef: MatDialogRef<DialogFormComponent>
+    // Language map used for strings in the template
+    languageMap: LanguageMap;
+    // Subscription for observable used to get `languageMap`
+    languageMapSubscription: Subscription
 
     constructor(
         private ngFormBuilder: FormBuilder,
         private ngDialog: MatDialog,
-        private quizHandler: QuizHandler
+        private quizHandler: QuizHandler,
+        private localization: AppLocalization
     ){}
 
-    ngOnInit(){
+    ngOnInit () {
+        this.languageMap = {} as LanguageMap;
+        this.languageMapSubscription = this.localization.getLanguageMap().subscribe({
+            next: (langMap) => this.languageMap = langMap
+        })
+    }
 
+    ngOnDestroy() {
+        this.languageMapSubscription.unsubscribe();
     }
 
     onSubmit(){
@@ -122,12 +137,14 @@ export class QuizCreatorComponent implements OnInit {
 
     //Handler for suggested answers values
     handleAnswersValue = {
-        addSuggestedValue: (inputControl: FormControl) => {
+        addSuggestedValue: (inputControl: FormControl, tooltipText: string) => {
             if (!this.dialogFormRef) {
                 this.dialogFormRef = this.ngDialog.open(DialogFormComponent, {
                     data: {
                         inputControl,
-                        errorMatcher: this.errorMatcher
+                        tooltipText,
+                        errorMatcher: this.errorMatcher,
+                        languageMap: this.languageMap,
                     }
                 });
                 let subscription = this.dialogFormRef.afterClosed().subscribe(() => {

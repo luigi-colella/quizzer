@@ -1,25 +1,30 @@
 /* Vendor imports */
 import { TestBed } from '@angular/core/testing';
-import { MaterialModule } from '../../modules/material.module';
+import { HttpClient } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { FormControl, FormArray } from '@angular/forms';
+import { of } from 'rxjs';
 /* App imports */
 import { QuizCreatorModule } from './quiz-creator.module';
 import { QuizCreatorComponent } from './quiz-creator.component';
 import { Quiz, QuizType } from '../../types';
-import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ } from '../../constants';
+import { PERSONALITY_QUIZ, TRUEORFALSE_QUIZ, APP_LANG_EN } from '../../constants';
 import { TestUtils as BaseTestUtils } from '../../test-utils';
-
+import { AppLocalization } from '../../services/appLocalization.service';
 
 describe('QuizCreator Component', () => {
 
-    let testUtils: TestUtils<QuizCreatorComponent>
+    let testUtils: TestUtils<QuizCreatorComponent>;
+    let httpService: HttpClient
+    let localizationService: AppLocalization
 
     const DOMSelectors = {
         stepContent: '.mat-vertical-stepper-content[aria-expanded="true"]',
+        stepHeaderLabel: 'mat-step-header[aria-selected="true"] .mat-step-label',
         nextButton: 'button[matStepperNext]',
-        beforeButton: 'button[matStepperPrevious]',
+        previousButton: 'button[matStepperPrevious]',
         settingsForm: {
             title: 'input[matInput][formControlName="title"]',
             type: 'mat-select[formcontrolname="type"]',
@@ -68,7 +73,7 @@ describe('QuizCreator Component', () => {
          */
         navigateTab (direction: 'previous' | 'next') {
             if (direction === 'previous') {
-                this.dom.click(DOMSelectors.beforeButton);
+                this.dom.click(DOMSelectors.previousButton);
                 this.detectChanges();
             };
             if (direction === 'next') {
@@ -120,16 +125,27 @@ describe('QuizCreator Component', () => {
     beforeEach(() => {
         TestBed
             .configureTestingModule({
-                imports: [ QuizCreatorModule ]
+                imports: [ RouterTestingModule, QuizCreatorModule ]
             })
             .compileComponents();
         let fixture = TestBed.createComponent(QuizCreatorComponent);
+        httpService = TestBed.get(HttpClient);
+        localizationService = TestBed.get(AppLocalization);
         testUtils = new TestUtils(fixture);
     })
 
     it('should exists', () => {
         expect(testUtils.getInstance()).toBeDefined();
     })
+
+    it('should change the language', () => {
+        const mockLanguageMap = { 'settings': testUtils.getRandomValue() };
+        spyOn(httpService, 'get').and.returnValue(of(mockLanguageMap));
+        localizationService.setLanguage(APP_LANG_EN);
+        testUtils.detectChanges();
+        let stepHeaderLabel = testUtils.dom.getElementText(DOMSelectors.stepHeaderLabel);
+        expect(stepHeaderLabel).toBe(mockLanguageMap.settings);
+    });
 
     it('should move back and forth between sections', () => {
         // Get current tab content

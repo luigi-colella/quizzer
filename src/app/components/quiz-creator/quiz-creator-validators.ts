@@ -13,8 +13,8 @@ export const validators = {
         return (control: AbstractControl) : {[key: string]: any} | null => {
             let errorMsg: string;
             let inputValue = control.value;
-            if (inputValue === '') errorMsg = 'campo mancante'
-            else if (typeof inputValue === 'string' && inputValue.trim() === '') errorMsg = 'testo non valido'
+            if (inputValue === '') errorMsg = 'errorMissingInput'
+            else if (typeof inputValue === 'string' && inputValue.trim() === '') errorMsg = 'errorInvalidInput'
             else return null;
             return { 'validText': { text: errorMsg } };
         }
@@ -30,7 +30,7 @@ export const validators = {
     validQuizType: (): ValidatorFn => {
         return (control: AbstractControl) : ValidationErrors | null => {
             let valid = control.value === PERSONALITY_QUIZ || control.value === TRUEORFALSE_QUIZ;
-            return !valid ? { 'validQuizType': { text: 'tipo di quiz non riconosciuto' } } : null
+            return !valid ? { 'validQuizType': { text: 'errorInvalidQuizType' } } : null
         }
     },
 
@@ -40,11 +40,11 @@ export const validators = {
             let quizType = quizForm.get('settings').get('type').value;
             let inputValue = control.value;
             if (quizType === PERSONALITY_QUIZ){
-                return !inputValue ? { 'validAnswerValue' : { text: 'testo vuoto' } } : null
+                return !inputValue ? { 'validAnswerValue' : { text: 'errorMissingInput' } } : null
             } else if (quizType === TRUEORFALSE_QUIZ) {
-                return typeof inputValue !== 'boolean' ? { 'validAnswerValue' : { text: 'formato vero o falso non corretto' } } : null
+                return typeof inputValue !== 'boolean' ? { 'validAnswerValue' : { text: 'errorInvalidTrueOrFalseValue' } } : null
             } else {
-                return { 'validAnswerValue' : { text: 'tipo di quiz non valido' } }
+                return { 'validAnswerValue' : { text: 'errorInvalidQuizType' } }
             }
         }
     },

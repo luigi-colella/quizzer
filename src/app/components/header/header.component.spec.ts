@@ -67,9 +67,9 @@ describe('Header Component', () => {
         let buttonQuizCreate = testUtils.dom.getElementText(DOMSelectors.linkCreateQuiz);
         let buttonQuizList = testUtils.dom.getElementText(DOMSelectors.linkQuizList);
         let buttonQuizLoad = testUtils.dom.getElementText(DOMSelectors.linkLoadQuiz);
-        expect(buttonQuizCreate).toBe(testUtils.getInstance().langMap.quizCreate);
-        expect(buttonQuizList).toBe(testUtils.getInstance().langMap.quizList);
-        expect(buttonQuizLoad).toBe(testUtils.getInstance().langMap.quizLoad);
+        expect(buttonQuizCreate).toBe(testUtils.getInstance().languageMap.quizCreate);
+        expect(buttonQuizList).toBe(testUtils.getInstance().languageMap.quizList);
+        expect(buttonQuizLoad).toBe(testUtils.getInstance().languageMap.quizLoad);
     })
 
     it('should changes the language', () => {

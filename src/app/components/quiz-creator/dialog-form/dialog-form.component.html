@@ -3,14 +3,14 @@
 
     <div mat-dialog-content [formGroup]="inputControl.parent">
         <mat-form-field>
-            <mat-label>Valore</mat-label>
-            <input matInput [formControl]="inputControl" matTooltip="Inserisci il valore della risposta" [errorStateMatcher]="errorMatcher">
-            <mat-error *ngIf="inputControl.invalid">{{inputControl.errors.validAnswerValue && inputControl.errors.validAnswerValue.text}}</mat-error>
+            <mat-label>{{languageMap['inputQuestionAnswerValueLabel']}}</mat-label>
+            <input matInput [formControl]="inputControl" [matTooltip]="tooltipText" [errorStateMatcher]="errorMatcher">
+            <mat-error *ngIf="inputControl.invalid">{{inputControl.errors.validAnswerValue && languageMap[inputControl.errors.validAnswerValue.text]}}</mat-error>
         </mat-form-field>
     </div>
 
     <div mat-dialog-actions class="buttons">
-        <button mat-button (click)="onClose()">Ok</button>
+        <button mat-button (click)="onClose()">{{languageMap['ok']}}</button>
     </div>
 
 </div>

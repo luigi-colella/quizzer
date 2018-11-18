@@ -15,8 +15,8 @@ import { LanguageMap } from '../../langMapType';
 export class AppHeaderComponent implements OnInit, OnDestroy {
 
     title = APP_TITLE
-    langMap: AppLanguageMap
-    langChangeSubscription: Subscription;
+    languageMap: AppLanguageMap;
+    languageChangeSubscription: Subscription;
     availableLangs = [
         { name: 'English', value: APP_LANG_EN },
         { name: 'Italiano', value: APP_LANG_IT }
@@ -27,14 +27,14 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit () {
-        this.langMap = {} as LanguageMap; // Initial value to use in the template before subscription to Observable
-        this.langChangeSubscription = this.localization.getLanguageMap().subscribe({
-            next: langMap => this.langMap = langMap
+        this.languageMap = {} as LanguageMap;
+        this.languageChangeSubscription = this.localization.getLanguageMap().subscribe({
+            next: langMap => this.languageMap = langMap
         })
     }
 
     ngOnDestroy () {
-        this.langChangeSubscription.unsubscribe();
+        this.languageChangeSubscription.unsubscribe();
     }
 
     /**
