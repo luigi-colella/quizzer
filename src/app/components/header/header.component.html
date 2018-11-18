@@ -9,15 +9,15 @@
             <ul>
                 <li routerLinkActive="active">
                     <mat-icon>details</mat-icon>
-                    <a routerLink='create'>{{'quizCreate' | i18nSelect: languageMap }}</a>
+                    <a routerLink='create'>{{languageMap['quizCreate']}}</a>
                 </li>
                 <li routerLinkActive="active">
                     <mat-icon>details</mat-icon>
-                    <a routerLink='list'>{{'quizList' | i18nSelect: languageMap }}</a>
+                    <a routerLink='list'>{{languageMap['quizList']}}</a>
                 </li>
                 <li routerLinkActive="active">
                     <mat-icon>details</mat-icon>
-                    <a routerLink='launch'>{{'quizLoad' | i18nSelect: languageMap }}</a>
+                    <a routerLink='launch'>{{languageMap['quizLoad']}}</a>
                 </li>
             </ul>
         </div>
@@ -28,7 +28,7 @@
                     <img src="../../assets/images/github-circle-white-transparent.svg">
                 </span>
             </a>
-            <button mat-button [matMenuTriggerFor]="menu">{{'language' | i18nSelect: languageMap }}...</button>
+            <button mat-button [matMenuTriggerFor]="menu">{{languageMap['language']}}...</button>
             <mat-menu #menu="matMenu">
                 <button *ngFor="let lang of availableLangs" (click)="changeLanguage(lang.value)" mat-menu-item>
                     <span>
@@ -42,9 +42,9 @@
 
     <nav class="links">
         <ul>
-            <li routerLinkActive="active"><a routerLink='create'>{{'quizCreate' | i18nSelect: languageMap }}</a></li>
-            <li routerLinkActive="active"><a routerLink='list'>{{'quizList' | i18nSelect: languageMap }}</a></li>
-            <li routerLinkActive="active"><a routerLink='launch'>{{'quizLoad' | i18nSelect: languageMap }}</a></li>
+            <li routerLinkActive="active"><a routerLink='create'>{{languageMap['quizCreate']}}</a></li>
+            <li routerLinkActive="active"><a routerLink='list'>{{languageMap['quizList']}}</a></li>
+            <li routerLinkActive="active"><a routerLink='launch'>{{languageMap['quizLoad']}}</a></li>
         </ul>
     </nav>
 </div>
