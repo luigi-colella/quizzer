@@ -16,7 +16,8 @@
 1. [Presentazione](#presentazione)
 2. [Stack utilizzato](#stack-utilizzato)
 3. [Installazione ed utilizzo](#installazione-ed-utilizzo)
-4. [Come contribuire](#come-contribuire)
+4. [Crediti](#crediti)
+5. [Come contribuire](#come-contribuire)
 
 ## Presentazione
 I quiz sono un utilissimo strumento adatto a molteplici scopi: divertimento, didattica, competizioni, indagini di marketing ecc. Questa applicazione vuole essere una soluzione intuitiva, rapida e piacevole sia per sviluppare e condividere i propri quiz con gli altri sia per giocarci.
@@ -57,6 +58,8 @@ Compila per la distribuzione
 ```
 npm run dist
 ```
+## Crediti
+Flags icons made by [Freepik](https://www.freepik.com) from [Flaticon](https://www.flaticon.com/) is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)
 
 ## Come contribuire
 Ci sono vari modi per farlo:
