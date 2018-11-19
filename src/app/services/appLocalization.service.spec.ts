@@ -5,8 +5,13 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { last } from 'rxjs/operators';
 /* App imports */
 import { AppLocalization } from './appLocalization.service';
-import { APP_LANG_DEFAULT, APP_LANG_EN, APP_LANG_EN_TEST_VALUE, APP_LANG_IT, APP_LANG_IT_TEST_VALUE, APP_LANG_DEFAULT_TEST_VALUE } from '../constants';
 import { LanguageMap } from '../langMapType';
+import { 
+    APP_LANG_DEFAULT, APP_LANG_DEFAULT_TEST_VALUE,
+    APP_LANG_EN, APP_LANG_EN_TEST_VALUE, 
+    APP_LANG_IT, APP_LANG_IT_TEST_VALUE,
+    APP_LANG_ES, APP_LANG_ES_TEST_VALUE,
+} from '../constants';
 
 describe('AppLocalization Service', () => {
 
@@ -56,7 +61,7 @@ describe('AppLocalization Service', () => {
         })
     })
 
-    it('should set the english language', () => {
+    it('should set the English language', () => {
         return new Promise((resolve) => {
             // Subscribe to observable to get the language map
             service.getLanguageMap().subscribe({
@@ -70,7 +75,7 @@ describe('AppLocalization Service', () => {
         })
     });
 
-    it('should set the italian language', () => {
+    it('should set the Italian language', () => {
         return new Promise((resolve) => {
             // Subscribe to observable to get the language map
             service.getLanguageMap().subscribe({
@@ -81,6 +86,20 @@ describe('AppLocalization Service', () => {
             });
             // Set the language
             service.setLanguage(APP_LANG_IT);
+        })
+    });
+
+    it('should set the Spanish language', () => {
+        return new Promise((resolve) => {
+            // Subscribe to observable to get the language map
+            service.getLanguageMap().subscribe({
+                next: map => {
+                    expect(map.testValue).toBe(APP_LANG_ES_TEST_VALUE);
+                    resolve();
+                }
+            });
+            // Set the language
+            service.setLanguage(APP_LANG_ES);
         })
     });
 

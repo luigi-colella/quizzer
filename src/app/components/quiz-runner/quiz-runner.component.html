@@ -67,7 +67,7 @@
                 </label>
                 <button mat-button *ngSwitchCase='quizAvailableStates.READY' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>play_arrow</mat-icon>{{languageMap['startQuiz']}}</button>
                 <button mat-button *ngSwitchCase='quizAvailableStates.STARTED' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>check</mat-icon>{{languageMap['ok']}}</button>
-                <button mat-button *ngSwitchCase='quizAvailableStates.FINISHED' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>refresh</mat-icon>{{languageMap['restart']}}</button>
+                <button mat-button *ngSwitchCase='quizAvailableStates.FINISHED' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>refresh</mat-icon>{{languageMap['restartQuiz']}}</button>
             </div>
         </div>
     </ng-container>

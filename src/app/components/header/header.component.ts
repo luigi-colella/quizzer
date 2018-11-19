@@ -2,7 +2,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 /* App imports */
-import { APP_TITLE, APP_LANG_EN, APP_LANG_IT } from '../../constants';
+import { APP_TITLE, APP_LANG_EN, APP_LANG_IT, APP_LANG_ES } from '../../constants';
 import { AppLanguage, AppLanguageMap } from '../../types';
 import { AppLocalization } from '../../services/appLocalization.service';
 import { LanguageMap } from '../../langMapType';
@@ -19,7 +19,8 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
     languageChangeSubscription: Subscription;
     availableLangs = [
         { name: 'English', value: APP_LANG_EN },
-        { name: 'Italiano', value: APP_LANG_IT }
+        { name: 'Italiano', value: APP_LANG_IT },
+        { name: 'Español', value: APP_LANG_ES }
     ]
 
     constructor(

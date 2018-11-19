@@ -3,7 +3,7 @@ import { TestBed } from "@angular/core/testing";
 import { HttpClient } from "@angular/common/http";
 import { HttpClientModule } from "@angular/common/http";
 /* App imports */
-import { APP_LANG_IT, APP_LANG_EN } from "../constants";
+import { APP_LANG_IT, APP_LANG_EN, APP_LANG_ES } from "../constants";
 
 describe('Language files', () => {
 
@@ -54,14 +54,18 @@ describe('Language files', () => {
             providers: [ HttpClient ]
         }).compileComponents();
         httpService = TestBed.get(HttpClient);
-    })
+    });
 
     it('italian map should have all keys', () => {
         return checkKeys(APP_LANG_IT);
-    })
+    });
 
     it('english map should have all keys', () => {
         return checkKeys(APP_LANG_EN);
+    });
+
+    it('spanish map should have all keys', () => {
+        return checkKeys(APP_LANG_ES);
     })
 
 })
