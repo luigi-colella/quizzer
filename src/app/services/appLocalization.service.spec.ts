@@ -11,6 +11,7 @@ import {
     APP_LANG_EN, APP_LANG_EN_TEST_VALUE, 
     APP_LANG_IT, APP_LANG_IT_TEST_VALUE,
     APP_LANG_ES, APP_LANG_ES_TEST_VALUE,
+    APP_LANG_FR, APP_LANG_FR_TEST_VALUE
 } from '../constants';
 
 describe('AppLocalization Service', () => {
@@ -100,6 +101,20 @@ describe('AppLocalization Service', () => {
             });
             // Set the language
             service.setLanguage(APP_LANG_ES);
+        })
+    });
+
+    it('should set the French language', () => {
+        return new Promise((resolve) => {
+            // Subscribe to observable to get the language map
+            service.getLanguageMap().subscribe({
+                next: map => {
+                    expect(map.testValue).toBe(APP_LANG_FR_TEST_VALUE);
+                    resolve();
+                }
+            });
+            // Set the language
+            service.setLanguage(APP_LANG_FR);
         })
     });
 

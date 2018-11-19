@@ -32,5 +32,5 @@ export type AnswerValue = Quiz['questions'][0]['answers'][0]['value'];
 
 export type Result = Quiz['answers'][0];
 
-export type AppLanguage = 'en' | 'it' | 'es' ;
+export type AppLanguage = 'en' | 'it' | 'es' | 'fr' ;
 export type AppLanguageMap =  LanguageMap;

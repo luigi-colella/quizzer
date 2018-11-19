@@ -12,5 +12,7 @@ export const APP_LANG_DEFAULT: AppLanguage = APP_LANG_IT;
 export const APP_LANG_DEFAULT_TEST_VALUE = APP_LANG_IT_TEST_VALUE; // Value used only for test purpose
 export const APP_LANG_ES: AppLanguage  = 'es';
 export const APP_LANG_ES_TEST_VALUE = 'test-value-es' // Value used only for test purpose
+export const APP_LANG_FR: AppLanguage  = 'fr';
+export const APP_LANG_FR_TEST_VALUE = 'test-value-fr' // Value used only for test purpose
 /* App info */
 export const APP_TITLE = 'Quizzer';
