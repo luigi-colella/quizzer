@@ -69,7 +69,12 @@
             display: flex;
             align-items: center;
             a {
-                margin-right: $margin-small;
+                padding: $padding-small / 2;
+                transition: $transition / 2;
+                &:hover {
+                    border-radius: 2px;
+                    background: rgba(0,0,0,.12);
+                }
             }
         }
         

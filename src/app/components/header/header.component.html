@@ -25,14 +25,14 @@
         <div class="links">
             <a href="https://github.com/lgcolella/Quizzer" tabindex="0" target="_blank">
                 <span>
-                    <img src="../../assets/images/github-circle-white-transparent.svg">
+                    <img src="assets/images/github-circle-white-transparent.svg">
                 </span>
             </a>
             <button mat-button [matMenuTriggerFor]="menu">{{languageMap['language']}}...</button>
             <mat-menu #menu="matMenu">
                 <button *ngFor="let lang of availableLangs" (click)="changeLanguage(lang.value)" mat-menu-item>
                     <span>
-                        <img [src]="'../../assets/images/flag-' + lang.value + '.png'">
+                        <img [src]="'assets/images/flag-' + lang.value + '.png'">
                         {{lang.name}}
                     </span>
                 </button>
