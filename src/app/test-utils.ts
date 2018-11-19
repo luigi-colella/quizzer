@@ -24,20 +24,32 @@ export class TestUtils <T> {
     detectChanges () {
         this.componentFixture.detectChanges();
     };
-
     /**
      * Wait for fixture UI state stable.
      */
     whenRenderingDone () {
         this.componentFixture.whenRenderingDone();
     };
-
     /**
      * Get the component instance of the current fixture.
      * @return {Object} the instance object.
      */
     getInstance (): T {
         return this.componentInstance;
+    };
+    /**
+     * Get a random string value or a random value from a provided range.
+     * @param {Array} [values] range of values for result
+     * @returns {string} a random value
+     */
+    getRandomValue (values?: Array<string>): string {
+        let result: string;
+        if (values && values.length) {
+            result = values[ Math.floor(Math.random() * (values.length - 0)) ]
+        } else {
+            result = Math.random().toString();
+        }
+        return result;
     };
 
     /**

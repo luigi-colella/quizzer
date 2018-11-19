@@ -105,20 +105,6 @@ describe('QuizCreator Component', () => {
             select.options.find((el: MatOption) => el.value === value).select();
             this.detectChanges();
         };
-        /**
-         * Get a random string value or a random value from a provided range.
-         * @param {Array} [values] range of values for result
-         * @returns {string} a random value
-         */
-        getRandomValue (values?: Array<string>): string {
-            let result: string;
-            if (values && values.length) {
-                result = values[ Math.floor(Math.random() * (values.length - 0)) ]
-            } else {
-                result = Math.random().toString();
-            }
-            return result;
-        };
     }
 
 

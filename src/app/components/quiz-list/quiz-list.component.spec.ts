@@ -2,6 +2,7 @@
 import { DebugElement } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { of } from 'rxjs';
 /* App imports */
@@ -9,12 +10,17 @@ import { QuizListModule } from './quiz-list.module';
 import { QuizListComponent } from './quiz-list.component';
 import { QuizDatabase } from '../../services/quizDatabase.service';
 import { quizMusic as mockQuiz } from '../../mocks/quiz.music';
-import { TestUtils as BaseTestUtils } from '../../test-utils';
+import { TestUtils } from '../../test-utils';
+import { AppLocalization } from '../../services/appLocalization.service';
+import { LanguageMap } from '../../langMapType';
 
 describe('QuizList Component', () => {
 
     let testUtils: TestUtils<QuizListComponent>;
     let quizDatabase: QuizDatabase;
+    let httpService: HttpClient;
+    let localizationService: AppLocalization;
+    const mockData = [mockQuiz, mockQuiz];
 
     const DOMSelectors = {
         quizItem: '.quiz-item mat-card',
@@ -24,16 +30,6 @@ describe('QuizList Component', () => {
         quizItemDescription: '.quiz-item mat-card mat-card-content p'
     };
 
-    class TestUtils<QuizListComponent> extends BaseTestUtils<QuizListComponent> {
-        /**
-         * Mock the function `getAll` of the database service in order to get the mockData as function's return value
-         * @param {Object} mockData
-         */
-        mockGetAll (mockData) {
-            spyOn(quizDatabase, 'getAll').and.returnValue(of(mockData));
-        }
-    }
-
     beforeEach(() => {
         TestBed
             .configureTestingModule({
@@ -42,43 +38,51 @@ describe('QuizList Component', () => {
             })
             .compileComponents();
         
-        let componentFixture = TestBed.createComponent(QuizListComponent);
+        let fixture = TestBed.createComponent(QuizListComponent);
         quizDatabase = TestBed.get(QuizDatabase);
-        testUtils = new TestUtils(componentFixture);
+        spyOn(quizDatabase, 'getAll').and.returnValue(of(mockData));
+        httpService = TestBed.get(HttpClient);
+        localizationService = TestBed.get(AppLocalization);
+        testUtils = new TestUtils(fixture);
     })
 
     it('should exists', () => {
         expect(testUtils.getInstance()).toBeDefined();
     })
 
+    it('should change language', () => {
+        let mockLanguageMap = { testValue: testUtils.getRandomValue() } as LanguageMap;
+        spyOn(httpService, 'get').and.returnValue(of(mockLanguageMap));
+        localizationService.setLanguage("en");
+        let currentLanguageMap = testUtils.getInstance().languageMap;
+        expect(currentLanguageMap).toEqual(mockLanguageMap);
+    })
+
     it('should fetch all quizzes', () => {
-        const mockData = [mockQuiz, mockQuiz];
-        testUtils.mockGetAll(mockData);
         testUtils.getInstance().fetchAllQuizzes();
         expect(quizDatabase.getAll).toHaveBeenCalled();
         expect(testUtils.getInstance().quizzes).toBe(mockData);
     })
 
     it('should show all quizzes', () => {
-        const mockData = [mockQuiz, mockQuiz];
-        testUtils.mockGetAll(mockData);
         testUtils.getInstance().fetchAllQuizzes();
         testUtils.detectChanges();
         let quizItemsNumber = testUtils.dom.getElementsNumber(DOMSelectors.quizItem);
         expect(quizItemsNumber).toBe(mockData.length);
     })
 
-    it('should show right info of a quiz', () => {
-        const mockData = [mockQuiz, mockQuiz];
-        testUtils.mockGetAll(mockData);
-        testUtils.getInstance().fetchAllQuizzes();
+    it('should show right info of a quiz', async () => {
+        // Mock language map
+        const mockLanguageMap = { "personalityQuiz": testUtils.getRandomValue() } as LanguageMap;
+        spyOn(httpService, 'get').and.returnValue(of(mockLanguageMap));
+        localizationService.setLanguage('it');
         testUtils.detectChanges();
         // Check title
         let quizTitle = mockQuiz.settings.title;
         let domQuizTitle = testUtils.dom.getElementText(DOMSelectors.quizItemTitle);
         expect(domQuizTitle).toBe(quizTitle);
         // Check type
-        let quizType = testUtils.getInstance().quizTypes[mockQuiz.settings.type];
+        let quizType = testUtils.getInstance().languageMap[mockQuiz.settings.type];
         let domQuizType = testUtils.dom.getElementText(DOMSelectors.quizItemSubtitle);
         expect(domQuizType).toBe(quizType);
         // Check image

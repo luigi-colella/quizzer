@@ -7,10 +7,10 @@
             <mat-card routerLink="/launch/{{i}}">
                 <mat-card-header>
                     <mat-card-title>{{quiz.settings.title}}</mat-card-title>
-                    <mat-card-subtitle>{{quizTypes[quiz.settings.type]}}</mat-card-subtitle>
+                    <mat-card-subtitle>{{languageMap[quiz.settings.type]}}</mat-card-subtitle>
                 </mat-card-header>
                 <div *ngIf="quiz.settings.imageUrl">
-                    <img mat-card-image [src]="quiz.settings.imageUrl" alt="Image of the quiz">
+                    <img mat-card-image [src]="quiz.settings.imageUrl">
                 </div>
                 <mat-card-content>
                     <p>{{quiz.settings.description}}</p>
