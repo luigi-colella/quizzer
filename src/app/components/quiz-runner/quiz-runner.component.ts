@@ -1,12 +1,15 @@
 /* Vendor imports */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 /* App imports */
-import { Quiz, AnswerValue } from '../../types';
+import { Quiz, AnswerValue, AppLanguageMap } from '../../types';
 import { QuizHandler } from '../../services/quizHandler.service';
 import { QuizDatabase } from '../../services/quizDatabase.service';
+import { AppLocalization } from '../../services/appLocalization.service';
 /* Quiz sample imports */
 import { quizMusic as mockQuiz } from '../../mocks/quiz.music';
+import { LanguageMap } from '../../langMapType';
 
 type FileInputEvent = Event & { target: { files: FileList } };
 type FileLoaderEvent = Event & { target: { result: string } };
@@ -21,7 +24,7 @@ interface QuizStates {
     templateUrl: './quiz-runner.component.html',
     styleUrls: ['./quiz-runner.component.scss']
 })
-export class QuizRunnerComponent implements OnInit {
+export class QuizRunnerComponent implements OnInit, OnDestroy {
 
     //private current_quiz;
     curQuiz: Quiz;
@@ -35,14 +38,18 @@ export class QuizRunnerComponent implements OnInit {
         FINISHED: 'finished'
     }
     submitButtonIsDisabled: boolean = false;
+    languageMap: AppLanguageMap;
+    languageMapSubscription: Subscription
 
     constructor(
         private route: ActivatedRoute,
         private quizHandler: QuizHandler,
-        private quizDatabase: QuizDatabase
+        private quizDatabase: QuizDatabase,
+        private localization: AppLocalization
     ){}
 
     ngOnInit(){
+        // Get quiz to display
         const id = this.route.snapshot.paramMap.get('id');
         if (id) {
             this.quizDatabase.get(Number(id)).subscribe({
@@ -53,10 +60,17 @@ export class QuizRunnerComponent implements OnInit {
         } else {
             this.loadQuiz(this.quizHandler.load(mockQuiz).getQuizObject());
         }
+        // Set language map
+        this.languageMap = {} as LanguageMap;
+        this.languageMapSubscription = this.localization.getLanguageMap().subscribe({
+            next: map => this.languageMap = map
+        })
+        // Init keyboard shortcut
         document.addEventListener('keydown', this.onKeyboardEnterEvent);
     }
 
     ngOnDestroy () {
+        this.languageMapSubscription.unsubscribe();
         document.removeEventListener('keydown', this.onKeyboardEnterEvent);
     }
 

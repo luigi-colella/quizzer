@@ -72,7 +72,13 @@ export interface LanguageMap {
     "inputResultImageUrlLabel": string,
     "inputResultImageUrlTooltip": string,
     "noResultsAlert": string,
-    "resultsToComplete": string
+    "resultsToComplete": string,
     /* -------------- */
 
+    /* Quiz runner */
+    "question": string,
+    "loadQuiz": string,
+    "startQuiz": string,
+    "restartQuiz": string
+    /* ----------- */
 }

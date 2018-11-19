@@ -63,5 +63,10 @@
     "inputResultImageUrlLabel": "Image URL",
     "inputResultImageUrlTooltip": "Enter the URL of a image to use for this result. Valid formats: .jpeg, .jpg, .gif, .png",
     "noResultsAlert": "No results added",
-    "resultsToComplete": "results to complete"
+    "resultsToComplete": "results to complete",
+
+    "question": "Question",
+    "loadQuiz": "Load quiz",
+    "startQuiz": "Start",
+    "restartQuiz": "Restart"
 }

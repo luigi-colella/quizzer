@@ -13,6 +13,7 @@ import { quizMusic as mockQuiz } from '../../mocks/quiz.music';
 import { TestUtils } from '../../test-utils';
 import { AppLocalization } from '../../services/appLocalization.service';
 import { LanguageMap } from '../../langMapType';
+import { APP_LANG_DEFAULT } from '../../constants';
 
 describe('QuizList Component', () => {
 
@@ -53,7 +54,7 @@ describe('QuizList Component', () => {
     it('should change language', () => {
         let mockLanguageMap = { testValue: testUtils.getRandomValue() } as LanguageMap;
         spyOn(httpService, 'get').and.returnValue(of(mockLanguageMap));
-        localizationService.setLanguage("en");
+        localizationService.setLanguage(APP_LANG_DEFAULT);
         let currentLanguageMap = testUtils.getInstance().languageMap;
         expect(currentLanguageMap).toEqual(mockLanguageMap);
     })
@@ -71,7 +72,7 @@ describe('QuizList Component', () => {
         expect(quizItemsNumber).toBe(mockData.length);
     })
 
-    it('should show right info of a quiz', async () => {
+    it('should show right info of a quiz', () => {
         // Mock language map
         const mockLanguageMap = { "personalityQuiz": testUtils.getRandomValue() } as LanguageMap;
         spyOn(httpService, 'get').and.returnValue(of(mockLanguageMap));

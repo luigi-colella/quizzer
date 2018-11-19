@@ -26,8 +26,15 @@
         }
     }
     label {
-        input[type="file"] {
-            display: none;
+        > span {
+            display: flex;
+            align-items: center;
+            mat-icon {
+                margin-right: $margin-small / 2;
+            }
+            input[type="file"] {
+                display: none;
+            }
         }
         &:hover {
             background-color: rgba(0,0,0,.12);

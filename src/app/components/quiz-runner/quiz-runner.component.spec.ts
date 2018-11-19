@@ -3,16 +3,23 @@ import { DebugElement } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { MaterialModule } from '../../modules/material.module';
 /* App imports */
 import { QuizRunnerModule } from './quiz-runner.module'
 import { QuizRunnerComponent } from './quiz-runner.component';
 import { Quiz } from '../../types';
 import { TestUtils as BaseTestUtils } from '../../test-utils';
+import { of } from 'rxjs';
+import { LanguageMap } from '../../langMapType';
+import { AppLocalization } from '../../services/appLocalization.service';
+import { APP_LANG_IT, APP_LANG_DEFAULT } from '../../constants';
 
 describe('QuizRunner Component', () => {
 
     let testUtils: TestUtils<QuizRunnerComponent>;
+    let httpService: HttpClient
+    let localizationService: AppLocalization
 
     const DOMSelectors = {
         'title': 'h1',
@@ -57,10 +64,21 @@ describe('QuizRunner Component', () => {
 
         let fixture = TestBed.createComponent(QuizRunnerComponent);
         testUtils = new TestUtils(fixture);
+        httpService = TestBed.get(HttpClient);
+        localizationService = TestBed.get(AppLocalization);
     })
 
     it('should exists', () => {
         expect(testUtils.getInstance()).toBeDefined();
+    })
+
+    it('should changes language map', () => {
+        let mockLanguageMap = { startQuiz: testUtils.getRandomValue() } as LanguageMap
+        spyOn(httpService, 'get').and.returnValue(of(mockLanguageMap));
+        localizationService.setLanguage(APP_LANG_DEFAULT);
+        testUtils.detectChanges();        
+        let actionButtonText = testUtils.dom.getElementText(DOMSelectors.actionButton);
+        expect(actionButtonText).toContain(mockLanguageMap.startQuiz);
     })
 
     it('should have the quiz title', () => {

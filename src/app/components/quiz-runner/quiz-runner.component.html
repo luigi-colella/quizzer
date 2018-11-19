@@ -5,7 +5,7 @@
         <h1>{{curQuiz.settings.title}}</h1>
     </div>
 
-    <i *ngIf="quizState === quizAvailableStates.STARTED">Domanda {{curQuestionIndex + 1}} / {{curQuiz.questions.length}}</i>        
+    <i *ngIf="quizState === quizAvailableStates.STARTED">{{languageMap['question']}} {{curQuestionIndex + 1}} / {{curQuiz.questions.length}}</i>        
     <hr>
     
     <ng-container [ngSwitch]='quizState'>
@@ -61,13 +61,13 @@
             <div class="buttons">
                 <label class="mat-button">
                     <span class="mat-button-wrapper">
-                        <mat-icon>cloud_upload</mat-icon> Carica nuovo
+                        <mat-icon>cloud_upload</mat-icon>{{languageMap['loadQuiz']}}
                         <input type='file' (change)='uploadQuiz($event)'>
                     </span>
                 </label>
-                <button mat-button *ngSwitchCase='quizAvailableStates.READY' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>play_arrow</mat-icon>Inizia il test</button>
-                <button mat-button *ngSwitchCase='quizAvailableStates.STARTED' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>check</mat-icon>Ok</button>
-                <button mat-button *ngSwitchCase='quizAvailableStates.FINISHED' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>refresh</mat-icon>Ricomincia</button>
+                <button mat-button *ngSwitchCase='quizAvailableStates.READY' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>play_arrow</mat-icon>{{languageMap['startQuiz']}}</button>
+                <button mat-button *ngSwitchCase='quizAvailableStates.STARTED' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>check</mat-icon>{{languageMap['ok']}}</button>
+                <button mat-button *ngSwitchCase='quizAvailableStates.FINISHED' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>refresh</mat-icon>{{languageMap['restart']}}</button>
             </div>
         </div>
     </ng-container>

@@ -63,5 +63,10 @@
     "inputResultImageUrlLabel": "URL Immagine",
     "inputResultImageUrlTooltip": "Inserisci l'URL di un'immagine per questo risultato. Formati validi: .jpeg, .jpg, .gif, .png",
     "noResultsAlert": "Nessun risultato aggiunto",
-    "resultsToComplete": "risultati da completare"
+    "resultsToComplete": "risultati da completare",
+
+    "question": "Domanda",
+    "loadQuiz": "Carica quiz",
+    "startQuiz": "Inizia",
+    "restartQuiz": "Ricomincia"
 }
