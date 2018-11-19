@@ -49,7 +49,7 @@ export interface LanguageMap {
     "inputQuestionAnswerTextTooltip": string,
     "inputQuestionAnswerValueLabel": string,
     "inputQuestionAnswerValueTooltip": string,
-    "inputQuestionAnswerValueTrueOrFalseTooltip": string
+    "inputQuestionAnswerValueTrueOrFalseTooltip": string,
     "inputQuestionAnswerValueNew": string,
     "true": string,
     "false": string,
