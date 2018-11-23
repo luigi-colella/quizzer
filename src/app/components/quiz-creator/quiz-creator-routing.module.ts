@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { QuizCreatorComponent as Component } from './quiz-creator.component';
 
 const routes: Routes = [
-    { path: 'create',  component: Component }
+    { path: 'create',  component: Component, data: { animation: 'quizCreator' } }
 ]
 
 @NgModule({

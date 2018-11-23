@@ -1,6 +1,7 @@
 /* Vendor imports */
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /* App imports */
 import { HeaderModule } from './components/header/header.module';
 import { QuizRunnerModule } from './components/quiz-runner/quiz-runner.module';
@@ -14,6 +15,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HeaderModule,
     QuizRunnerModule,
     QuizCreatorModule,

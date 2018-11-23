@@ -5,8 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { QuizRunnerComponent } from './quiz-runner.component';
 
 const routes : Routes = [
-    { path: 'launch', component: QuizRunnerComponent },
-    { path: 'launch/:id', component: QuizRunnerComponent }
+    { path: 'launch', component: QuizRunnerComponent, data: { animation: 'quizRunner' } },
+    { path: 'launch/:id', component: QuizRunnerComponent, data: { animation: 'quizRunner' } }
 ];
 
 @NgModule({
