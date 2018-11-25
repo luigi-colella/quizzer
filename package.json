@@ -8,8 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "dev": "node ./node_modules/concurrently/src/main.js \"npm run start\" \"npm run test\"",
-    "coveralls": "ng test --watch=false --code-coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "dev": "node ./node_modules/concurrently/src/main.js \"npm run start\" \"npm run test\""
   },
   "private": true,
   "dependencies": {

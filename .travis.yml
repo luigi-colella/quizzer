@@ -13,10 +13,18 @@ cache:
     - node_modules
 install:
   - yarn
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 script:
   - yarn test
 after_success:
-  - yarn run coveralls
+  - yarn ng test --watch=false --code-coverage
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info --debug
+  - ./cc-test-reporter upload-coverage
+  - rm -rf ./coverage
 before_deploy:
   - yarn run build -- --base-href=https://lgcolella.github.io/Quizzer/
 deploy:
