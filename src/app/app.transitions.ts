@@ -28,6 +28,6 @@ export const AppComponentTransitions = trigger('routeAnimation', [
             query(':enter', animate('500ms ease-out', style({ left: '0%'}) )),
             query(':leave', animate('500ms ease-out', style({ left: '100%'}) ))
         ]),
-        query(':enter', animate('300ms ease-out', style({ left: '0%' }))),
+        query(':enter', animate('300ms ease-out', style({ left: '0%' })))
     ])
 ])

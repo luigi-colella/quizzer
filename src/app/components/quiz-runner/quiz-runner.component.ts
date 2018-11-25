@@ -1,5 +1,5 @@
 /* Vendor imports */
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 /* App imports */
@@ -7,13 +7,14 @@ import { Quiz, AnswerValue, AppLanguageMap } from '../../types';
 import { QuizHandler } from '../../services/quizHandler.service';
 import { QuizDatabase } from '../../services/quizDatabase.service';
 import { AppLocalization } from '../../services/appLocalization.service';
+import { runnerStateTransition, runnerQuestionChangeTransition } from './quiz-runner.transitions';
+import { LanguageMap } from '../../langMapType';
 /* Quiz sample imports */
 import { quizMusic as mockQuiz } from '../../mocks/quiz.music';
-import { LanguageMap } from '../../langMapType';
 
 type FileInputEvent = Event & { target: { files: FileList } };
 type FileLoaderEvent = Event & { target: { result: string } };
-interface QuizStates {
+export interface QuizStates {
     READY: 'ready',
     STARTED: 'started',
     FINISHED: 'finished'
@@ -22,16 +23,16 @@ interface QuizStates {
 @Component({
     selector: 'app-quiz-runner',
     templateUrl: './quiz-runner.component.html',
-    styleUrls: ['./quiz-runner.component.scss']
+    styleUrls:  ['./quiz-runner.component.scss'],
+    animations: [runnerStateTransition, runnerQuestionChangeTransition]
 })
 export class QuizRunnerComponent implements OnInit, OnDestroy {
 
-    //private current_quiz;
     curQuiz: Quiz;
-    curQuestionIndex: number;
+    @HostBinding('@questionChangeAnimation') curQuestionIndex: number;
     curQuizResult: Quiz['answers'][0];
     givenUserAnswers: AnswerValue[];
-    quizState: QuizStates['READY'] | QuizStates['STARTED'] | QuizStates['FINISHED']
+    @HostBinding('@quizStateAnimation') quizState: QuizStates['READY'] | QuizStates['STARTED'] | QuizStates['FINISHED']
     quizAvailableStates: QuizStates = {
         READY: 'ready',
         STARTED: 'started',

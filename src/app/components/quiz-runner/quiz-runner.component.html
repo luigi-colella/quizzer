@@ -20,7 +20,7 @@
             <!-- /Intro Quiz -->
     
             <!-- Quiz Question Box -->
-            <div *ngSwitchCase='quizAvailableStates.STARTED'>
+            <div *ngSwitchCase='quizAvailableStates.STARTED' id='quiz-questions'>
                 <p>{{curQuiz.questions[curQuestionIndex].text}}</p>
                 <mat-radio-group [value]="givenUserAnswers[curQuestionIndex]">
                     <ng-container *ngFor='let obj of curQuiz.questions[curQuestionIndex].answers'>
@@ -31,13 +31,6 @@
                 </mat-radio-group>
             </div>
             <!-- /Quiz Question Box -->
-        
-            <!-- Quiz result -->
-            <div *ngSwitchCase='quizAvailableStates.FINISHED' id='resultQuiz' class="result">
-                <h2>{{curQuizResult.title}}</h2>
-                <p>{{curQuizResult.description}}</p>
-            </div>
-            <!-- /Quiz result -->
 
             <!-- Preload pictures of the results during the test -->
             <ng-container *ngIf="quizState !== quizAvailableStates.READY">
@@ -51,6 +44,14 @@
                 </div>                    
             </ng-container>
             <!-- /Preload pictures of the results during the test -->
+
+            <!-- Quiz result -->
+            <div *ngSwitchCase='quizAvailableStates.FINISHED' id='quiz-result' class="result">
+                <h2>{{curQuizResult.title}}</h2>
+                <p>{{curQuizResult.description}}</p>
+            </div>
+            <!-- /Quiz result -->
+
         </div>
     </ng-container>
 

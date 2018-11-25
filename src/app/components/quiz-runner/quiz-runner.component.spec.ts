@@ -28,8 +28,8 @@ describe('QuizRunner Component', () => {
         'actionButton': '.buttons button:nth-child(2)',
         'radioInputs': 'mat-radio-button input[type="radio"]',
         'firstRadioInput': 'mat-radio-button:first-child input[type="radio"]',
-        'resultTitle': '#resultQuiz h2',
-        'resultDescription': '#resultQuiz p',
+        'resultTitle': '#quiz-result h2',
+        'resultDescription': '#quiz-result p',
         'resultImage': '.result .thumbnail:not(.hidden) img'
     }
     class TestUtils<QuizRunnerComponentz> extends BaseTestUtils<QuizRunnerComponent> {
