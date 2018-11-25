@@ -11,6 +11,7 @@
 [![Build Status](https://travis-ci.org/lgcolella/Quizzer.svg?branch=master)](https://travis-ci.org/lgcolella/Quizzer)
 [![Coverage Status](https://coveralls.io/repos/github/lgcolella/Quizzer/badge.svg?branch=master)](https://coveralls.io/github/lgcolella/Quizzer?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/3ba08be6b19525925e30/maintainability)](https://codeclimate.com/github/lgcolella/Quizzer/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/3ba08be6b19525925e30/test_coverage)](https://codeclimate.com/github/lgcolella/Quizzer/test_coverage)
 
 ## Indice dei contenuti
 1. [Presentazione](#presentazione)
