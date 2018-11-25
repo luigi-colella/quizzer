@@ -65,39 +65,52 @@ export class QuizHandler {
 
         let answerObjs: Result[];
         if (this.currentQuiz.settings.type === PERSONALITY_QUIZ) {
-
-            // Sort answers values in order to group them
-            let groupedAnswers = answers.sort();
-            // Get answer with higher frequency comparing their offset in `groupedArray` array
-            let answerWithHigherFrequency = groupedAnswers.sort((a, b) => {
-                let aFrequency = groupedAnswers.lastIndexOf(a) - groupedAnswers.indexOf(a);
-                let bFrequency = groupedAnswers.lastIndexOf(b) - groupedAnswers.indexOf(b);
-                return bFrequency - aFrequency;
-            })[0]
-            //Return object matching with answerWithHigherFrequency
-            answerObjs = this.currentQuiz.answers.filter(answer => answer.value === answerWithHigherFrequency);
-        
+            answerObjs = this._getResultForPersonaltyType(answers as string[]);            
         } else if (this.currentQuiz.settings.type === TRUEORFALSE_QUIZ) {
-
-            //Get number of correct answers
-            let correctAnswers = 0;
-            for (let i = 0; i < answers.length; i++){
-                if (answers[i]) correctAnswers++
-            }
-            // Filter answer objects matching with number of correct answers
-            answerObjs = this.currentQuiz.answers.filter((answer) => {
-                let rangeSeparator = '-'; // If `answer.value` is a range then it has this separator
-                // Return answer if is between max and min allowed values
-                let maxValue = Math.max( ...answer.value.split(rangeSeparator).map(Number) );
-                let minValue = Math.min( ...answer.value.split(rangeSeparator).map(Number) );
-                return minValue <= correctAnswers && correctAnswers <= maxValue;
-            })
-
+            answerObjs = this._getResultForTrueOrFalseType(answers as boolean[]);
         }
-
         //Return first matching result
         return answerObjs[0];
 
+    }
+
+    /**
+     * Process the provided answers basing on the quiz Personality type
+     * @param {Array} answers array of given answers
+     * @return {Array} array of possible results for provided answers
+     */
+    private _getResultForPersonaltyType (answers : string[]): Result[] {
+        // Sort answers values in order to group them
+        let groupedAnswers = answers.sort();
+        // Get answer with higher frequency comparing their offset in `groupedArray` array
+        let answerWithHigherFrequency = groupedAnswers.sort((a, b) => {
+            let aFrequency = groupedAnswers.lastIndexOf(a) - groupedAnswers.indexOf(a);
+            let bFrequency = groupedAnswers.lastIndexOf(b) - groupedAnswers.indexOf(b);
+            return bFrequency - aFrequency;
+        })[0]
+        //Return object matching with answerWithHigherFrequency
+        return this.currentQuiz.answers.filter(answer => answer.value === answerWithHigherFrequency);
+    }
+
+    /**
+     * Process the provided answers basing on the quiz True or False type
+     * @param {Array} answers array of given answers
+     * @return {Array} array of possible results for provided answers 
+     */
+    private _getResultForTrueOrFalseType (answers: boolean[]): Result[] {
+        //Get number of correct answers
+        let correctAnswers = 0;
+        for (let i = 0; i < answers.length; i++){
+            if (answers[i]) correctAnswers++
+        }
+        // Filter answer objects matching with number of correct answers
+        return this.currentQuiz.answers.filter((answer) => {
+            let rangeSeparator = '-'; // If `answer.value` is a range then it has this separator
+            // Return answer if is between max and min allowed values
+            let maxValue = Math.max( ...answer.value.split(rangeSeparator).map(Number) );
+            let minValue = Math.min( ...answer.value.split(rangeSeparator).map(Number) );
+            return minValue <= correctAnswers && correctAnswers <= maxValue;
+        })
     }
 
 }
