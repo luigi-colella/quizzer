@@ -36,16 +36,16 @@ export const validators = {
 
     validAnswerValue: (quizForm: FormGroup): ValidatorFn => {
         return (control: AbstractControl) : ValidationErrors | null => {
-            if (typeof quizForm === 'undefined') return null; //To prevent errors during bootstrapp
             let quizType = quizForm.get('settings').get('type').value;
-            let inputValue = control.value;
+            let error: ValidationErrors | null;
             if (quizType === PERSONALITY_QUIZ){
-                return !inputValue ? { 'validAnswerValue' : { text: 'errorMissingInput' } } : null
+                error = !control.value ? { 'validAnswerValue' : { text: 'errorMissingInput' } } : null
             } else if (quizType === TRUEORFALSE_QUIZ) {
-                return typeof inputValue !== 'boolean' ? { 'validAnswerValue' : { text: 'errorInvalidTrueOrFalseValue' } } : null
+                error = typeof control.value !== 'boolean' ? { 'validAnswerValue' : { text: 'errorInvalidTrueOrFalseValue' } } : null
             } else {
-                return { 'validAnswerValue' : { text: 'errorInvalidQuizType' } }
+                error = { 'validAnswerValue' : { text: 'errorInvalidQuizType' } }
             }
+            return error;
         }
     },
     
