@@ -31,3 +31,9 @@ export const AppComponentTransitions = trigger('routeAnimation', [
         query(':enter', animate('300ms ease-out', style({ left: '0%' })))
     ])
 ])
+
+// Mind to set explicity padding and margin properties for each side 
+// because Firefox doesn't recognize 'padding' and 'margin' as shorthand properties for the method `getComputedStyle`.
+// Since Angular animations use this method, when it is used in Firefox, it'll return an empty string instead of a value
+// that could be cause problems or errors in the template rendering. 
+// To test this: `window.getComputedStyle(document.body).padding === ''` or `window.getComputedStyle(document.body).margin === ''`

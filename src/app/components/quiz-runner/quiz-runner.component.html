@@ -11,7 +11,7 @@
     <ng-container [ngSwitch]='quizState'>
         <div class="sub-container">
             <!-- Intro Quiz -->
-            <div *ngSwitchCase='"ready"' class="intro">
+            <div *ngSwitchCase='quizAvailableStates.READY' class="intro">
                 <p>{{curQuiz.settings.description}}</p>
                 <div *ngIf="curQuiz.settings.imageUrl" class="thumbnail">
                     <img [src]="curQuiz.settings.imageUrl">

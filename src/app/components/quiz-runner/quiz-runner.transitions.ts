@@ -12,13 +12,13 @@ const quizStates: QuizStates = {
 export const runnerStateTransition = trigger('quizStateAnimation', [
     transition(`* => ${quizStates.STARTED}`, [
         group([
-            query('.intro:leave', animate('500ms ease-in-out', style({ 
-                padding: '0px'
+            query('.intro:leave', animate('500ms ease-in-out', style({
+                paddingTop: '0px', paddingRight: '0px', paddingBottom: '0px', paddingLeft: '0px'
             }))),
             query('.intro:leave p', animate('500ms ease-in-out', style({ 
                 transform: 'translateX(-100%)',
                 height: '0px',
-                margin: '0px'
+                marginTop: '0px', marginRight: '0px', marginBottom: '0px', marginLeft: '0px'
             }))),
             query('.intro:leave img', animate('500ms ease-in-out', style({ 
                 transform: 'scale(0)',
@@ -82,3 +82,9 @@ export const runnerQuestionChangeTransition = trigger('questionChangeAnimation',
         ])
     ])
 ])
+
+// Mind to set explicity padding and margin properties for each side 
+// because Firefox doesn't recognize 'padding' and 'margin' as shorthand properties for the method `getComputedStyle`.
+// Since Angular animations use this method, when it is used in Firefox, it'll return an empty string instead of a value
+// that could be cause problems or errors in the template rendering. 
+// To test this: `window.getComputedStyle(document.body).padding === ''` or `window.getComputedStyle(document.body).margin === ''`
