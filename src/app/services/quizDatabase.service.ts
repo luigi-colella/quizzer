@@ -16,8 +16,16 @@ export class QuizDatabase {
     ) {}
 
     private data = [
-        'trueorfalse-1',
-        'trueorfalse-2'
+        'personality-your-animal-it',
+        'personality-your-animal-en',
+        'personality-your-job-it',
+        'personality-your-job-en',
+        'trueorfalse-general-it',
+        'trueorfalse-general-en',
+        'trueorfalse-heritage-it',
+        'trueorfalse-heritage-en',
+        'trueorfalse-2',
+        'trueorfalse-3'
     ]
 
     /**
