@@ -23,9 +23,12 @@ export class QuizDatabase {
         'trueorfalse-general-it',
         'trueorfalse-general-en',
         'trueorfalse-heritage-it',
-        'trueorfalse-heritage-en',
+        'trueorfalse-heritage-en'
+        /*
+        Sample quiz for development purpose only
         'trueorfalse-2',
         'trueorfalse-3'
+        */
     ]
 
     /**
