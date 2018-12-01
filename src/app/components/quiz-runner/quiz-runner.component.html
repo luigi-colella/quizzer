@@ -1,17 +1,44 @@
 
-<div class="container" *ngIf="curQuiz">
-
-    <div class="sub-container">
-        <h1>{{curQuiz.settings.title}}</h1>
-    </div>
-
-    <i *ngIf="quizState === quizAvailableStates.STARTED">{{languageMap['question']}} {{curQuestionIndex + 1}} / {{curQuiz.questions.length}}</i>        
-    <hr>
+<div class="container" *ngIf='quizState' [@quizStateAnimation]='quizState' [@questionChangeAnimation]='curQuestionIndex'>
     
-    <ng-container [ngSwitch]='quizState'>
-        <div class="sub-container">
+    <div [ngSwitch]='quizState'>
+
+            <!-- Quiz boot -->
+            <div *ngSwitchCase='quizAvailableStates.BOOT'>
+                <h1>{{languageMap['whatQuizDoYouWantPlay']}}</h1>
+                <hr>
+                <div class="boot buttons">
+                    <div class="action">
+                        <button mat-button routerLink='/list'><mat-icon>list</mat-icon>{{languageMap['listQuiz']}}</button>
+                        <p>{{languageMap['listQuizLabel']}}</p>
+                    </div>
+                    <div class="action">
+                        <button mat-button (click)='loadRandomQuiz()'><mat-icon>shuffle</mat-icon>{{languageMap['randomQuiz']}}</button>
+                        <p>{{languageMap['randomQuizLabel']}}</p>
+                    </div>
+                    <div class="action">
+                        <label class="mat-button">
+                            <span class="mat-button-wrapper">
+                                <mat-icon>cloud_upload</mat-icon>{{languageMap['loadQuiz']}}
+                                <input type='file' (change)='uploadQuiz($event)'>
+                            </span>
+                        </label>
+                        <p>{{languageMap['loadQuizLabel']}}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- /Quiz boot -->
+
+            <!-- Quiz header -->
+            <div *ngIf='quizState !== quizAvailableStates.BOOT'>
+                <h1>{{curQuiz.settings.title}}</h1>
+                <i *ngSwitchCase='quizAvailableStates.STARTED'>{{languageMap['question']}} {{curQuestionIndex + 1}} / {{curQuiz.questions.length}}</i>        
+                <hr>
+            </div>
+            <!-- /Quiz header -->
+
             <!-- Intro Quiz -->
-            <div *ngSwitchCase='quizAvailableStates.READY' class="intro">
+            <div *ngSwitchCase='quizAvailableStates.LOADED' class="intro">
                 <p>{{curQuiz.settings.description}}</p>
                 <div *ngIf="curQuiz.settings.imageUrl" class="thumbnail">
                     <img [src]="curQuiz.settings.imageUrl">
@@ -33,40 +60,31 @@
             <!-- /Quiz Question Box -->
 
             <!-- Preload pictures of the results during the test -->
-            <ng-container *ngIf="quizState !== quizAvailableStates.READY">
-                <div class="result">
-                    <div 
-                        *ngFor="let result of curQuiz.answers" class="thumbnail"
-                        [class.hidden]="!(quizState === quizAvailableStates.FINISHED && curQuizResult.imageUrl === result.imageUrl)"
-                    >
-                        <img [src]="result.imageUrl">
-                    </div>
-                </div>                    
+            <ng-container *ngIf="quizState !== quizAvailableStates.BOOT">
+                <div 
+                    *ngFor="let result of curQuiz.answers" class="result-thumbnail"
+                    [class.hidden]="!(quizState === quizAvailableStates.FINISHED && curQuizResult.imageUrl === result.imageUrl)"
+                >
+                    <img [src]="result.imageUrl">
+                </div>
             </ng-container>
             <!-- /Preload pictures of the results during the test -->
 
             <!-- Quiz result -->
-            <div *ngSwitchCase='quizAvailableStates.FINISHED' id='quiz-result' class="result">
+            <div *ngSwitchCase='quizAvailableStates.FINISHED' id='quiz-result'>
                 <h2>{{curQuizResult.title}}</h2>
                 <p>{{curQuizResult.description}}</p>
             </div>
             <!-- /Quiz result -->
 
-        </div>
-    </ng-container>
+    </div>
 
-    <hr>
-
-    <ng-container [ngSwitch]='quizState'>
-        <div class="sub-container">
-            <div class="buttons">
-                <label class="mat-button">
-                    <span class="mat-button-wrapper">
-                        <mat-icon>cloud_upload</mat-icon>{{languageMap['loadQuiz']}}
-                        <input type='file' (change)='uploadQuiz($event)'>
-                    </span>
-                </label>
-                <button mat-button *ngSwitchCase='quizAvailableStates.READY' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>play_arrow</mat-icon>{{languageMap['startQuiz']}}</button>
+    <ng-container>
+        <div class="footer" *ngIf='quizState !== quizAvailableStates.BOOT'>
+            <hr>
+            <div class="buttons" [ngSwitch]='quizState'>
+                <button mat-button (click)='resetBoot()'><mat-icon>format_list_bulleted</mat-icon>{{languageMap['anotherQuiz']}}</button>
+                <button mat-button *ngSwitchCase='quizAvailableStates.LOADED' (click)='onSubmit()'><mat-icon>play_arrow</mat-icon>{{languageMap['startQuiz']}}</button>
                 <button mat-button *ngSwitchCase='quizAvailableStates.STARTED' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>check</mat-icon>{{languageMap['ok']}}</button>
                 <button mat-button *ngSwitchCase='quizAvailableStates.FINISHED' [disabled]='submitButtonIsDisabled' (click)='onSubmit()'><mat-icon>refresh</mat-icon>{{languageMap['restartQuiz']}}</button>
             </div>

@@ -32,7 +32,8 @@ describe('Language files', () => {
         "inputResultDescriptionTooltip", "inputResultImageUrlLabel", "inputResultImageUrlTooltip", "noResultsAlert",
         "resultsToComplete",
         /* Quiz runner */
-        "question", "loadQuiz", "startQuiz", "restartQuiz",
+        "question", "loadQuiz", "startQuiz", "restartQuiz", "whatQuizDoYouWantPlay", "listQuiz",
+        "listQuizLabel", "randomQuiz", "randomQuizLabel", "loadQuizLabel", "anotherQuiz"
     ];
     const checkKeys = (mapLanguage) => {
         return new Promise((resolve) => {

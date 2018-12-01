@@ -68,5 +68,12 @@
     "question": "Question",
     "loadQuiz": "Load quiz",
     "startQuiz": "Start",
-    "restartQuiz": "Restart"
+    "restartQuiz": "Restart",
+    "whatQuizDoYouWantPlay": "What quiz do you would play?",
+    "listQuiz": "List",
+    "listQuizLabel": "Go to list of available quizzes",
+    "randomQuiz": "Random",
+    "randomQuizLabel": "Play a random quiz",
+    "loadQuizLabel": "Load a quiz from a file",
+    "anotherQuiz": "Choose another"
 }

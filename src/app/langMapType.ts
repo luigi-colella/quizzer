@@ -79,6 +79,13 @@ export interface LanguageMap {
     "question": string,
     "loadQuiz": string,
     "startQuiz": string,
-    "restartQuiz": string
+    "restartQuiz": string,
+    "whatQuizDoYouWantPlay": string,
+    "listQuiz": string,
+    "listQuizLabel": string,
+    "randomQuiz": string,
+    "randomQuizLabel": string,
+    "loadQuizLabel": string,
+    "anotherQuiz": string
     /* ----------- */
 }

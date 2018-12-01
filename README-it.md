@@ -67,3 +67,4 @@ Ci sono vari modi per farlo:
 * Contribuire allo sviluppo del codice sorgente.
 * Ricercare bug o errori all'interno del codice o nella logica dell'app.
 * Provare la web app e fornire un feddback / suggerimento per quanto riguarda l'interfaccia grafica, le funzionalità o la tua esperienza come utente.
+* Aggiungere uno o più quiz in `src/assets/quizzes`. La creatività e la fantasia sono sempre ben accette :grin:

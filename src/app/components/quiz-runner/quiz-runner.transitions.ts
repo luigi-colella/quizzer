@@ -4,12 +4,44 @@ import { trigger, transition, style, query, animate, group, stagger, sequence } 
 import { QuizStates } from './quiz-runner.component';
 
 const quizStates: QuizStates = {
-    READY: 'ready',
+    BOOT: 'boot',
+    LOADED: 'loaded',
     STARTED: 'started',
     FINISHED: 'finished'
 }
 
 export const runnerStateTransition = trigger('quizStateAnimation', [
+    transition(`${quizStates.BOOT} => ${quizStates.LOADED}`, [
+        group([
+            query('.footer', style({ opacity: '0' })),
+            query('.intro, :enter', style({ position: 'absolute', opacity: '0' })),
+            query(':enter h1', style({ transform: 'translateX(100%)' })),
+            query('.intro p', style({ transform: 'translateX(-100%)' })),
+            query('.intro img', style({ transform: 'scale(0)' })),
+        ]),
+        group([
+            query(':leave h1', animate('500ms ease-in-out', style({ transform: 'translateX(-100%)' }))),
+            query('.boot .action', animate('500ms ease-in-out', style({ opacity: '0' })))
+        ]),
+        group([
+            query(':leave', style({ position: 'absolute', opacity: '0' })),
+            query(':enter', style({ position: 'relative', opacity: '1' })),
+        ]),
+        group([
+            query(':enter h1', animate('500ms ease-in-out', style({ transform: 'translateX(0%)' }))),
+            query('.intro p', animate('500ms ease-in-out', style({ transform: 'translateX(0%)' }))),
+            query('.intro img', animate('500ms ease-in-out', style({ transform: 'scale(1)' }))),
+        ])
+    ]),
+    transition(`${quizStates.STARTED} => ${quizStates.BOOT}, ${quizStates.FINISHED} => ${quizStates.BOOT}`, [
+        query(':enter', style({ transform: 'scale(0)', position: 'absolute' })),
+        query(':leave', animate('500ms ease-in-out', style({ transform: 'scale(0)' }))),
+        group([
+            query(':leave', style({ transform: 'scale(0)', position: 'absolute' })),
+            query(':enter', style({ transform: 'scale(0)', position: 'relative' }))
+        ]),
+        query(':enter', animate('500ms ease-in-out', style({ transform: 'scale(1)' })))
+    ]),
     transition(`* => ${quizStates.STARTED}`, [
         group([
             query('.intro:leave', animate('500ms ease-in-out', style({
@@ -18,7 +50,8 @@ export const runnerStateTransition = trigger('quizStateAnimation', [
             query('.intro:leave p', animate('500ms ease-in-out', style({ 
                 transform: 'translateX(-100%)',
                 height: '0px',
-                marginTop: '0px', marginRight: '0px', marginBottom: '0px', marginLeft: '0px'
+                opacity: '0',
+                marginTop: '0px', marginRight: '0px', marginBottom: '0px', marginLeft: '0px',
             }))),
             query('.intro:leave img', animate('500ms ease-in-out', style({ 
                 transform: 'scale(0)',
@@ -40,15 +73,15 @@ export const runnerStateTransition = trigger('quizStateAnimation', [
         group([
             query('#quiz-result h2', style({ transform: 'translateX(100%)' })),
             query('#quiz-result p', style({ transform: 'translateX(-100%)' })),
-            query('.result .thumbnail img', style({ transform: 'scale(.6)' }))
+            query('.result-thumbnail img', style({ transform: 'scale(.6)' }))
         ]),
         group([
             query('#quiz-result h2', animate('500ms ease-in-out', style({ transform: 'translateX(0%)' }))),
             query('#quiz-result p', animate('500ms ease-in-out', style({ transform: 'translateX(0%)' }))),
-            query('.result .thumbnail img', animate('500ms ease-in-out', style({ transform: 'scale(1)' })))
+            query('.result-thumbnail img', animate('500ms ease-in-out', style({ transform: 'scale(1)' })))
         ]),
     ]),
-    transition(`${quizStates.FINISHED} => ${quizStates.READY}`, [
+    transition(`${quizStates.FINISHED} => ${quizStates.LOADED}`, [
         group([
             query('.intro p', style({ transform: 'translateX(100%)' })),
             query('.intro .thumbnail img', style({ transform: 'scale(.6)' }))

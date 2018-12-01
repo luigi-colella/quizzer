@@ -10,10 +10,11 @@
     border-width: 0px;
     border-bottom: 3px solid $color-primary;
     color: $color-primary;
+    background-image: url($texture-2);
 
     nav {
         width: 80%;
-        padding: $padding-vertical-small;
+        padding: $padding-small $padding-zero;
         margin: auto;
         display: flex;
         align-items: center;
@@ -37,7 +38,7 @@
             list-style: none;
             margin: $margin-zero;
             flex-direction: row;
-            padding: $padding-horizontal-medium;
+            padding: $padding-zero $padding-medium;
             li {
                 padding-right: $padding-medium;
                 display: flex;
@@ -52,7 +53,7 @@
                 a {
                     height: 100%;
                     width: 100%;
-                    padding: $padding-vertical-small;
+                    padding: $padding-small $padding-zero;
                     color: inherit;
                     text-decoration: none;
                     text-align: center;

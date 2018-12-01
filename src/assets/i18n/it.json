@@ -68,5 +68,12 @@
     "question": "Domanda",
     "loadQuiz": "Carica quiz",
     "startQuiz": "Inizia",
-    "restartQuiz": "Ricomincia"
+    "restartQuiz": "Ricomincia",
+    "whatQuizDoYouWantPlay": "Quale quiz vorresti fare?",
+    "listQuiz": "Lista",
+    "listQuizLabel": "Vai alla lista dei quiz disponibili",
+    "randomQuiz": "Random",
+    "randomQuizLabel": "Scegli un quiz a caso",
+    "loadQuizLabel": "Carica un quiz da un file",
+    "anotherQuiz": "Scegli un altro"
 }

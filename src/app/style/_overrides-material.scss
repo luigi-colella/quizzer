@@ -1,4 +1,10 @@
 
+button[mat-button] {
+    mat-icon.mat-icon {
+        margin-right: $margin-small / 2;
+    }
+}
+
 mat-vertical-stepper {
     font-family: inherit;
     .mat-step-header {
@@ -17,7 +23,6 @@ mat-vertical-stepper {
 
 mat-dialog-container.mat-dialog-container {
     @include box($color-primary, $color-ternary);
-    background-image: url($texture-2);
 }
 
 mat-radio-button {

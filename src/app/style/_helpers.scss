@@ -9,7 +9,6 @@
     margin-bottom: $margin-large;
     box-shadow: $box-shadow;
     overflow: auto;
-    background-image: url($texture-2);
 }
 
 .buttons {
@@ -27,8 +26,7 @@
     }
     label {
         > span {
-            display: flex;
-            align-items: center;
+            display: inline-block;
             mat-icon {
                 margin-right: $margin-small / 2;
             }
@@ -40,4 +38,8 @@
             background-color: rgba(0,0,0,.12);
         }
     }
+}
+
+.hidden {
+    display: none !important;
 }

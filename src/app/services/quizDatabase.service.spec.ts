@@ -32,6 +32,17 @@ describe('QuizDatabase Service', () => {
         })
     })
 
+    it('should get a random quiz', () => {
+        return new Promise((resolve) => {
+            service.getRandom().subscribe((quiz) => {
+                expect(quiz.settings).toBeDefined();
+                expect(quiz.questions).toBeDefined();
+                expect(quiz.answers).toBeDefined();
+                resolve();
+            })
+        })
+    })
+
     it('should get all quizzes', () => {
         return new Promise((resolve) => {
             service.getAll().subscribe((quizzes) => {

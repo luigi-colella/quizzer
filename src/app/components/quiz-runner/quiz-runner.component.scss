@@ -5,8 +5,9 @@
 .container {
 
     @include box($color-primary, $color-secondary);
-    padding: $padding-horizontal-medium;
+    padding: $padding-zero $padding-medium $padding-medium $padding-medium;
     border-radius: $border-radius-2;
+    overflow: 'hidden';
 
     h1, h2, h3, h4, h5, h6 {
         color: $color-dark;
@@ -14,21 +15,25 @@
         text-align: center;
     }
 
-    .sub-container {
-        padding: $padding-zero;
-        p {
-            text-align: center;
-        }
-        i {
-            text-align: center;
-            display: block;
-            margin-top: $margin-small;
-        }
-        mat-radio-group {
+    p {
+        text-align: center;
+    }
+    i {
+        text-align: left;
+        display: block;
+        margin-top: $margin-small;
+    }
+
+    .boot {
+        display: flex;
+        flex-direction: column;
+        margin: $margin-large $margin-medium;
+        & .action {
             display: flex;
-            flex-flow: wrap;
-            mat-radio-button {
-                flex: 100%;
+            align-items: center;
+            .mat-button {
+                width: 200px;
+                margin-right: $margin-medium;
             }
         }
     }
@@ -40,22 +45,12 @@
         }
     }
 
-    .result {
-        padding: $padding-small;
-        h2 {
-            margin: $margin-zero;
-        }
-    }
-
-    .thumbnail {
+    .thumbnail, .result-thumbnail {
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
         flex: 1 1 auto;
-        &.hidden {
-            display: none;
-        }
         img {
             max-width:100%;
             @include breakpoint-desktop() {
@@ -64,14 +59,33 @@
         }
     }
 
-    .buttons {
-        display: flex;
-        justify-content: space-between;
-        margin: $margin-large 0;
+    .result-thumbnail {
+        padding: $padding-small $padding-small $padding-zero $padding-small;
     }
 
     #quiz-questions {
         overflow: hidden;
+        mat-radio-group {
+            display: flex;
+            flex-flow: wrap;
+            mat-radio-button {
+                flex: 100%;
+            }
+        }
     }
+
+    #quiz-result {
+        padding: $padding-small $padding-small $padding-zero $padding-small;
+        h2 {
+            margin: $margin-zero;
+        }
+    }
+
+    .footer .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin: $margin-medium 0;
+    }
+
 
 }

@@ -20,7 +20,7 @@ script:
   - yarn test --watch=false --code-coverage
 after_success:
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-  - ./scripts/cc-test-reporter after-build --exit-code $EXIT_CODE
+  - ./scripts/cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
   - rm -rf ./coverage
 before_deploy:
   - yarn run build -- --base-href=https://lgcolella.github.io/Quizzer/

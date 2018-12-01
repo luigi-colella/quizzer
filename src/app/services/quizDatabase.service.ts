@@ -23,7 +23,7 @@ export class QuizDatabase {
         'trueorfalse-general-it',
         'trueorfalse-general-en',
         'trueorfalse-heritage-it',
-        'trueorfalse-heritage-en'
+        'trueorfalse-heritage-en',
         /*
         Sample quiz for development purpose only
         'trueorfalse-2',
@@ -51,6 +51,16 @@ export class QuizDatabase {
         let path = 'assets/quizzes/' + this.data[id] + '.json';
         let quizUrl = this.location.prepareExternalUrl(path);
         return this.http.get<Quiz>(quizUrl);
+    }
+
+    /**
+     * Get a random quiz object
+     * @return {Object} an observable that emits a random quiz object
+     */
+    getRandom (): Observable<Quiz> {
+        let maxId = this.data.length;
+        let randomId = Math.floor(Math.random() * this.data.length);
+        return this.get(randomId);
     }
 
 }

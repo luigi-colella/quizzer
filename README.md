@@ -62,8 +62,9 @@ npm run dist
 ## Credits
 Flags icons made by [Freepik](https://www.freepik.com) from [Flaticon](https://www.flaticon.com/) is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)
 
-## How contribute
+## How to contribute
 There are several ways to contribute to this project:
-* Helping to improve source code.
-* Founding out bugs or mistakes in the app.
-* Giving a personal feedback or suggesting ideas in order to improve the UX or UI design.
+* Help to improve source code.
+* Find out bugs or mistakes in the app.
+* Give a personal feedback or suggesting ideas in order to improve the UX or UI design.
+* Add one or more quiz in `src/assets/quizzes`. Creativity and imagination are always welcome :grin:

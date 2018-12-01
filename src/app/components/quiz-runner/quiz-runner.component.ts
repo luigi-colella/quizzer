@@ -15,7 +15,8 @@ import { quizMusic as mockQuiz } from '../../mocks/quiz.music';
 type FileInputEvent = Event & { target: { files: FileList } };
 type FileLoaderEvent = Event & { target: { result: string } };
 export interface QuizStates {
-    READY: 'ready',
+    BOOT: 'boot',
+    LOADED: 'loaded',
     STARTED: 'started',
     FINISHED: 'finished'
 }
@@ -29,12 +30,13 @@ export interface QuizStates {
 export class QuizRunnerComponent implements OnInit, OnDestroy {
 
     curQuiz: Quiz;
-    @HostBinding('@questionChangeAnimation') curQuestionIndex: number;
+    curQuestionIndex: number;
     curQuizResult: Quiz['answers'][0];
     givenUserAnswers: AnswerValue[];
-    @HostBinding('@quizStateAnimation') quizState: QuizStates['READY'] | QuizStates['STARTED'] | QuizStates['FINISHED']
+    quizState: QuizStates['BOOT'] |QuizStates['LOADED'] | QuizStates['STARTED'] | QuizStates['FINISHED']
     quizAvailableStates: QuizStates = {
-        READY: 'ready',
+        BOOT: 'boot',
+        LOADED: 'loaded',
         STARTED: 'started',
         FINISHED: 'finished'
     }
@@ -59,7 +61,8 @@ export class QuizRunnerComponent implements OnInit, OnDestroy {
                 }
             })
         } else {
-            this.loadQuiz(this.quizHandler.load(mockQuiz).getQuizObject());
+            this.quizState = this.quizAvailableStates.BOOT;
+            //this.loadQuiz(this.quizHandler.load(mockQuiz).getQuizObject());
         }
         // Set language map
         this.languageMap = {} as LanguageMap;
@@ -102,9 +105,20 @@ export class QuizRunnerComponent implements OnInit, OnDestroy {
         this.curQuiz = quiz;
     }
 
+    loadRandomQuiz () {
+        this.quizDatabase.getRandom().subscribe({
+            next: quiz => this.loadQuiz(quiz)
+        });
+    }
+
+    selectAnswer(answer : AnswerValue) {
+        this.submitButtonIsDisabled = false;
+        this.givenUserAnswers[this.curQuestionIndex] = answer;
+    }
+
     onSubmit() : void {
 
-        if (this.quizState === this.quizAvailableStates.READY) {
+        if (this.quizState === this.quizAvailableStates.LOADED) {
             this.quizState = this.quizAvailableStates.STARTED;
             this.curQuestionIndex = 0;
             this.submitButtonIsDisabled = true;
@@ -122,13 +136,12 @@ export class QuizRunnerComponent implements OnInit, OnDestroy {
 
     }
 
-    selectAnswer(answer : AnswerValue) {
-        this.submitButtonIsDisabled = false;
-        this.givenUserAnswers[this.curQuestionIndex] = answer;
+    resetBoot() {
+        this.quizState = this.quizAvailableStates.BOOT;
     }
 
     resetQuiz() {
-        this.quizState = this.quizAvailableStates.READY;
+        this.quizState = this.quizAvailableStates.LOADED;
         this.curQuestionIndex = 0;
         this.givenUserAnswers = [];
     }
