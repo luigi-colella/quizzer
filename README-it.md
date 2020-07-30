@@ -14,18 +14,19 @@
 > English README [here](https://github.com/lgcolella/quizzer/blob/master/README.md).
 
 ## Indice dei contenuti
-1. [Presentazione](#presentazione)
-2. [Stack utilizzato](#stack-utilizzato)
-3. [Installazione ed utilizzo](#installazione-ed-utilizzo)
-4. [Crediti](#crediti)
-5. [Come contribuire](#come-contribuire)
+- [Presentazione](#presentazione)
+- [Demo](#demo)
+- [Stack utilizzato](#stack-utilizzato)
+- [Installazione ed utilizzo](#installazione-ed-utilizzo)
+- [Crediti](#crediti)
+- [Come contribuire](#come-contribuire)
 
 ## Presentazione
 I quiz sono un utilissimo strumento adatto a molteplici scopi: divertimento, didattica, competizioni, indagini di marketing ecc. Questa applicazione vuole essere una soluzione intuitiva, rapida e piacevole sia per sviluppare e condividere i propri quiz con gli altri sia per giocarci.
 
-Puoi provare direttamente dal tuo browser l'ultima build dell'app al seguente [link](https://lgcolella.github.io/quizzer/).
+## Demo
 
-Il testing e il deployment della build è gestito tramite il servizio di continuous integration Travis.
+https://lgcolella.github.io/quizzer
 
 ## Stack utilizzato
 [![Angular](https://github.com/lgcolella/quizzer/raw/master/repository/img/96x96/angular.png "Angular")](https://angular.io/)

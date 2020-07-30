@@ -14,18 +14,19 @@
 > Italian README [here](https://github.com/lgcolella/quizzer/blob/master/README-it.md).
 
 ## Summary
-1. [Presentation](#presentation)
-2. [Stack](#stack)
-3. [Build and Usage](#build-and-usage)
-4. [Credits](#credits)
-5. [How contribute](#how-contribute)
+- [Presentation](#presentation)
+- [Demo](#demo)
+- [Stack](#stack)
+- [Build and Usage](#build-and-usage)
+- [Credits](#credits)
+- [How contribute](#how-contribute)
 
 ## Presentation
 Quizzes are a very useful tool for several scopes. They can be used for fun, teaching, challenges, marketing analysis etc. This app aims to give you a useful, easy and enjoyable platform to play quizzes, create your own and share them with friends.
 
-You can try the last build of the app directly from your favorite browser going to this [link](https://lgcolella.github.io/quizzer/).
+## Demo
 
-The testing and deployment of the build are managed with the continuous integration service Travis.
+https://lgcolella.github.io/quizzer
 
 ## Stack
 [![Angular](https://github.com/lgcolella/quizzer/raw/master/repository/img/96x96/angular.png "Angular")](https://angular.io/)
