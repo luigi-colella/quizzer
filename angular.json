@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Quizzer": {
+    "quizzer": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -50,18 +50,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Quizzer:build"
+            "browserTarget": "quizzer:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Quizzer:build:production"
+              "browserTarget": "quizzer:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Quizzer:build"
+            "browserTarget": "quizzer:build"
           }
         },
         "test": {
@@ -95,7 +95,7 @@
         }
       }
     },
-    "Quizzer-e2e": {
+    "quizzer-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -103,11 +103,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "Quizzer:serve"
+            "devServerTarget": "quizzer:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "Quizzer:serve:production"
+              "devServerTarget": "quizzer:serve:production"
             }
           }
         },
@@ -123,5 +123,5 @@
       }
     }
   },
-  "defaultProject": "Quizzer"
+  "defaultProject": "quizzer"
 }
