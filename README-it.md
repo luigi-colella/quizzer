@@ -6,10 +6,10 @@
     <p align="center">Una web app per creare, giocare, condividere quiz in maniera veloce e piacevole.</p> 
 </p>
 
-[![Build Status](https://travis-ci.org/lgcolella/Quizzer.svg?branch=master)](https://travis-ci.org/lgcolella/Quizzer)
-[![Coverage Status](https://coveralls.io/repos/github/lgcolella/Quizzer/badge.svg?branch=master)](https://coveralls.io/github/lgcolella/Quizzer?branch=master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/3ba08be6b19525925e30/maintainability)](https://codeclimate.com/github/lgcolella/Quizzer/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/3ba08be6b19525925e30/test_coverage)](https://codeclimate.com/github/lgcolella/Quizzer/test_coverage)
+[![Build Status](https://travis-ci.org/lgcolella/quizzer.svg?branch=master)](https://travis-ci.org/lgcolella/quizzer)
+[![Coverage Status](https://coveralls.io/repos/github/lgcolella/quizzer/badge.svg?branch=master)](https://coveralls.io/github/lgcolella/quizzer?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b40849797d2549452496/maintainability)](https://codeclimate.com/github/lgcolella/quizzer/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/b40849797d2549452496/test_coverage)](https://codeclimate.com/github/lgcolella/quizzer/test_coverage)
 
 > English README [here](https://github.com/lgcolella/quizzer/blob/master/README.md).
 
